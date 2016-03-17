@@ -1,13 +1,11 @@
 #define CATCH_CONFIG_RUNNER
+
 #include "catch.hpp"
 #include "easylogging++.h"
 
-//INITIALIZE_EASYLOGGINGPP
-//SHARE_EASYLOGGINGPP(el::Helpers::storage());
-
 int testNumber = 0;
 
-int main( int argc, char* const argv[] )
+int main( int argc, const char* argv[] )
 {
   LOG(INFO) << "";
   LOG(INFO) << "Utility Function Tests";

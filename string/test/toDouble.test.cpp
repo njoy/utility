@@ -3,8 +3,10 @@
 
 #include "catch.hpp"
 
+#include "utility/realNumberStringCollection.hpp"
 #include "utility/string.hpp"
-#include "utility/rnsc.hpp"
+
+namespace rnsc = utility::realNumberStringCollection;
 
 extern int testNumber;
 
@@ -15,7 +17,7 @@ SCENARIO("toDouble returns the correct value form valid real number strings",
   GIVEN("a collection of real number strings"){
     WHEN("passed to toDouble"){
       THEN("returns the correct value"){
-        for (auto rnp : utility::rnsc::valid){
+        for (auto rnp : rnsc::valid){
           for (auto rns : rnp.second){
             residual = rnp.first - utility::string::toDouble(rns);
             REQUIRE(residual < 0.00001);

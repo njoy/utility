@@ -25,7 +25,7 @@ list(APPEND utility_src
 set(headers "")
 list(APPEND headers
 #  "View.hpp"
-#  "rnsc.hpp"
+  "realNumberStringCollection.hpp"
   "string.hpp"
 #  "stream.hpp"
   )
