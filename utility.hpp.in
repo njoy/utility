@@ -1,0 +1,36 @@
+#ifndef UTILITY_H
+#define UTILITY_H
+
+#include <string>
+#include <vector>
+
+#include "easylogging++.h"
+
+/**
+ * @brief
+ * A collection of common operations originally developed for use in Nuclear Data
+ * projects at Los Alamos National Laboratory.  
+ */
+namespace utility{
+
+/* forward Declaration of function signatures */
+bool 
+verifyString( const std::string& card, 
+              const int length);
+
+std::string 
+extractCommand( const std::string& card );
+
+/* forward declaration of classes */
+template< typename data >
+class View;
+
+/* faux forward declaration of nested namespaces */
+namespace realNumberStringCollection{}
+namespace string{}
+namespace stream{}
+}
+
+#include "utility/View.hpp"
+
+#endif
