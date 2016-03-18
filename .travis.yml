@@ -37,7 +37,6 @@ before_install:
   
 before_script:
   - sed -i.backup 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-  - ls /usr/bin
   
 script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi; fi
@@ -45,7 +44,7 @@ script:
   - ./fetchDependencies.py
   - mkdir bin
   - cd bin
-  - cmake -D build_type=$build_type -D static_libraries=$static_libraries .. 
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then if [$static_libraries = "TRUE"]; cmake -D build_type=$build_type -D static_libraries=$static_libraries -D appended_flags="-fuse-ld=gold" ..; else cmake -D build_type=$build_type -D static_libraries=$static_libraries ..; fi; else cmake -D build_type=$build_type -D static_libraries=$static_libraries ..; fi; else cmake -D build_type=$build_type -D static_libraries=$static_libraries ..; fi;
   - make -j 2
   - ctest -V -j 2
 
