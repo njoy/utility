@@ -37,7 +37,7 @@ before_install:
 before_script:
   - sed -i.backup 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   - which g++-5
-  - which gcc-5-ar 
+  - ls /usr/bin 
 
 script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi; fi
