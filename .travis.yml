@@ -44,7 +44,7 @@ script:
   - ./fetchDependencies.py
   - mkdir bin
   - cd bin
-  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ $CXX = "g++-5" ] && [ $static_libraries = "TRUE" ] && [ $build_type = "release" ]; then cmake -D build_type="release" -D static_libraries="TRUE" -D appended_flags="-fuse-ld=gold" ..; else cmake -D build_type=$build_type -D static_libraries=$static_libraries ..; fi;
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ $CXX = "g++-5" ] && [ $static_libraries = "TRUE" ] && [ $build_type = "release" ]; then cmake -D build_type="release" -D static_libraries="TRUE" -D _CMAKE_TOOLCHAIN_PREFIX="gcc-" ..; else cmake -D build_type=$build_type -D static_libraries=$static_libraries ..; fi;
   - make -j 2
   - ctest -V -j 2
 
