@@ -2,7 +2,7 @@
 
 #include "catch.hpp"
 
-#include "utility"
+#include "utility.hpp"
 
 int testNumber = 0;
 
