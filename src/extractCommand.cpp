@@ -1,14 +1,8 @@
-/* standard library */
 #include <exception>
-/* external projects */
-#include "easylogging++.h"
-/* local headers */
+
 #include "utility.hpp"
 
 /**
- * @author Austin McCartney
- * @date 5 September, 2015
- *
  * @brief
  * Extracts a substring preceding the first Fortran EOL character.
  *

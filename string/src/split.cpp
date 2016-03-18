@@ -18,9 +18,6 @@
  */ 
 
 /**
- * @author austin mccartney
- * @date 13 September 2015
- *
  * @brief 
  * Used to split a substring on whitespace.
  *
@@ -51,7 +48,7 @@
  * Once the loop is exited, the output vector is returned.
  */
 std::vector<std::string> 
-utility::string::split(const std::string& s){
+utility::string::split( const std::string& s ){
   std::vector<std::string> v{};
   auto ws = std::begin(s);
   while (true) {
@@ -68,22 +65,22 @@ utility::string::split(const std::string& s){
   return v;
 } 
 
-/* tail recursion for fun and profit */
+namespace {
+
 std::vector<std::string> 
-trSplit(const std::string& s, 
-        const std::string& delimiter, 
-        const size_t pos, 
-        std::vector<std::string>& v){ 
+trSplit( const std::string& s, 
+         const std::string& delimiter, 
+         const size_t pos, 
+         std::vector<std::string>& v ){ 
   const size_t delimiter_pos = s.find(delimiter, pos);
   v.push_back(s.substr(pos, delimiter_pos - pos));
   return (delimiter_pos == std::string::npos) ? 
     v : trSplit(s, delimiter, delimiter_pos + delimiter.length(), v);
 }
 
+}
+
 /**
- * @author austin mccartney
- * @date 13 September 2015
- *
  * @brief 
  * Used to split a string on a specified delimiter substring.
  *

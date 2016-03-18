@@ -1,20 +1,12 @@
-/* standard library */
 #include <algorithm>
 #include <iterator>
-/* local headers */
+
 #include "utility.hpp"
 
 /**
- * @author Austin McCartney
- * @date 5 September, 2015
- *
  * @brief
  * Verifies an input string has quotation delimiters and is no more than 
  * @p length characters long. 
- *
- * @param[in] card
- * @param[in] length
- * @result
  */
 bool 
 utility::verifyString( const std::string& card, 

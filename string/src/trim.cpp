@@ -1,12 +1,9 @@
-#include <algorithm>  // Provides std::find_if_not
-#include <cctype>     // Provides std::isspace
+#include <algorithm>  
+#include <cctype>     
 
 #include "utility/string.hpp"
 
 /**
- * @author Austin McCartney
- * @date 5 September, 2015
- *
  * @brief
  * Removes leading and following whitespace from an input string.
  *

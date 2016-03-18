@@ -1,12 +1,12 @@
 #define CATCH_CONFIG_RUNNER
 
 #include "catch.hpp"
-#include "easylogging++.h"
+
+#include "utility"
 
 int testNumber = 0;
 
-int main( int argc, const char* argv[] )
-{
+int main( int argc, const char* argv[] ){
   LOG(INFO) << "";
   LOG(INFO) << "Utility Function Tests";
   LOG(INFO) << "======================";

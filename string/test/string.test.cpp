@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_RUNNER
 
 #include "catch.hpp"
-#include "easylogging++.h"
 
+#include "utility/string.hpp"
 
 int testNumber = 0;
 
