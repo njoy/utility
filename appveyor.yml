@@ -3,15 +3,15 @@ version: 1.0.0.{build}
 clone_folder: c:\projects\myproject
   
 before_build:
-  - choco install mingw
+  - choco install mingw | Out-Null
   - ps: (cat .gitmodules) | %{$_ -replace "git@github.com:","https://github.com/"} | sc .gitmodules
-  - ps: python .\fetchDependencies.py | Out-Null # do not proceed until completed 
+  - ps: python .\fetchDependencies.p | Out-Null # do not proceed until completed 
   - mkdir bin
   - cd bin
-  - rename "C:\Program Files\Git\usr\bin\sh.exe" "sh2.exe"
   - cmake -G "MinGW Makefiles" .. 
 
 build_script:
+  - rename "C:\Program Files\Git\usr\bin\sh.exe" "sh2.exe"
   - cmake --build .
 
 test_script:
