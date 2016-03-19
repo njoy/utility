@@ -8,7 +8,7 @@ before_build:
   - ps: python .\fetchDependencies.py | Out-Null # do not proceed until completed 
   - mkdir bin
   - cd bin
-  - if cmake -G "MinGW Makefiles" 
+  - cmake -G "MinGW Makefiles" .. 
 
 build_script:
   - cmake --build .
