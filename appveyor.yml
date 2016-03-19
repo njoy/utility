@@ -1,0 +1,18 @@
+version: 1.0.{build}
+
+clone_folder: c:\projects\myproject
+  
+before_build:
+  - ps: (cat .gitmodules) | %{$_ -replace "git@github.com:","https://github.com/"} | sc .gitmodules
+  - ps: python .\fetchDependencies.py | Out-Null # do not proceed until completed 
+  - mkdir bin
+  - cd bin
+  - cmake -G "Visual Studio 14 2015 Win64" .. 
+  - 
+
+build_script:
+  - cmake --build . --config Debug
+
+test_script:
+  - cd c:\projects\myproject\bin
+  - ctest --output-on-failure -C Debug

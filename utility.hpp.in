@@ -14,13 +14,12 @@
 namespace utility{
 
 /* forward Declaration of function signatures */
-bool 
-verifyString( const std::string& card, 
-              const int length);
-
 std::string 
 extractCommand( const std::string& card );
 
+bool 
+verifyString( const std::string& card, 
+              const int length);
 /* forward declaration of classes */
 template< typename data >
 class View;
