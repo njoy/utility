@@ -8,10 +8,10 @@ before_build:
   - ps: python .\fetchDependencies.py | Out-Null # do not proceed until completed 
   - mkdir bin
   - cd bin
+  - rename "C:\Program Files\Git\usr\bin\sh.exe" "sh2.exe"
   - cmake -G "MinGW Makefiles" .. 
 
 build_script:
-  - rename "C:\Program Files\Git\usr\bin\sh.exe" "sh2.exe"
   - cmake --build .
 
 test_script:
