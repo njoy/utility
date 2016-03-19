@@ -5,7 +5,7 @@ clone_folder: c:\projects\myproject
 before_build:
   - ps: choco install mingw | Out-Null
   - ps: (cat .gitmodules) | %{$_ -replace "git@github.com:","https://github.com/"} | sc .gitmodules
-  - ps: python .\fetchDependencies.p | Out-Null # do not proceed until completed 
+  - ps: python .\fetchDependencies.py | Out-Null # do not proceed until completed 
   - mkdir bin
   - cd bin
   - cmake -G "MinGW Makefiles" .. 
