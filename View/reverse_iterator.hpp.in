@@ -18,6 +18,12 @@ public:
   ~reverse_iterator() = default;
   
   /* operators */
+  reverse_iterator&
+  operator=( const reverse_iterator& ) = default;
+
+  reverse_iterator&
+  operator=( reverse_iterator&& ) = default;
+
   reference
   operator*() const {
     return std::get<0>( this->iteratorLambda_(0) );

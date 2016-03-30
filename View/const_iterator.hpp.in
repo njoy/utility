@@ -19,6 +19,12 @@ public:
   ~const_iterator() = default;
   
   /* operators */
+  const_iterator&
+  operator=( const const_iterator& ) = default;
+
+  const_iterator&
+  operator=( const_iterator&& ) = default;
+  
   reference
   operator*() const { return std::get<0>( this->iteratorLambda_(0) ); }
     

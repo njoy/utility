@@ -20,6 +20,12 @@ public:
   ~const_reverse_iterator() = default;
   
   /* operators */
+  const_reverse_iterator&
+  operator=( const const_reverse_iterator& ) = default;
+
+  const_reverse_iterator&
+  operator=( const_reverse_iterator&& ) = default;
+  
   reference
   operator*() const {
     return std::get<0>( this->iteratorLambda_(0) );

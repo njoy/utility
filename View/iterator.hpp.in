@@ -19,6 +19,12 @@ public:
   ~iterator() = default;
   
   /* operators */
+  iterator&
+  operator=( const iterator& ) = default;
+
+  iterator&
+  operator=( iterator&& ) = default; 
+  
   reference
   operator*() const { return std::get<0>( this->iteratorLambda_(0) ); }
     
