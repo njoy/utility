@@ -1,0 +1,134 @@
+#ifndef UTILITY_VIEW_ITERATOR_HPP
+#define UTILITY_VIEW_ITERATOR_HPP
+
+class iterator {
+public:
+  typedef std::ptrdiff_t                  difference_type;
+  typedef data                            value_type;
+  typedef data&                           reference;
+  typedef data*                           pointer;
+  typedef std::random_access_iterator_tag iterator_category;
+
+  /* constructor and destructor */
+  iterator( std::function< std::tuple< reference, long> ( long ) > f ) :
+    iteratorLambda_(f){}
+
+  iterator( iterator&& ) = default;
+  iterator( const iterator & ) = default; 
+  
+  ~iterator() = default;
+  
+  /* operators */
+  reference
+  operator*() const { return std::get<0>( this->iteratorLambda_(0) ); }
+    
+  const iterator&
+  operator++(){
+    this->iteratorLambda_(1);
+    return *this;
+  }
+
+  const iterator&
+  operator--(){
+    this->iteratorLambda_(-1);
+    return *this;
+  }
+
+  iterator
+  operator++( int ){
+    iterator tmp(this->iteratorLambda_);
+    this->iteratorLambda_(1);
+    return tmp;
+  }
+
+  iterator
+  operator--( int ){
+    iterator tmp(this->iteratorLambda_);
+    this->iteratorLambda_(-1);
+    return tmp;
+  }
+
+  reference
+  operator[](const long n) const {
+    iterator tmp(this->iteratorLambda_);
+    return std::get<0>(tmp.iteratorLambda_(n));
+  }
+
+  bool
+  operator==( const iterator& other ) const {
+    return &(*(*this)) == &(*other);
+  }
+
+  bool
+  operator!=( const iterator& other ) const {
+    return not (*this == other);
+  }
+
+  bool
+  operator<=( const iterator& other ) const {
+    return (
+      ( std::get<1>( this->iteratorLambda_(0) ) <
+        std::get<1>( other.iteratorLambda_(0) )) ||
+      (&(*(*this)) == &(*other)));
+  }
+
+  bool
+  operator>=( const iterator& other ) const {
+    return (
+      ( std::get<1>( this->iteratorLambda_(0) ) >
+        std::get<1>( other.iteratorLambda_(0) )) ||
+      (&(*(*this)) == &(*other)));
+  }
+
+  bool
+  operator<( const iterator& other ) const {
+    return ( std::get<1>( this->iteratorLambda_(0) ) <
+             std::get<1>( other.iteratorLambda_(0) ));
+  }
+  
+  bool
+  operator>( const iterator& other ) const {
+    return ( std::get<1>( this->iteratorLambda_(0) ) >
+             std::get<1>( other.iteratorLambda_(0) ));
+  }
+    
+  iterator
+  operator+(const long add){
+    iterator tmp(this->iteratorLambda_);
+    tmp.iteratorLambda_(add);
+    return tmp;
+  }
+
+  iterator
+  operator-(const long minus){
+    iterator tmp(this->iteratorLambda_);
+    tmp.iteratorLambda_(-minus);
+    return tmp;
+  }
+  
+  difference_type
+  operator-(const iterator& other) const {
+    return
+      std::get<1>(this->iteratorLambda_(0)) -
+      std::get<1>(other.iteratorLambda_(0));
+  }
+  
+  iterator&
+  operator+=(const long add){
+    this->iteratorLambda_(add);
+    return *this;
+  }
+  
+  iterator&
+  operator-=(const long minus){
+    this->iteratorLambda_(-minus);
+    return *this;
+  }
+    
+protected:
+  /* fields */
+  typename std::function< std::tuple<reference, long>( long ) >
+  iteratorLambda_;
+};
+
+#endif

@@ -22,8 +22,8 @@ list(APPEND "${utility_bin_headers}"
   "${CMAKE_CURRENT_SOURCE_DIR}/string/unzip.hpp"
   )
 
-list(APPEND testLabels string)
 if (${local_testing})
+  list(APPEND testLabels string)
   add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/test" )
 endif (${local_testing})
 

@@ -6,8 +6,8 @@
  * @details 
  * This function should be used when the next string in a stream is required to 
  * be an energy value, but the string argument may not exist. If a string cannot
- * be extracted from the stream (end of file), the *found* flag is set to false and
- * 0.0 is returned. If the string isn't a positive real number, this method 
+ * be extracted from the stream (end of file), the *found* flag is set to false 
+ * and 0.0 is returned. If the string isn't a positive real number, this method 
  * records an error via the logger specifying the sort of failure and throws an 
  * exception.
  */

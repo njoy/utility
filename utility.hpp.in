@@ -30,6 +30,6 @@ namespace string{}
 namespace stream{}
 }
 
-//#include "utility/View.hpp"
+#include "utility/View.hpp"
 
 #endif

@@ -1,0 +1,144 @@
+#ifndef UTILITY_VIEW_CONST_REVERSE_ITERATOR_HPP
+#define UTILITY_VIEW_CONST_REVERSE_ITERATOR_HPP
+
+class const_reverse_iterator {
+public:
+  typedef std::ptrdiff_t                  difference_type;
+  typedef data                            value_type;
+  typedef const data&                     reference;
+  typedef const data*                     pointer;
+  typedef std::random_access_iterator_tag iterator_category;
+    
+  /* constructor and destructor */
+  const_reverse_iterator( std::function
+                          < std::tuple< reference, long> ( long ) > f ) :
+    iteratorLambda_(f){}
+
+  const_reverse_iterator( const_iterator&& ) = default;
+  const_reverse_iterator( const const_reverse_iterator& ) = default; 
+
+  ~const_reverse_iterator() = default;
+  
+  /* operators */
+  reference
+  operator*() const {
+    return std::get<0>( this->iteratorLambda_(0) );
+  }
+    
+  const const_reverse_iterator&
+  operator++(){
+    this->iteratorLambda_(-1);
+    return *this;
+  }
+    
+  const const_reverse_iterator&
+  operator--(){
+    this->iteratorLambda_(1);
+    return *this;
+  }
+
+  const_reverse_iterator
+  operator++( int ){
+    const_reverse_iterator tmp(this->iteratorLambda_);
+    this->iteratorLambda_(-1);
+    return tmp;
+  }
+    
+  const_reverse_iterator
+  operator--( int ){
+    const_reverse_iterator tmp(this->iteratorLambda_);
+    this->iteratorLambda_(1);
+    return tmp;
+  }
+
+  reference
+  operator[](const long n) const {
+    const_reverse_iterator tmp(this->iteratorLambda_);
+    return std::get<0>(tmp.iteratorLambda_(-n));
+  }
+
+  bool
+  operator==( const const_reverse_iterator& other ) const {
+    return &(*(*this)) == &(*other);
+  }
+    
+  bool
+  operator!=( const const_reverse_iterator& other ) const {
+    return &(*(*this)) != &(*other);
+  }
+
+  bool
+  operator<=( const const_reverse_iterator& other ) const {
+    return (
+      ( std::get<1>( this->iteratorLambda_(0) ) <
+        std::get<1>( other.iteratorLambda_(0) )) ||
+      (&(*(*this)) == &(*other)));
+  }
+    
+  bool
+  operator>=( const const_reverse_iterator& other ) const {
+    return (
+      ( std::get<1>( this->iteratorLambda_(0) ) >
+        std::get<1>( other.iteratorLambda_(0) )) ||
+      (&(*(*this)) == &(*other)));
+  }
+
+  bool
+  operator<( const const_reverse_iterator& other ) const {
+    return ( std::get<1>( this->iteratorLambda_(0) ) <
+             std::get<1>( other.iteratorLambda_(0) ));
+  }
+    
+  bool
+  operator>( const const_reverse_iterator& other ) const {
+    return ( std::get<1>( this->iteratorLambda_(0) ) >
+             std::get<1>( other.iteratorLambda_(0) ));
+  }
+
+  const_reverse_iterator
+  operator+(const long add){
+    const_reverse_iterator tmp(this->iteratorLambda_);
+    tmp.iteratorLambda_(-add);
+    return tmp;
+  }
+    
+  const_reverse_iterator
+  operator-(const long minus){
+    const_reverse_iterator tmp(this->iteratorLambda_);
+    tmp.iteratorLambda_(minus);
+    return tmp;
+  }
+    
+  difference_type
+  operator-(const const_reverse_iterator& other) const {
+    return
+      std::get<1>(this->iteratorLambda_(0)) -
+      std::get<1>(other.iteratorLambda_(0));
+  }
+    
+  const_reverse_iterator&
+  operator+=(const long add){
+    this->iteratorLambda_(-add);
+    return *this;
+  }
+
+  const_reverse_iterator&
+  operator-=(const long minus){
+    this->iteratorLambda_(minus);
+    return *this;
+  }
+
+  /* methods */
+  const_iterator
+  base() const {
+    auto tmp = const_iterator(this->iteratorLambda_);
+    return ++tmp;
+  }
+
+protected:
+  /* fields */
+  typename std::function< std::tuple<reference, long>( long ) >
+  iteratorLambda_;
+};
+
+#endif

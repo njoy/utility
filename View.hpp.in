@@ -1,0 +1,257 @@
+#ifndef UTILITY_VIEW_HPP
+#define UTILITY_VIEW_HPP
+
+#include <algorithm>
+#include <exception>
+#include <functional>
+#include <memory>
+#include <tuple>
+
+#include "utility.hpp"
+
+namespace utility {
+
+/**
+ * @brief 
+ * A container-like class which provides a vector-like interface to a sequence of
+ * elements owned by container class.
+ *
+ * @details
+ * By composing a Range pointer, the dispatch on the iterator type used to define
+ * the bounds of the View instance may be deferred until run-time. This allows
+ * 
+ */
+template< typename data >
+class View {
+
+/* nested classes */
+public:  
+#include "utility/View/iterator.hpp"
+#include "utility/View/const_iterator.hpp"
+#include "utility/View/reverse_iterator.hpp"
+#include "utility/View/const_reverse_iterator.hpp"
+
+protected:
+#include "utility/View/Range.hpp"
+#include "utility/View/Range/IteratorRange.hpp"
+
+public: 
+  /* constructor and destructor */
+  template< typename iterator >
+  View( iterator start, iterator finish ){
+    typename std::iterator_traits<iterator>::iterator_category category;
+    typename std::iterator_traits<iterator>::value_type value_type;
+    referencedRange =
+      std::make_shared< IteratorRange<iterator> >
+      ( start, finish, value_type, category );
+  }
+
+  ~View() = default;
+
+  /* operator overloads */
+  View& operator=( const View& v ) = default;
+
+  View& operator=( View&& v ) = default;
+
+  bool operator==( const View& other ) const {
+    return std::equal( this->begin(), this->end(), other.begin(), other.end() );
+  }
+
+  bool operator!=( const View& other ) const {
+    return !(*this == other);
+  }
+
+  bool operator<( const View& other ) const {
+    return std::lexicographical_compare( this->begin(), this->end(),
+                                         other.begin(), other.end() );
+  }
+
+  bool operator>( const View& other ) const {
+    return other < *this;
+  }
+
+  bool operator<=( const View& other ) const {
+    return !(other < *this);
+  }
+
+  bool operator>=( const View& other ) const {
+    return !(*this < other);
+  }
+
+  data& operator[]( const std::size_t position ){
+    return (*(this->referencedRange))[position];
+  }
+
+  const data& operator[]( const std::size_t position ) const {
+    return (*(this->referencedRange))[position];
+  }
+
+  /* methods */
+  /** 
+   * @brief
+   * A reference to the element at specified location @p position, 
+   * with bounds checking.
+   */
+  data&
+  at( const std::size_t position ){ return this->referencedRange->at(position); }
+  
+  /** 
+   * @brief
+   * A reference to the element at specified location @p position, 
+   * with bounds checking.
+   */
+  const data&
+  at( const std::size_t position ) const {
+    return this->referencedRange->at(position);
+  }
+
+  /** @brief Returns reference to the last element in the range. */
+  data&
+  back() { return this->referencedRange->back(); }
+
+  /** @brief Returns reference to the last element in the range. */
+  const data&
+  back() const { return this->referencedRange->back(); }
+
+  /** @brief Returns reference to the first element in the range. */
+  data&
+  front() { return this->referencedRange->front(); }
+
+  /** @brief Returns reference to the first element in the range. */
+  const data&
+  front() const { return this->referencedRange->front(); }
+
+  /** @brief Returns an iterator to the first element of the range. */ 
+  iterator
+  begin() { return iterator( this->referencedRange->begin() ); }
+
+  /** @brief Returns an iterator to the first element of the range. */ 
+  const_iterator
+  begin() const { return this->cbegin(); }
+
+  /** @brief Returns an iterator to the first element of the range. */ 
+  const_iterator
+  cbegin() const { return const_iterator( this->referencedRange->begin() ); }
+
+  /** 
+   * @brief 
+   * Returns an iterator to the element following the last element of the range.
+   */
+  iterator
+  end() { return iterator( this->referencedRange->end() ); }
+
+  /** 
+   * @brief 
+   * Returns an iterator to the element following the last element of the range.
+   */
+  const_iterator
+  end() const { return this->cend(); }
+
+  /** 
+   * @brief 
+   * Returns an iterator to the element following the last element of the range.
+   */
+  const_iterator
+  cend() const { return const_iterator( this->referencedRange->end() ); }
+
+  /** 
+   * @brief 
+   * Returns a reverse iterator to the first element of the reversed range. 
+   * 
+   * @details 
+   * It corresponds to the last element of the non-reversed range.
+   */
+  reverse_iterator
+  rbegin() {
+    auto f = this->referencedRange->end();
+    f(-1);
+    return reverse_iterator( f );
+  }
+
+  /** 
+   * @brief 
+   * Returns a reverse iterator to the first element of the reversed range. 
+   * 
+   * @details 
+   * It corresponds to the last element of the non-reversed range.
+   */
+  reverse_iterator
+  rbegin() const {
+    return this->crbegin();
+  }
+
+  /** 
+   * @brief 
+   * Returns a reverse iterator to the first element of the reversed range. 
+   * 
+   * @details 
+   * It corresponds to the last element of the non-reversed container.
+   */
+  const_reverse_iterator
+  crbegin() const {
+    auto f = this->referencedRange->end();
+    f(-1);
+    return const_reverse_iterator( f );
+  }
+
+  /** 
+   * @brief 
+   * Returns a reverse iterator to the element following the last element of the
+   * reversed range. 
+   * 
+   * @details 
+   * It corresponds to the element preceeding the first element of the 
+   * non-reversed range.
+   */
+  reverse_iterator
+  rend() {
+    auto f = this->referencedRange->begin();
+    f(-1);
+    return reverse_iterator( f );
+  }
+
+  /** 
+   * @brief 
+   * Returns a reverse iterator to the element following the last element of the
+   * reversed range. 
+   * 
+   * @details 
+   * It corresponds to the element preceeding the first element of the 
+   * non-reversed range.
+   */
+  const_reverse_iterator
+  rend() const {
+    return this->crend();
+  }
+
+  /** 
+   * @brief 
+   * Returns a reverse iterator to the element following the last element of the
+   * reversed range. 
+   * 
+   * @details 
+   * It corresponds to the element preceeding the first element of the 
+   * non-reversed range.
+   */
+  const_reverse_iterator
+  crend() const {
+    auto f = this->referencedRange->begin();
+    f(-1);
+    return const_reverse_iterator( f );
+  }
+
+  /** @brief Checks if the range has no elements */
+  bool
+  empty() const { return this->referencedRange->empty(); }
+
+  /** @brief Returns the number of elements in the range */
+  std::size_t
+  size() const { return this->referencedRange->size(); }
+  
+protected:
+  /* fields */
+  typename std::shared_ptr< Range > referencedRange;
+};
+
+} 
+#endif

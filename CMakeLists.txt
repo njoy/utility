@@ -14,6 +14,7 @@ include(${commonCMakeScripts_path}/doxygen.cmake)
 if(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/stream")
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/string")
+  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/View")
 endif(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
 
 list(APPEND utility_src
@@ -24,7 +25,7 @@ list(APPEND utility_src
 
 set(headers "")
 list(APPEND headers
-  #  "View.hpp"
+  "View.hpp"
   "realNumberStringCollection.hpp"
   "string.hpp"
   "stream.hpp"
@@ -48,6 +49,7 @@ list(APPEND testLabels utility)
 
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/stream" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/string" )
+add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/View" )
 
 if (${local_testing})
   add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/test" )

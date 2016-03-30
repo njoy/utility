@@ -34,13 +34,6 @@ getBool( std::istream& is,
          const std::string& name );
 
 /**
- * @brief
- * Extracts the next newline character delimited string from a stream. 
- */
-std::string 
-getLine( std::istream& is );
-
-/**
  * @brief 
  * Extracts the next white space delimited string from a stream and verifies the
  * string represent a valid energy value (in eV). Permits EOF without throwing an
@@ -125,6 +118,13 @@ int
 getIntWithLBound( std::istream& is, 
                   const std::string& name, 
                   const int bound );
+
+/**
+ * @brief
+ * Extracts the next newline character delimited string from a stream. 
+ */
+std::string 
+getLine( std::istream& is );
 
 /**
  * @brief 
