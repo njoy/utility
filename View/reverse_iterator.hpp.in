@@ -13,7 +13,7 @@ public:
   reverse_iterator( std::function< std::tuple< reference, long> ( long ) > f ) :
     iteratorLambda_(f){}
 
-  reverse_iterator( const_iterator&& ) = default;
+  reverse_iterator( reverse_iterator&& ) = default;
   reverse_iterator( const reverse_iterator& ) = default; 
   ~reverse_iterator() = default;
   
