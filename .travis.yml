@@ -1,5 +1,5 @@
 language: cpp
-sudo: false
+sudo: required
 
 os:
   - linux
@@ -39,8 +39,8 @@ before_script:
   - sed -i.backup 's/git@github.com:/https:\/\/github.com\//' .gitmodules
   
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; AR="gcc-ar-5"; RANLIB="gcc-ranlib-5"; NM="gcc-nm-5"; fi; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; AR="gcc-ar-5"; RANLIB="gcc-ranlib-5"; NM="gcc-nm-5"; LD="gcc-ld-5"fi; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; sudo ln -s /usr/lib64/llvm/LLVMgold.so /usr/lib/LLVMgold.so; fi; fi
   - ./fetchDependencies.py
   - mkdir bin
   - cd bin
