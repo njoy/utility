@@ -1,5 +1,5 @@
 language: cpp
-sudo: false
+sudo: required
 
 os:
   - linux
@@ -47,7 +47,7 @@ before_script:
   
 script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; AR="gcc-ar-5"; RANLIB="gcc-ranlib-5"; NM="gcc-nm-5"; fi; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; AR="/usr/lib/llvm-3.7/bin/llvm-ar"; RANLIB="usr/lib/llvm-3.7/bin/llvm-ranlib"; NM="usr/lib/llvm-3.7/bin/llvm-nm"; LD="usr/lib/llvm-3.7/bin/llvm-link"; fi; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; sudo rm "/usr/bin/ar"; sudo ln -s "/usr/lib/llvm-3.7/bin/llvm-ar" "usr/bin/ar"; sudo rm "/usr/bin/ranlib"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-ranlib" "usr/bin/ranlib"; sudo rm "/usr/bin/nm"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-nm" "/usr/bin/nm"; sudo rm "/usr/bin/ld"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-link" "usr/bin/ld"; fi; fi
   - ./fetchDependencies.py
   - mkdir bin
   - cd bin
