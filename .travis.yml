@@ -14,13 +14,13 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.8
+      - llvm-toolchain-precise-3.7
       - george-edison55-precise-backports
     packages:
       - gcc-5
       - g++-5
-      - binutils
-      - clang-3.8
+      - binutils-gold
+      - clang-3.7
       - cmake
       - cmake-data
 
@@ -42,7 +42,7 @@ before_script:
   
 script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; AR="gcc-ar-5"; RANLIB="gcc-ranlib-5"; NM="gcc-nm-5"; fi; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi; fi
   - ./fetchDependencies.py
   - mkdir bin
   - cd bin
