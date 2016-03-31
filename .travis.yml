@@ -43,7 +43,7 @@ before_script:
 script:
   - find / -iname *LLVMgold.so
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; AR="gcc-ar-5"; RANLIB="gcc-ranlib-5"; NM="gcc-nm-5"; fi; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; sudo mkdir /usr/lib/llvm-3.7/lib; sudo ln -s /usr/lib/llvm-3.7/lib64/LLVMgold.so /usr/lib/llvm-3.7/lib/LLVMgold.so; fi; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; sudo mkdir /usr/lib/llvm-3.7/lib; sudo ln -s /usr/lib/llvm-2.9/lib/LLVMgold.so /usr/lib/llvm-3.7/lib/LLVMgold.so; fi; fi
   - ./fetchDependencies.py
   - mkdir bin
   - cd bin
