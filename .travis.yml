@@ -54,8 +54,10 @@ script:
   - cd bin
   - cmake -D build_type=$build_type -D static_libraries=$static_libraries ..
   - make -j 2
-  - ctest -V -j 2
-  - if ["$?" = "0"]; then if [ "$build_type" = "coverage"]; then coveralls --exclude Catch --exclude easylogging --exclude commonCMakeScripts --gcov-options '\-lp'; fi; fi
+  - ctest --output-on-failure -j 2
+  - error_code = $?
+  - echo $error_code
+  - if [ "$error_code" = "0" ]; then if [ "$build_type" = "coverage"]; then coveralls --exclude Catch --exclude easylogging --exclude commonCMakeScripts --gcov-options '\-lp'; fi; fi
 
 matrix:
   exclude:
@@ -88,7 +90,7 @@ matrix:
   - os: linux
     compiler: gcc
     env: build_type="coverage"
-
+ 
   #- os: linux
   #  compiler: clang
   #  env: build_type="release" static_libraries="FALSE"
