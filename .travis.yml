@@ -41,7 +41,6 @@ env:
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://cmake.org/files/v3.5/cmake-3.5.0-Darwin-x86_64.tar.gz && tar xfz cmake-3.5.0-Darwin-x86_64.tar.gz; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH="`pwd`/cmake-3.5.0-Darwin-x86_64/CMake.app/Contents/bin":$PATH ; fi
-  - if [ "$build_type" = "coverage"]; then pip install --user cpp-coveralls ; fi
 
 before_script:
   - sed -i.backup 's/git@github.com:/https:\/\/github.com\//' .gitmodules
@@ -55,7 +54,7 @@ script:
   - cmake -D build_type=$build_type -D static_libraries=$static_libraries ..
   - make -j 2
   - ctest --output-on-failure -j 2
-  - if [ "$build_type" = "coverage" ]; then echo "loading coverage information"; coveralls --exclude Catch --exclude easylogging --exclude commonCMakeScripts --gcov-options '\-lp'; fi
+  - if [ "$build_type" = "coverage" ]; then pip install --user cpp-coveralls; echo "loading coverage information"; coveralls --exclude Catch --exclude easylogging --exclude commonCMakeScripts --gcov-options '\-lp'; fi
 
 matrix:
   exclude:
