@@ -46,6 +46,10 @@ public:
       ( start, finish, value_type, category );
   }
 
+  View( const View& ) = default;
+
+  View( View&& ) = default;
+
   ~View() = default;
 
   /* operator overloads */
