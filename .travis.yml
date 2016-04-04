@@ -53,28 +53,22 @@ script:
   - mkdir bin
   - cd bin
   - cmake -D build_type=$build_type -D static_libraries=$static_libraries ..
-  #sudo rm "/usr/bin/ar"; sudo ln -s "/ "/usr/bin/ar"; sudo rm "/usr/bin/ranlib"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-ranlib" "/usr/bin/ranlib"; sudo rm "/usr/bin/nm"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-nm" "/usr/bin/nm";
-  #if [ "$TRAVIS_OS_NAME" = "linux" ] && [ $CXX = "g++-5" ] && [ $static_libraries = "TRUE" ] && [ $build_type = "release" ]; then cmake -D build_type="release" -D static_libraries="TRUE" -D CMAKE_AR="/usr/bin/gcc-ar-5" -D CMAKE_RANLIB="/usr/bin/gcc-ranlib-5" -D CMAKE_NM="/usr/bin/gcc-nm-5" -D appended_flags="-fuse-linker-plugin" ..; else ; fi;
   - make -j 2
   - ctest -V -j 2
 
 after_success:
-   - if [ "$build_type" = "coverage"]; then coveralls --exclude Catch --exclude easylogging --exclude  --exclude commonCMakeScripts --gcov-options '\-lp'; fi
+   - if [ "$build_type" = "coverage"]; then coveralls --exclude Catch --exclude easylogging --exclude commonCMakeScripts --gcov-options '\-lp'; fi
 
 matrix:
-  #exclude:
+  exclude:
   #problem with llvm gold linker on travis
-  #- os: linux
-  #  compiler: clang
-  #  env: build_type="release" static_libraries="FALSE"
-    
-  #- os: linux
-  #  compiler: clang
-  #  env: build_type="release" static_libraries="TRUE"
+  - os: linux
+    compiler: clang
+    env: build_type="release" static_libraries="TRUE"
 
-  #- os: linux
-  #  compiler: gcc
-  #  env: build_type="release" static_libraries="TRUE"
+  - os: linux
+    compiler: gcc
+    env: build_type="release" static_libraries="TRUE"
     
   include:
   - os: osx
@@ -95,4 +89,11 @@ matrix:
     
   - os: linux
     compiler: gcc
-    env: build_type="coverage" static_libraries="TRUE" test_subprojects="TRUE"
+    env: build_type="coverage"
+
+  #- os: linux
+  #  compiler: clang
+  #  env: build_type="release" static_libraries="FALSE"
+
+  #sudo rm "/usr/bin/ar"; sudo ln -s "/ "/usr/bin/ar"; sudo rm "/usr/bin/ranlib"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-ranlib" "/usr/bin/ranlib"; sudo rm "/usr/bin/nm"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-nm" "/usr/bin/nm";
+  #if [ "$TRAVIS_OS_NAME" = "linux" ] && [ $CXX = "g++-5" ] && [ $static_libraries = "TRUE" ] && [ $build_type = "release" ]; then cmake -D build_type="release" -D static_libraries="TRUE" -D CMAKE_AR="/usr/bin/gcc-ar-5" -D CMAKE_RANLIB="/usr/bin/gcc-ranlib-5" -D CMAKE_NM="/usr/bin/gcc-nm-5" -D appended_flags="-fuse-linker-plugin" ..; else ; fi;
