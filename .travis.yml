@@ -55,9 +55,7 @@ script:
   - cmake -D build_type=$build_type -D static_libraries=$static_libraries ..
   - make -j 2
   - ctest -V -j 2
-
-after_success:
-   - if [ "$build_type" = "coverage"]; then coveralls --exclude Catch --exclude easylogging --exclude commonCMakeScripts --gcov-options '\-lp'; fi
+  - if ["$?" = "0"]; then if [ "$build_type" = "coverage"]; then coveralls --exclude Catch --exclude easylogging --exclude commonCMakeScripts --gcov-options '\-lp'; fi; fi
 
 matrix:
   exclude:
