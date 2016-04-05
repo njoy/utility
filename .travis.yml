@@ -41,12 +41,12 @@ addons:
 
 env:
   matrix:
-  - build_type="release" static_libraries="TRUE"
-  - build_type="release" static_libraries="FALSE"
-  - build_type="debug" static_libraries="TRUE"
-  - build_type="debug" static_libraries="FALSE"
+    - build_type="release" static_libraries="TRUE"
+    - build_type="release" static_libraries="FALSE"
+    - build_type="debug" static_libraries="TRUE"
+    - build_type="debug" static_libraries="FALSE"
   global:
-  - secure: "BQmt5BZToVO9NHjCLSPR/g1+S2PWgxSG583OJ7+3gD4Jz3Ft/NlXGwz2yMhyjDybMP2+z3W79u4lS/k1JerGTVajTxjejbxqick3jyxuBvyCv+WEuw9EbKyb4gYUS63XHx5eLDIHNOCy5MWm2WEDnVxHb0wQvF+INTJJkvHgyJe1s5idMMOxMtliRUNPTxcESFWOPR8BMqGNdZgu98N+3wxe0ZDVfjVP0nbGta4hfD0v5IDW8gsyiJUeUcQs0V7cPFjBM0jfkIajViu4WZbwgccksAzGa5aADuAhu94ao8MjDAUjlveFbkusYV46ttYF1C11nLrcu2tqxeM2RuwUrvYvdAWsEw1ekdrySIO+Y2avX0CdBp202I3IX0afGXARPG4pSvc5o2NRYmGZp2dvvxJ3Z2Fw4S8r6+RS/SqQ4CQed21+CuE3Ii1WJmkVLYZL3FLfgl79rEStUSIwcvoSOleKqvqiEN55oPCd9Q7pFPckQZl9CBNeqkxdSyVhuopnsms8VfoKiU/oPWtWHTXMrcswdBeybCNVZW0EyxVjS5FWHHJ41voueDsUMfptAhHtp3E87ICLMzBNRDfdlAcvMGXSs3nuEqrgNgLFmTCzXzNiSiz+AA4Ngn4HaNlTIm8bUNh/qm4Zjujg8ET8PZ4q2ZJsLkw9nUpTlEsdAohT2Ac="
+    - secure: "BQmt5BZToVO9NHjCLSPR/g1+S2PWgxSG583OJ7+3gD4Jz3Ft/NlXGwz2yMhyjDybMP2+z3W79u4lS/k1JerGTVajTxjejbxqick3jyxuBvyCv+WEuw9EbKyb4gYUS63XHx5eLDIHNOCy5MWm2WEDnVxHb0wQvF+INTJJkvHgyJe1s5idMMOxMtliRUNPTxcESFWOPR8BMqGNdZgu98N+3wxe0ZDVfjVP0nbGta4hfD0v5IDW8gsyiJUeUcQs0V7cPFjBM0jfkIajViu4WZbwgccksAzGa5aADuAhu94ao8MjDAUjlveFbkusYV46ttYF1C11nLrcu2tqxeM2RuwUrvYvdAWsEw1ekdrySIO+Y2avX0CdBp202I3IX0afGXARPG4pSvc5o2NRYmGZp2dvvxJ3Z2Fw4S8r6+RS/SqQ4CQed21+CuE3Ii1WJmkVLYZL3FLfgl79rEStUSIwcvoSOleKqvqiEN55oPCd9Q7pFPckQZl9CBNeqkxdSyVhuopnsms8VfoKiU/oPWtWHTXMrcswdBeybCNVZW0EyxVjS5FWHHJ41voueDsUMfptAhHtp3E87ICLMzBNRDfdlAcvMGXSs3nuEqrgNgLFmTCzXzNiSiz+AA4Ngn4HaNlTIm8bUNh/qm4Zjujg8ET8PZ4q2ZJsLkw9nUpTlEsdAohT2Ac="
   
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://cmake.org/files/v3.5/cmake-3.5.0-Darwin-x86_64.tar.gz && tar xfz cmake-3.5.0-Darwin-x86_64.tar.gz; fi
