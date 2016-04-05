@@ -38,7 +38,11 @@ env:
   - build_type="release" static_libraries="FALSE"
   - build_type="debug" static_libraries="TRUE"
   - build_type="debug" static_libraries="FALSE"
-
+  global:
+    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+    #   via the "travis encrypt" command using the project repo's public key
+    - secure: "BQmt5BZToVO9NHjCLSPR/g1+S2PWgxSG583OJ7+3gD4Jz3Ft/NlXGwz2yMhyjDybMP2+z3W79u4lS/k1JerGTVajTxjejbxqick3jyxuBvyCv+WEuw9EbKyb4gYUS63XHx5eLDIHNOCy5MWm2WEDnVxHb0wQvF+INTJJkvHgyJe1s5idMMOxMtliRUNPTxcESFWOPR8BMqGNdZgu98N+3wxe0ZDVfjVP0nbGta4hfD0v5IDW8gsyiJUeUcQs0V7cPFjBM0jfkIajViu4WZbwgccksAzGa5aADuAhu94ao8MjDAUjlveFbkusYV46ttYF1C11nLrcu2tqxeM2RuwUrvYvdAWsEw1ekdrySIO+Y2avX0CdBp202I3IX0afGXARPG4pSvc5o2NRYmGZp2dvvxJ3Z2Fw4S8r6+RS/SqQ4CQed21+CuE3Ii1WJmkVLYZL3FLfgl79rEStUSIwcvoSOleKqvqiEN55oPCd9Q7pFPckQZl9CBNeqkxdSyVhuopnsms8VfoKiU/oPWtWHTXMrcswdBeybCNVZW0EyxVjS5FWHHJ41voueDsUMfptAhHtp3E87ICLMzBNRDfdlAcvMGXSs3nuEqrgNgLFmTCzXzNiSiz+AA4Ngn4HaNlTIm8bUNh/qm4Zjujg8ET8PZ4q2ZJsLkw9nUpTlEsdAohT2Ac="
+  
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then wget https://cmake.org/files/v3.5/cmake-3.5.0-Darwin-x86_64.tar.gz && tar xfz cmake-3.5.0-Darwin-x86_64.tar.gz; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH="`pwd`/cmake-3.5.0-Darwin-x86_64/CMake.app/Contents/bin":$PATH ; fi
@@ -47,8 +51,8 @@ script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90; sudo update-alternatives --auto gcov; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo update-alternatives --install /usr/bin/ld ld /usr/bin/ld.gold 100; sudo update-alternatives --auto ld; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CC="/usr/bin/gcc-5"; export CXX="/usr/bin/g++-5"; export AR="/usr/bin/gcc-ar-5"; export RANLIB="/usr/bin/gcc-ranlib-5"; export NM="/usr/bin/gcc-nm-5"; fi; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $static_libraries = "TRUE" ]; then /usr/bin/ld -plugin; fi; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7"; export CC="clang-3.7"; export AR="/usr/lib/llvm-3.7/bin/llvm-ar"; export RANLIB="/usr/lib/llvm-3.7/bin/llvm-ranlib"; export NM="/usr/lib/llvm-3.7/bin/llvm-nm"; fi; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then uname -s; fi
   - ./fetchDependencies.py
   - mkdir bin
   - cd bin
@@ -89,10 +93,12 @@ matrix:
     compiler: gcc
     env: build_type="coverage" 
  
-  #- os: linux
-  #  compiler: clang
-  #  env: build_type="release" static_libraries="FALSE"
-
-  #sudo rm "/usr/bin/ar"; sudo ln -s "/ "/usr/bin/ar"; sudo rm "/usr/bin/ranlib"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-ranlib" "/usr/bin/ranlib"; sudo rm "/usr/bin/nm"; sudo ln -s "usr/lib/llvm-3.7/bin/llvm-nm" "/usr/bin/nm";
-  #if [ "$TRAVIS_OS_NAME" = "linux" ] && [ $CXX = "g++-5" ] && [ $static_libraries = "TRUE" ] && [ $build_type = "release" ]; then cmake -D build_type="release" -D static_libraries="TRUE" -D CMAKE_AR="/usr/bin/gcc-ar-5" -D CMAKE_RANLIB="/usr/bin/gcc-ranlib-5" -D CMAKE_NM="/usr/bin/gcc-nm-5" -D appended_flags="-fuse-linker-plugin" ..; else ; fi;
-
+addons:
+  coverity_scan:
+    project:
+      name: "njoy/utility"
+      description: "a repository for string and stream parsing routines and general purpose data types"
+      notification_email: apmccartney@lanl.gov
+      build_command_prepend: "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then if [ $CXX = \"g++\" ]; then export CC=\"/usr/bin/gcc-5\"; export CXX=\"/usr/bin/g++-5\"; export AR=\"/usr/bin/gcc-ar-5\"; export RANLIB=\"/usr/bin/gcc-ranlib-5\"; export NM=\"/usr/bin/gcc-nm-5\"; fi; fi; if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then if [ $CXX = \"clang++\" ]; then export CXX=\"clang++-3.7\"; export CC=\"clang-3.7\"; export AR=\"/usr/lib/llvm-3.7/bin/llvm-ar\"; export RANLIB=\"/usr/lib/llvm-3.7/bin/llvm-ranlib\"; export NM=\"/usr/lib/llvm-3.7/bin/llvm-nm\"; fi; fi; ./fetchDependencies.py; mkdir bin; cd bin; cmake -D build_type=$build_type -D static_libraries=$static_libraries .."
+      build_command:   "make -j 2"
+      branch_pattern: coverity_scan
