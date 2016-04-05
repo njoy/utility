@@ -58,13 +58,13 @@ script:
 matrix:
   exclude:
   #problem with llvm gold linker on travis
-  - os: linux
-    compiler: clang
-    env: build_type="release" static_libraries="TRUE"
+  # - os: linux
+  #   compiler: clang
+  #   env: build_type="release" static_libraries="TRUE"
 
-  - os: linux
-    compiler: gcc
-    env: build_type="release" static_libraries="TRUE"
+  # - os: linux
+  #   compiler: gcc
+  #   env: build_type="release" static_libraries="TRUE"
     
   include:
   - os: osx
