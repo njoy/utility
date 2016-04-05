@@ -43,7 +43,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then export PATH="`pwd`/cmake-3.5.0-Darwin-x86_64/CMake.app/Contents/bin":$PATH ; fi
 
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; then export CXX="g++-5" CC="gcc-5"; AR="gcc-ar-5"; RANLIB="gcc-ranlib-5"; NM="gcc-nm-5"; fi; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "g++" ]; sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 90; sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90; sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90; AR="gcc-ar-5"; RANLIB="gcc-ranlib-5"; NM="gcc-nm-5"; fi; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then if [ $CXX = "clang++" ]; then export CXX="clang++-3.7" CC="clang-3.7"; AR="/usr/lib/llvm-3.7/bin/llvm-ar"; RANLIB="/usr/lib/llvm-3.7/bin/llvm-ranlib"; NM="/usr/lib/llvm-3.7/bin/llvm-nm"; fi; fi
   - ./fetchDependencies.py
   - mkdir bin
@@ -51,7 +51,7 @@ script:
   - cmake -D build_type=$build_type -D static_libraries=$static_libraries ..
   - make -j 2
   - ctest --output-on-failure -j 2
-  - if [ "$build_type" = "coverage" ]; then pip install --user cpp-coveralls; echo "loading coverage information"; coveralls  --exclude-pattern ".*CMake.*|.*Catch.*|.*catch.*|.*easylogging.*" --root ".." --build-root "." --gcov-options '\-lp'; fi
+  - if [ "$build_type" = "coverage" ]; then pip install --user cpp-coveralls; echo "loading coverage information"; coveralls  --exclude-pattern ".*CMake.*|.*Catch.*|.*catch.*|.*easylogging.*|.*include.*" --root ".." --build-root "." --gcov-options '\-lp'; fi
 
 matrix:
   exclude:
