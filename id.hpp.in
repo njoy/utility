@@ -1,0 +1,206 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#ifndef UTILITY_ID_HPP
+#define UTILITY_ID_HPP
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// system includes
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <sstream>
+
+// other includes
+#include "utility.hpp"
+
+namespace utility {
+
+  /** @brief Validation function to check whether or not a string is an
+   *         acceptable identifier for the type T.
+   *
+   *  Validation function for internal use only.
+   *
+   *  By default, any string will be accepted. If a special behaviour is
+   *  required for a given type T1 (e.g. the identifier must obey a regular
+   *  expression), then this function can be specialised as follows:
+   *
+   *    template <> bool validateId<T1>(const std::string& id) noexcept {
+   *
+   *      // implementation of the validation function
+   *    }
+   *
+   *  @return True/false
+   */
+  template <typename T> bool validateId(const std::string& id) noexcept {
+
+    return true;
+  }
+
+  /** @class Id
+   *  @brief The generic string identifier
+   *
+   *  A generic identifier in which a string is the underlying id type.
+   *
+   *  This Id class could be implemented as an interface from which different
+   *  identifiers can inherit. The problem with this approach is that
+   *  identifiers based on such an interface can be interchanged using the
+   *  Id base class. E.g. an identifier for a Car could be used as if it were
+   *  the identifier of a Planet if the base class is used.
+   *
+   *  By associating a template to this class (to indicate which object is
+   *  identified by the Id), it will not be possible to confound Id types with
+   *  different template types (because they will be considered as different
+   *  types). For example: utility::Id<Car> and utility::Id<Planet> are thus
+   *  different types and cannot be interchanged.
+   */
+  template <typename T> class Id final {
+
+    std::string id_;
+
+  public:
+
+    /** @{
+     *  @name Constructor
+     */
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Constructor
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    /** @brief Constructor
+     *
+     *  @param[in] id   the id string
+     */
+    Id(std::string id) : id_( std::move( id ) ) {
+
+      if (false == validateId<T>( this->id_ )) {
+
+        std::ostringstream message << "The string '" << this->id_ <<
+                "' is not a valid identifier string";
+        LOG(ERROR) << message.c_str();
+        throw std::invalid_argument(message.c_str());
+      }
+    }
+    /** @}
+     */
+
+    /** @{
+     *  @name Data retrieval functions
+     */
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Data retrieval functions
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    /** @brief Get the id string
+     *
+     *  @return The id string
+     */
+    const std::string& getString() const noexcept {
+
+      return id_;
+    }
+    /** @}
+     */
+
+    /** @{
+     *  @name Operator functions
+     */
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Operator functions
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    /** @brief operator<()
+     *
+     *  @param[in] right   the identifier on the right hand side
+     *
+     *  @return True/false
+     */
+    bool operator<(const Id& right) const noexcept {
+
+      return (this->getString() < right.getString());
+    }
+
+    /** @brief operator<=()
+     *
+     *  @param[in] right   the identifier on the right hand side
+     *
+     *  @return True/false
+     */
+    bool operator<=(const Id& right) const noexcept {
+
+      return !(right > *this);
+    }
+
+    /** @brief operator>()
+     *
+     *  @param[in] right   the identifier on the right hand side
+     *
+     *  @return True/false
+     */
+    bool operator>(const Id& right) const noexcept {
+
+      return (right < *this);
+    }
+
+    /** @brief operator>=()
+     *
+     *  @param[in] right   the identifier on the right hand side
+     *
+     *  @return True/false
+     */
+    bool operator>=(const Id& right) const noexcept {
+
+      return !(right < *this);
+    }
+
+    /** @brief operator==()
+     *
+     *  @param[in] right   the identifier on the right hand side
+     *
+     *  @return True/false
+     */
+    bool operator==(const Id& right) const noexcept {
+
+      return (this->getString() == right.getString());
+    }
+
+    /** @brief operator!=()
+     *
+     *  @param[in] right   the identifier on the right hand side
+     *
+     *  @return True/false
+     */
+    bool operator!=(const Id& right) const noexcept {
+
+      return !(*this == right);
+    }
+    /** @}
+     */
+  };
+
+  /** @{
+   *  @name Iostream operators
+   */
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Iostream operators
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  /** @brief Output stream operator
+   *
+   *  @param[in,out] out   the output stream to which has to be written
+   *  @param[in] id        the identifier
+   *
+   *  @return The modified output stream
+   */
+  template <typename T> std::ostream& operator<<(std::ostream& out,
+          const utility::Id<T>& id) noexcept {
+
+    out << id.getString();
+    return out;
+  }
+  /** @}
+   */
+} // utility namespace
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#endif
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+

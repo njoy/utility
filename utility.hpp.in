@@ -13,6 +13,8 @@
  */
 namespace utility{
 
+template <typename T> class Id;
+
 /* forward Declaration of function signatures */
 std::string 
 extractCommand( const std::string& card );
@@ -31,5 +33,6 @@ namespace stream{}
 }
 
 #include "utility/View.hpp"
+#include "utility/Id.hpp"
 
 #endif
