@@ -6,14 +6,24 @@
 // what we're testing
 #include "utility/Id.hpp"
 
-// dummy test class and validation function
-class Dummy {};
+int testNumber = 0;
+
+namespace {
+
+  // test variable
+  std::string str("myId");
+  std::string str("validId");
+
+  // dummy test class and validation function
+  class Dummy {};
+}
+
+// override validateId function for the Dummy class
 namespace utility {
 
-  // specialised validateId function for the Dummy class
   template <> bool validateId<Dummy>(const std::string& id) {
 
-    if (id != "validId") {
+    if (id != validstr) {
 
       return false;
     }
@@ -21,131 +31,121 @@ namespace utility {
   }
 }
 
-int testNumber = 0;
-
 int main( int argc, const char* argv[] )
 {
   LOG(INFO) << "";
-  LOG(INFO) << " View Tests";
+  LOG(INFO) << " Id Tests";
   LOG(INFO) << "======================";
   int result = Catch::Session().run( argc, argv );
-  LOG(INFO) << "View Tests Complete!";
+  LOG(INFO) << "Id Tests Complete!";
   return result;
 }
 
-
-/*
-BOOST_AUTO_TEST_CASE(testSetFunctions) {
-
-  // create new id
-  utility::Id<double> id("myId");
-
-  // test values
-  BOOST_CHECK_EQUAL(id.getString(), "myId");
-
-  // set string
-  id.setString("myNewId");
-
-  // test values
-  BOOST_CHECK_EQUAL(id.getString(), "myNewId");
-}
-
-BOOST_AUTO_TEST_CASE(testOperators) {
-
-  // create new id
-  utility::Id<double> id1("a");
-  utility::Id<double> id2("b");
-
-  // test values
-  BOOST_CHECK_EQUAL(id1 <  id1, false);
-  BOOST_CHECK_EQUAL(id1 == id1, true);
-  BOOST_CHECK_EQUAL(id1 != id1, false);
-  BOOST_CHECK_EQUAL(id1 <  id2, true);
-  BOOST_CHECK_EQUAL(id1 == id2, false);
-  BOOST_CHECK_EQUAL(id1 != id2, true);
-  BOOST_CHECK_EQUAL(id2 <  id1, false);
-  BOOST_CHECK_EQUAL(id2 == id1, false);
-  BOOST_CHECK_EQUAL(id2 != id1, true);
-}
-
-BOOST_AUTO_TEST_CASE(testInStream) {
-
-  // input stream and SectionId
-  std::istringstream in("validId this should fail");
-  utility::Id<Dummy> id;
-
-  // read from the stream
-  in >> id;
-
-  // test stream state
-  BOOST_CHECK(!in.fail());
-  BOOST_CHECK(!in.eof());
-
-  // test values
-  BOOST_CHECK_EQUAL(id.getString(), "validId");
-
-  // read from the stream (should fail)
-  in >> id;
-
-  // test stream state
-  BOOST_CHECK(in.fail());
-
-  // clear the stream and read the remainder
-  in.clear();
-  std::string temp;
-
-  // test the remainder
-  std::getline(in, temp);
-  BOOST_CHECK_EQUAL(temp, " this should fail");
-
-  // test values (identifier should be unchanged)
-  BOOST_CHECK_EQUAL(id.getString(), "validId");
-}
-
-BOOST_AUTO_TEST_CASE(testOutStream) {
-
-  // output stream and id
-  std::ostringstream out;
-  utility::Id<double> id("myId");
-
-  // write to the stream
-  out << id;
-
-  // test values
-  BOOST_CHECK_EQUAL(out.str(), "myId");
-}
-
-BOOST_AUTO_TEST_CASE(testExceptions) {
-
-  // create an identifier
-  utility::Id<Dummy> id("validId");
-
-  // test constructor exceptions
-  BOOST_REQUIRE_THROW(utility::Id<Dummy>("notValidId"), std::invalid_argument);
-
-  // test set function exceptions
-  BOOST_REQUIRE_THROW(id.setString("notValidId"), std::invalid_argument);
-  BOOST_CHECK_EQUAL(id.getString(), "validId");
-}*/
-
 SCENARIO("Id construction ", "[utility], [Id]"){
 
-  GIVEN("A string based Id"){
+  GIVEN("an identifier string"){
 
-    WHEN("Constructing a valid string Id") {
+    WHEN("constructing a valid string Id with the default validateString") {
+
       THEN("the constructor should not throw") {
+
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE_NOTHROW( utility::Id<double>("myId") );
+        REQUIRE_NOTHROW( utility::Id<double>(str) );
       }
     }
 
-    utility::Id<double> id("myId");
-    WHEN("When the string is a valid Id") {
-      THEN("the getString() returns the identifier string") {
+    WHEN("constructing a valid string Id with an override validateString") {
+
+      THEN("the constructor should not throw with a valid string") {
+
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE( "myId" == id.getString() );
+        REQUIRE_NOTHROW( utility::Id<Dummy>(validstr) );
+      }
+    }
+
+    WHEN("constructing a valid string Id with an override validateString") {
+
+      THEN("the constructor should throw with a invalid string") {
+
+        LOG(INFO) << "Test " << ++testNumber 
+                  << ": [construction] No Errors Expected";
+        REQUIRE_NOTHROW( utility::Id<Dummy>("myId") );
+      }
+    }
+
+  GIVEN("a valid string id"){
+
+    utility::Id<double> id(str);
+    WHEN("using the getString() function") {
+
+      THEN("returns the identifier string") {
+
+        LOG(INFO) << "Test " << ++testNumber 
+                  << ": [construction] No Errors Expected";
+        REQUIRE( str == id.getString() );
+      }
+    }
+  }
+}
+
+SCENARIO("Id operators ", "[utility], [Id]"){
+
+  GIVEN("two valid string id objects"){
+
+    utility::Id<double> a("a");
+    utility::Id<double> b("b");
+    WHEN("comparing the identifier objects") {
+
+      THEN("the comparison operators function correctly") {
+
+        LOG(INFO) << "Test " << ++testNumber 
+                  << ": [comparison a and a] No Errors Expected";
+        REQUIRE( (a < a) == false );
+        REQUIRE( (a <= a) == true );
+        REQUIRE( (a > a) == false );
+        REQUIRE( (a >= a) == true );
+        REQUIRE( (a == a) == true );
+        REQUIRE( (a != a) == false );
+
+        LOG(INFO) << "Test " << ++testNumber 
+                  << ": [comparison a and b] No Errors Expected";
+        REQUIRE( (a < b) == true );
+        REQUIRE( (a <= b) == true );
+        REQUIRE( (a > b) == false );
+        REQUIRE( (a >= b) == false );
+        REQUIRE( (a == b) == false );
+        REQUIRE( (a != b) == true );
+
+        LOG(INFO) << "Test " << ++testNumber 
+                  << ": [comparison b and a] No Errors Expected";
+        REQUIRE( (b < a) == false );
+        REQUIRE( (b <= a) == false );
+        REQUIRE( (b > a) == true );
+        REQUIRE( (b >= a) == true );
+        REQUIRE( (b == a) == false );
+        REQUIRE( (b != a) == true );
+      }
+    }
+  }
+}
+
+SCENARIO("Id out stream ", "[utility], [Id]"){
+
+  GIVEN("a valid string id"){
+
+    utility::Id<double> id(str);
+    WHEN("using the << output stream operator") {
+
+      THEN("writes the identifier string to the stream") {
+
+        std::ostringstream out;
+        out << id;
+
+        LOG(INFO) << "Test " << ++testNumber 
+                  << ": [streaming] No Errors Expected";
+        REQUIRE( str == id.getString() );
       }
     }
   }
