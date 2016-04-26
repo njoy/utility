@@ -68,18 +68,10 @@ namespace utility {
     /** @brief Constructor
      *
      *  @param[in] id   the id string
+     *
+     *  @throws std::invalid_argument   The string  @p id is not a valid id
      */
-    ID(std::string id) : id_( std::move( id ) ) {
-
-      if (false == validateID<T>( this->id_ )) {
-
-        std::ostringstream message;
-        message << "The string '" << this->id_ <<
-                "' is not a valid identifier string";
-        LOG(ERROR) << message.str();
-        throw std::invalid_argument(message.str());
-      }
-    }
+    ID(std::string);
     /** @}
      */
 
@@ -200,6 +192,9 @@ namespace utility {
   /** @}
    */
 } // utility namespace
+
+// include implementation headers
+#include "utility/ID/src/ID.hpp"
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #endif
