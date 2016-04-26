@@ -12,7 +12,7 @@ namespace {
 
   // test variable
   std::string str("myId");
-  std::string str("validId");
+  std::string validstr("validId");
 
   // dummy test class and validation function
   class Dummy {};
@@ -21,7 +21,7 @@ namespace {
 // override validateId function for the Dummy class
 namespace utility {
 
-  template <> bool validateId<Dummy>(const std::string& id) {
+  template <> bool validateId<Dummy>(const std::string& id) noexcept {
 
     if (id != validstr) {
 
@@ -51,7 +51,7 @@ SCENARIO("Id construction ", "[utility], [Id]"){
 
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE_NOTHROW( utility::Id<double>(str) );
+        REQUIRE_NOTHROW( utility::Id<double> id(str) );
       }
     }
 
@@ -61,7 +61,7 @@ SCENARIO("Id construction ", "[utility], [Id]"){
 
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE_NOTHROW( utility::Id<Dummy>(validstr) );
+        REQUIRE_NOTHROW( utility::Id<Dummy> id(validstr) );
       }
     }
 
@@ -71,9 +71,10 @@ SCENARIO("Id construction ", "[utility], [Id]"){
 
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE_NOTHROW( utility::Id<Dummy>("myId") );
+        REQUIRE_THROWS( utility::Id<Dummy> id("myId") );
       }
     }
+  }
 
   GIVEN("a valid string id"){
 

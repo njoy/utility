@@ -30,7 +30,7 @@ namespace utility {
    *
    *  @return True/false
    */
-  template <typename T> bool validateId(const std::string& id) noexcept {
+  template <typename T> bool validateId(const std::string&) noexcept {
 
     return true;
   }
@@ -73,10 +73,11 @@ namespace utility {
 
       if (false == validateId<T>( this->id_ )) {
 
-        std::ostringstream message << "The string '" << this->id_ <<
+        std::ostringstream message;
+        message << "The string '" << this->id_ <<
                 "' is not a valid identifier string";
-        LOG(ERROR) << message.c_str();
-        throw std::invalid_argument(message.c_str());
+        LOG(ERROR) << message.str();
+        throw std::invalid_argument(message.str());
       }
     }
     /** @}
@@ -126,7 +127,7 @@ namespace utility {
      */
     bool operator<=(const Id& right) const noexcept {
 
-      return !(right > *this);
+      return !(*this > right);
     }
 
     /** @brief operator>()
@@ -148,7 +149,7 @@ namespace utility {
      */
     bool operator>=(const Id& right) const noexcept {
 
-      return !(right < *this);
+      return !(*this < right);
     }
 
     /** @brief operator==()
