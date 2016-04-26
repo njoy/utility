@@ -23,11 +23,7 @@ namespace utility {
 
   template <> bool validateID<Dummy>(const std::string& id) noexcept {
 
-    if (id != validstr) {
-
-      return false;
-    }
-    return true;
+    return (id == validstr);
   }
 }
 
