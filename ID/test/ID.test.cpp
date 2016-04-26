@@ -4,7 +4,7 @@
 #include "catch.hpp"
 
 // what we're testing
-#include "utility/Id.hpp"
+#include "utility/ID.hpp"
 
 int testNumber = 0;
 
@@ -18,10 +18,10 @@ namespace {
   class Dummy {};
 }
 
-// override validateId function for the Dummy class
+// override validateID function for the Dummy class
 namespace utility {
 
-  template <> bool validateId<Dummy>(const std::string& id) noexcept {
+  template <> bool validateID<Dummy>(const std::string& id) noexcept {
 
     if (id != validstr) {
 
@@ -34,51 +34,51 @@ namespace utility {
 int main( int argc, const char* argv[] )
 {
   LOG(INFO) << "";
-  LOG(INFO) << " Id Tests";
+  LOG(INFO) << " ID Tests";
   LOG(INFO) << "======================";
   int result = Catch::Session().run( argc, argv );
-  LOG(INFO) << "Id Tests Complete!";
+  LOG(INFO) << "ID Tests Complete!";
   return result;
 }
 
-SCENARIO("Id construction ", "[utility], [Id]"){
+SCENARIO("ID construction ", "[utility], [ID]"){
 
   GIVEN("an identifier string"){
 
-    WHEN("constructing a valid string Id with the default validateString") {
+    WHEN("constructing a valid string ID with the default validateString") {
 
       THEN("the constructor should not throw") {
 
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE_NOTHROW( utility::Id<double> id(str) );
+        REQUIRE_NOTHROW( utility::ID<double> id(str) );
       }
     }
 
-    WHEN("constructing a valid string Id with an override validateString") {
+    WHEN("constructing a valid string ID with an override validateString") {
 
       THEN("the constructor should not throw with a valid string") {
 
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE_NOTHROW( utility::Id<Dummy> id(validstr) );
+        REQUIRE_NOTHROW( utility::ID<Dummy> id(validstr) );
       }
     }
 
-    WHEN("constructing a valid string Id with an override validateString") {
+    WHEN("constructing a valid string ID with an override validateString") {
 
       THEN("the constructor should throw with a invalid string") {
 
         LOG(INFO) << "Test " << ++testNumber 
                   << ": [construction] No Errors Expected";
-        REQUIRE_THROWS( utility::Id<Dummy> id("myId") );
+        REQUIRE_THROWS( utility::ID<Dummy> id(str) );
       }
     }
   }
 
   GIVEN("a valid string id"){
 
-    utility::Id<double> id(str);
+    utility::ID<double> id(str);
     WHEN("using the getString() function") {
 
       THEN("returns the identifier string") {
@@ -91,12 +91,12 @@ SCENARIO("Id construction ", "[utility], [Id]"){
   }
 }
 
-SCENARIO("Id operators ", "[utility], [Id]"){
+SCENARIO("ID operators ", "[utility], [ID]"){
 
   GIVEN("two valid string id objects"){
 
-    utility::Id<double> a("a");
-    utility::Id<double> b("b");
+    utility::ID<double> a("a");
+    utility::ID<double> b("b");
     WHEN("comparing the identifier objects") {
 
       THEN("the comparison operators function correctly") {
@@ -132,11 +132,11 @@ SCENARIO("Id operators ", "[utility], [Id]"){
   }
 }
 
-SCENARIO("Id out stream ", "[utility], [Id]"){
+SCENARIO("ID out stream ", "[utility], [ID]"){
 
   GIVEN("a valid string id"){
 
-    utility::Id<double> id(str);
+    utility::ID<double> id(str);
     WHEN("using the << output stream operator") {
 
       THEN("writes the identifier string to the stream") {

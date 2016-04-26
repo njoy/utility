@@ -1,5 +1,5 @@
 if(${verbose_traversal})
-  message(STATUS "Entered Id directory")
+  message(STATUS "Entered ID directory")
 endif(${verbose_traversal})
 
 set(header_only_subdirs "")
@@ -10,9 +10,9 @@ list(APPEND subdirs
   )
   
 foreach (subdir ${header_only_subdirs})
-  if(NOT(EXISTS "${utility_HEADER_DIR}/Id/${subdir}"))
-    file(MAKE_DIRECTORY "${utility_HEADER_DIR}/Id/${subdir}")
-  endif(NOT(EXISTS "${utility_HEADER_DIR}/Id/${subdir}"))
+  if(NOT(EXISTS "${utility_HEADER_DIR}/ID/${subdir}"))
+    file(MAKE_DIRECTORY "${utility_HEADER_DIR}/ID/${subdir}")
+  endif(NOT(EXISTS "${utility_HEADER_DIR}/ID/${subdir}"))
 endforeach (subdir)
 
 set(headers "")
@@ -23,7 +23,7 @@ list(APPEND headers
 foreach(header ${headers})
   configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/${header}.hpp.in"
-    "${utility_HEADER_DIR}/Id/${header}.hpp"
+    "${utility_HEADER_DIR}/ID/${header}.hpp"
     COPYONLY
     )
 endforeach(header)
@@ -33,12 +33,12 @@ foreach (subdir ${subdirs})
 endforeach (subdir)
 
 if (${local_testing})
-  list(APPEND testLabels Id)
+  list(APPEND testLabels ID)
   add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/test" )
 endif (${local_testing})
 
 set(utility_src "${utility_src}" PARENT_SCOPE)
 
 if(${verbose_traversal})
-  message(STATUS "Exiting Id directory")
+  message(STATUS "Exiting ID directory")
 endif(${verbose_traversal})

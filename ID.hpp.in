@@ -23,36 +23,36 @@ namespace utility {
    *  required for a given type T1 (e.g. the identifier must obey a regular
    *  expression), then this function can be specialised as follows:
    *
-   *    template <> bool validateId<T1>(const std::string& id) noexcept {
+   *    template <> bool validateID<T1>(const std::string& id) noexcept {
    *
    *      // implementation of the validation function
    *    }
    *
    *  @return True/false
    */
-  template <typename T> bool validateId(const std::string&) noexcept {
+  template <typename T> bool validateID(const std::string&) noexcept {
 
     return true;
   }
 
-  /** @class Id
+  /** @class ID
    *  @brief The generic string identifier
    *
    *  A generic identifier in which a string is the underlying id type.
    *
-   *  This Id class could be implemented as an interface from which different
+   *  This ID class could be implemented as an interface from which different
    *  identifiers can inherit. The problem with this approach is that
    *  identifiers based on such an interface can be interchanged using the
-   *  Id base class. E.g. an identifier for a Car could be used as if it were
+   *  ID base class. E.g. an identifier for a Car could be used as if it were
    *  the identifier of a Planet if the base class is used.
    *
    *  By associating a template to this class (to indicate which object is
-   *  identified by the Id), it will not be possible to confound Id types with
+   *  identified by the ID), it will not be possible to confound ID types with
    *  different template types (because they will be considered as different
-   *  types). For example: utility::Id<Car> and utility::Id<Planet> are thus
+   *  types). For example: utility::ID<Car> and utility::ID<Planet> are thus
    *  different types and cannot be interchanged.
    */
-  template <typename T> class Id final {
+  template <typename T> class ID final {
 
     std::string id_;
 
@@ -69,9 +69,9 @@ namespace utility {
      *
      *  @param[in] id   the id string
      */
-    Id(std::string id) : id_( std::move( id ) ) {
+    ID(std::string id) : id_( std::move( id ) ) {
 
-      if (false == validateId<T>( this->id_ )) {
+      if (false == validateID<T>( this->id_ )) {
 
         std::ostringstream message;
         message << "The string '" << this->id_ <<
@@ -114,7 +114,7 @@ namespace utility {
      *
      *  @return True/false
      */
-    bool operator<(const Id& right) const noexcept {
+    bool operator<(const ID& right) const noexcept {
 
       return (this->getString() < right.getString());
     }
@@ -125,7 +125,7 @@ namespace utility {
      *
      *  @return True/false
      */
-    bool operator<=(const Id& right) const noexcept {
+    bool operator<=(const ID& right) const noexcept {
 
       return !(*this > right);
     }
@@ -136,7 +136,7 @@ namespace utility {
      *
      *  @return True/false
      */
-    bool operator>(const Id& right) const noexcept {
+    bool operator>(const ID& right) const noexcept {
 
       return (right < *this);
     }
@@ -147,7 +147,7 @@ namespace utility {
      *
      *  @return True/false
      */
-    bool operator>=(const Id& right) const noexcept {
+    bool operator>=(const ID& right) const noexcept {
 
       return !(*this < right);
     }
@@ -158,7 +158,7 @@ namespace utility {
      *
      *  @return True/false
      */
-    bool operator==(const Id& right) const noexcept {
+    bool operator==(const ID& right) const noexcept {
 
       return (this->getString() == right.getString());
     }
@@ -169,7 +169,7 @@ namespace utility {
      *
      *  @return True/false
      */
-    bool operator!=(const Id& right) const noexcept {
+    bool operator!=(const ID& right) const noexcept {
 
       return !(*this == right);
     }
@@ -192,7 +192,7 @@ namespace utility {
    *  @return The modified output stream
    */
   template <typename T> std::ostream& operator<<(std::ostream& out,
-          const utility::Id<T>& id) noexcept {
+          const utility::ID<T>& id) noexcept {
 
     out << id.getString();
     return out;

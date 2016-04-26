@@ -13,7 +13,7 @@
  */
 namespace utility{
 
-template <typename T> class Id;
+template <typename T> class ID;
 
 /* forward Declaration of function signatures */
 std::string 
@@ -33,6 +33,6 @@ namespace stream{}
 }
 
 #include "utility/View.hpp"
-#include "utility/Id.hpp"
+#include "utility/ID.hpp"
 
 #endif
