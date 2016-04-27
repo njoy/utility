@@ -1,0 +1,46 @@
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#ifndef UTILITY_ID_ID_HPP
+#define UTILITY_ID_ID_HPP
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// system includes
+#include <stdexcept>
+#include <sstream>
+
+// other includes
+#include "utility.hpp"
+
+namespace utility {
+
+  /** @{
+   *  @name Constructor
+   */
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Constructor
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  /** @brief Constructor
+   *
+   *  @param[in] id   the id string
+   *
+   *  @throws std::invalid_argument   The string  @p id is not a valid id
+   */
+  template <typename T> ID<T>::ID(std::string id) : id_( std::move( id ) ) {
+
+    if (false == validateID<T>( this->id_ )) {
+
+      std::ostringstream message;
+      message << "The string '" << this->id_ <<
+                "' is not a valid identifier string";
+      LOG(ERROR) << message.str();
+      throw std::invalid_argument(message.str());
+    }
+  }
+  /** @}
+   */
+} // utility namespace
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#endif
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
