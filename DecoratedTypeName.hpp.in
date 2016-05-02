@@ -1,0 +1,40 @@
+#ifndef UTILITY_DECORATEDTYPENAME_HPP
+#define UTILITY_DECORATEDTYPENAME_HPP
+
+#include "utility.hpp"
+
+namespace utility{
+
+/**
+ * @brief 
+ * Provides the typename of a base class subject to compile-time a decorator 
+ *
+ * @details
+ * Acts as a base case terminating the template recursion of the more general
+ * variadic template. 
+ */
+template< typename Base, template< typename > class Decorator >
+struct DecoratedTypeName< Base, Decorator >{
+  using value = Decorator< Base >;
+};
+
+/**
+ * @brief 
+ * Provides the typename of a base class subject to compile-time decorators
+ *
+ * @details
+ * A recursive template evaluating the type name of a base class subject to
+ * two or more compile time decorator templates. Templates applied in right to 
+ * left order. 
+ */
+template< typename Base,
+          template< typename > class Decorator,
+          template< typename > class... RemainingDecorators >
+struct DecoratedTypeName< Base, Decorator, RemainingDecorators... >{
+  using value = Decorator< typename DecoratedTypeName
+                           < Base, RemainingDecorators... >::value >;
+};
+
+}
+
+#endif
