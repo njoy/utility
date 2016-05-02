@@ -26,6 +26,7 @@ list(APPEND utility_src
 
 set(headers "")
 list(APPEND headers
+  "ID.hpp"
   "View.hpp"
   "DecoratedTypeName.hpp"
   "realNumberStringCollection.hpp"
@@ -45,6 +46,7 @@ list(APPEND testLabels utility)
 
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/stream" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/string" )
+add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/ID" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/View" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/DecoratedTypeName" )
 

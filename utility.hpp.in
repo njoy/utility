@@ -27,7 +27,10 @@ verifyString( const std::string& card,
               const int length );
 
 /* forward declaration of classes */
-template< typename data >
+template < typename T >
+class ID;
+
+template < typename data >
 class View;
 
 template< typename Base, template< typename > class... Decorators >
@@ -41,5 +44,6 @@ namespace stream{}
 
 #include "utility/View.hpp"
 #include "utility/DecoratedTypeName.hpp"
+#include "utility/ID.hpp"
 
 #endif
