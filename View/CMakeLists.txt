@@ -31,12 +31,6 @@ foreach(header ${headers})
     "${utility_HEADER_DIR}/View/${header}.hpp"
     COPYONLY
     )
-  list(APPEND utility_src_headers
-    "${CMAKE_CURRENT_SOURCE_DIR}/${header}.hpp.in"
-    )
-  list(APPEND utility_bin_headers
-    "${utility_HEADER_DIR}/View/${header}.hpp"
-    )
 endforeach(header)
 
 foreach (subdir ${subdirs})
@@ -49,8 +43,6 @@ if (${local_testing})
 endif (${local_testing})
 
 set(utility_src "${utility_src}" PARENT_SCOPE)
-set(utility_src_headers "${utility_src_headers}" PARENT_SCOPE)
-set(utility_bin_headers "${utility_bin_headers}" PARENT_SCOPE)
 
 if(${verbose_traversal})
   message(STATUS "Exiting View directory")
