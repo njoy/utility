@@ -28,7 +28,7 @@ template< typename base >
 struct decoratorC{};
 
 
-SCENARIO("the DecoratedTypeName class can be evaluates the type correctly",
+SCENARIO("the DecoratedTypeName class evaluates the type correctly",
 	 "[utility], [DecoratedTypeName]"){
   GIVEN( "a series of templates" ){
     WHEN( "applied to an int" ){
