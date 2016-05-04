@@ -21,3 +21,6 @@ The utility library provides
 + Routines for parsing real number formats available in Fortran that are otherwise not recognized by C++ standard library routines.
 + Collections of real number strings for unit testing and verifying parsing routines
 
+## License
+This software is distributed according to the terms specified in the [LICENSE](LICENSE) file.
+

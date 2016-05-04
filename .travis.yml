@@ -8,6 +8,9 @@ compiler:
   - clang
   - gcc
 
+git:
+    submodules: false
+  
 addons:
   apt:
     sources:

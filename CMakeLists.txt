@@ -15,6 +15,7 @@ if(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/stream")
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/string")
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/View")
+  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/DecoratedTypeName")
 endif(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
 
 list(APPEND utility_src
@@ -27,6 +28,7 @@ set(headers "")
 list(APPEND headers
   "ID.hpp"
   "View.hpp"
+  "DecoratedTypeName.hpp"
   "realNumberStringCollection.hpp"
   "string.hpp"
   "stream.hpp"
@@ -38,12 +40,6 @@ foreach(header ${headers})
     "${utility_HEADER_DIR}/${header}"
     COPYONLY
     )
-  list(APPEND utility_src_headers
-    "${CMAKE_CURRENT_SOURCE_DIR}/${header}.in"
-    )
-  list(APPEND utility_bin_headers
-    "${utility_HEADER_DIR}/${header}"
-    )
 endforeach(header)
 
 list(APPEND testLabels utility)
@@ -52,6 +48,7 @@ add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/stream" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/string" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/ID" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/View" )
+add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/DecoratedTypeName" )
 
 if (${local_testing})
   add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/test" )

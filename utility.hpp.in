@@ -13,17 +13,28 @@
  */
 namespace utility{
 
-/* forward Declaration of function signatures */
+/* functions */
+/** @returns A copy of the argument value */
+template< typename T >
+T   copy( const T& t ){ return t; }
+
+/* forward declaration of function signatures */
 std::string 
 extractCommand( const std::string& card );
 
 bool 
 verifyString( const std::string& card, 
-              const int length);
+              const int length );
 
 /* forward declaration of classes */
-template < typename T > class ID;
-template < typename data > class View;
+template < typename T >
+class ID;
+
+template < typename data >
+class View;
+
+template< typename Base, template< typename > class... Decorators >
+struct DecoratedTypeName;
 
 /* faux forward declaration of nested namespaces */
 namespace realNumberStringCollection{}
@@ -32,6 +43,7 @@ namespace stream{}
 }
 
 #include "utility/View.hpp"
+#include "utility/DecoratedTypeName.hpp"
 #include "utility/ID.hpp"
 
 #endif
