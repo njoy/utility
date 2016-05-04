@@ -19,7 +19,6 @@ addons:
       - george-edison55-precise-backports
     packages:
       - gcc-5
-      - gcov-5
       - g++-5
       - binutils-gold
       - clang-3.7
