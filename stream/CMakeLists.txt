@@ -2,6 +2,29 @@ if(${verbose_traversal})
   message(STATUS "Entered stream subdirectory")
 endif(${verbose_traversal})
 
+if(NOT(EXISTS "${utility_HEADER_DIR}/stream/src"))
+  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/stream/src")
+endif(NOT(EXISTS "${utility_HEADER_DIR}/stream/src"))
+
+set(headers "")
+list(APPEND headers
+  "src/xystream"
+  )
+
+foreach(header ${headers})
+  configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/${header}.hpp.in"
+    "${utility_HEADER_DIR}/stream/${header}.hpp"
+    COPYONLY
+    )
+  list(APPEND utility_src_headers
+    "${CMAKE_CURRENT_SOURCE_DIR}/stream/${header}.hpp.in"
+    )
+  list(APPEND utility_bin_headers
+    "${utility_HEADER_DIR}/stream/${header}.hpp"
+    )
+endforeach(header)
+
 list(APPEND utility_src 
   "${CMAKE_CURRENT_SOURCE_DIR}/src/getBool.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/getLine.cpp"
