@@ -27,14 +27,17 @@ verifyString( const std::string& card,
               const int length );
 
 /* forward declaration of classes */
+template< typename Base, template< typename > class... Decorators >
+struct DecoratedTypeName;
+
 template < typename T >
 class ID;
 
+template< typename Left, typename Right, bool condition >
+struct TypeSwitch;
+
 template < typename data >
 class View;
-
-template< typename Base, template< typename > class... Decorators >
-struct DecoratedTypeName;
 
 /* faux forward declaration of nested namespaces */
 namespace realNumberStringCollection{}
@@ -42,8 +45,9 @@ namespace string{}
 namespace stream{}
 }
 
-#include "utility/View.hpp"
 #include "utility/DecoratedTypeName.hpp"
 #include "utility/ID.hpp"
+#include "utility/TypeSwitch.hpp"
+#include "utility/View.hpp"
 
 #endif
