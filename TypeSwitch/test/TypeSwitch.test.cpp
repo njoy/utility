@@ -49,7 +49,8 @@ SCENARIO("the TypeSwitch class evaluates the type correctly",
 
 
         LOG(INFO) << "Test " << ++testNumber
-                  << ": [TypeSwitch] No Errors Expected";is_not_same =
+                  << ": [TypeSwitch] No Errors Expected";
+        is_not_same =
           not std::is_same
               < void, utility::TypeSwitch< int, void,
                                           ( 1 == 1 ) >::type >::value;
