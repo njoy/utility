@@ -16,6 +16,7 @@ if(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/string")
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/View")
   file(MAKE_DIRECTORY "${utility_HEADER_DIR}/DecoratedTypeName")
+  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/TypeSwitch")
 endif(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
 
 list(APPEND utility_src
@@ -26,6 +27,7 @@ list(APPEND utility_src
 
 set(headers "")
 list(APPEND headers
+  "TypeSwitch.hpp"
   "ID.hpp"
   "View.hpp"
   "DecoratedTypeName.hpp"
@@ -48,6 +50,7 @@ add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/stream" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/string" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/ID" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/View" )
+add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/TypeSwitch" )
 add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/DecoratedTypeName" )
 
 if (${local_testing})
