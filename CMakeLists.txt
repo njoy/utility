@@ -31,6 +31,8 @@ list(APPEND headers
   "ID.hpp"
   "View.hpp"
   "DecoratedTypeName.hpp"
+  "echoErroneousLine.hpp"
+  "findLineBegin.hpp"
   "realNumberStringCollection.hpp"
   "string.hpp"
   "stream.hpp"
