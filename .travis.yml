@@ -79,18 +79,22 @@ matrix:
     
   include:
   - os: osx
+    osx_image: xcode8
     compiler: clang
     env: build_type="release"
     
   - os: osx
+    osx_image: xcode8
     compiler: clang
     env: build_type="release" static_libraries="TRUE"
     
   - os: osx
+    osx_image: xcode8
     compiler: clang
     env: build_type="debug"
 
   - os: osx
+    osx_image: xcode8
     compiler: clang
     env: build_type="debug" static_libraries="TRUE"
     
