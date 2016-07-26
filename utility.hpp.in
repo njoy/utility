@@ -16,15 +16,27 @@ namespace utility{
 /* functions */
 /** @returns A copy of the argument value */
 template< typename T >
-T   copy( const T& t ){ return t; }
+T copy( const T& t ){ return t; }
 
 /* forward declaration of function signatures */
 std::string 
 extractCommand( const std::string& card );
 
+template< typename Iterator >
+void 
+echoErroneousLine( Iterator lineBegin, Iterator positionIterator,
+                   const Iterator& end, long lineNumber );
+
+template< typename Iterator >
+Iterator
+findLineBegin( Iterator positionIterator );
+
 bool 
 verifyString( const std::string& card, 
               const int length );
+
+std::string
+slurpFileToMemory( const std::string& filename );
 
 /* forward declaration of classes */
 template< typename Base, template< typename > class... Decorators >
@@ -49,5 +61,7 @@ namespace stream{}
 #include "utility/ID.hpp"
 #include "utility/TypeSwitch.hpp"
 #include "utility/View.hpp"
+#include "utility/echoErroneousLine.hpp"
+#include "utility/findLineBegin.hpp"
 
 #endif

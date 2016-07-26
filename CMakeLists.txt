@@ -23,6 +23,13 @@ list(APPEND utility_src
   ${CMAKE_CURRENT_SOURCE_DIR}/src/extractCommand.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/utility.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/verifyString.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/slurpFileToMemory.cpp
+  )
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/test/resources/reference_file.txt"
+  "${CMAKE_CURRENT_BINARY_DIR}/test/reference_file.txt"
+  COPYONLY
   )
 
 set(headers "")
@@ -31,6 +38,8 @@ list(APPEND headers
   "ID.hpp"
   "View.hpp"
   "DecoratedTypeName.hpp"
+  "echoErroneousLine.hpp"
+  "findLineBegin.hpp"
   "realNumberStringCollection.hpp"
   "string.hpp"
   "stream.hpp"
