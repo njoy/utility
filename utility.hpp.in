@@ -35,6 +35,9 @@ bool
 verifyString( const std::string& card, 
               const int length );
 
+std::string
+slurpFileToMemory( const std::string& filename );
+
 /* forward declaration of classes */
 template< typename Base, template< typename > class... Decorators >
 struct DecoratedTypeName;
