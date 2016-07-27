@@ -51,6 +51,43 @@ struct TypeSwitch;
 template < typename data >
 class View;
 
+/**
+ * @brief
+ * A template to remove const-ness and reference-ness from consideration of a 
+ * parameter type @tparam T
+ */
+template< typename T >
+using clean =
+  typename std::remove_const
+  < typename std::remove_reference< T >::type >::type;
+
+/**
+ * @brief
+ * A struct template providing a boolean static member variable, value, defining
+ * whether a parameter type @tparam T is a container type
+ */
+template< typename T, typename _ = void >
+struct IsContainer : std::false_type {};
+
+template< typename T >
+struct IsContainer
+< T, std::conditional_t< false,
+                         typename T::iterator, void > > : std::true_type {};
+
+/**
+ * @brief
+ * A struct template providing a boolean static member variable, value, defining
+ * whether a parameter type @tparam T is an iterator type
+ */
+template< typename T, typename _ = void >
+struct IsIterator : std::false_type {};
+
+template< typename T >
+struct IsIterator
+< T, std::conditional_t< false,
+                         typename std::iterator_traits< T >::iterator_category,
+                         void > > : std::true_type {};
+
 /* faux forward declaration of nested namespaces */
 namespace realNumberStringCollection{}
 namespace string{}
