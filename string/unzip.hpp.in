@@ -1,13 +1,3 @@
-#ifndef UTILITY_STRING_UNZIP_HPP
-#define UTILITY_STRING_UNZIP_HPP
-
-#include <tuple>
-
-#include "utility/string.hpp" 
-
-namespace utility {
-namespace string {
-
 template< typename... T >
 struct unzip {
   /** @brief Extract tuples of whitespace-delimited values from a string.
@@ -99,8 +89,3 @@ private:
     }
   };
 };
-
-} // namespace string
-} // namespace utility
-
-#endif  // UTILITY_STRING_UNZIP_HPP

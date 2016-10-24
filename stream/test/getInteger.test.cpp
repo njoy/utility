@@ -3,13 +3,12 @@
 
 #include "catch.hpp"
 
-#include "utility/stream.hpp"
+#include "utility.hpp"
 
-extern int testNumber;
+using namespace utility::stream;
 
-SCENARIO("getInteger returns the proper value from streams with integer strings",
-         "[utility],[stream]"){
-  LOG(INFO) << "Test " << ++testNumber << ": No Errors Expected";
+SCENARIO( "getInteger returns the proper value from"
+	  " streams with integer strings" ){
 
   const std::string name("testInteger");
   std::vector<std::string> bufferQueue;
@@ -20,28 +19,25 @@ SCENARIO("getInteger returns the proper value from streams with integer strings"
   std::istringstream buffer;
   bool found;
 
-  GIVEN("stream with integer values"){
-    WHEN("passed to getInteger"){
-      THEN("the correct integer value is returned"){
+  GIVEN( "stream with integer values" ){
+    WHEN( "passed to getInteger" ){
+      THEN( "the correct integer value is returned" ){
 	for( std::string& guts : bufferQueue ){
 	  buffer.clear();
-	  buffer.str(guts);
-	  REQUIRE(std::stoi(guts) == utility::stream::getInteger(buffer, name));
+	  buffer.str( guts );
+	  REQUIRE( std::stoi( guts ) == getInteger( buffer, name ) );
 	  buffer.clear();
 	  buffer.seekg(0);
 	  found = false;
-	  REQUIRE(std::stoi(guts) == utility::stream::getInteger(buffer, name, found));
-	  REQUIRE(true == found);
+	  REQUIRE( std::stoi( guts ) == getInteger( buffer, name, found ) );
+	  REQUIRE( found );
 	}
       }
     }
   }
-
 }
 
-SCENARIO("getInteger throws for streams with non-integer strings",
-         "[utility],[stream]"){
-  LOG(INFO) << "Test " << ++testNumber << ": Errors Expected";
+SCENARIO( "getInteger throws for streams with non-integer strings" ){
 
   const std::string name("testInteger");
   std::vector<std::string> bufferQueue;
@@ -52,50 +48,45 @@ SCENARIO("getInteger throws for streams with non-integer strings",
   std::istringstream buffer;
   bool found;
 
-  GIVEN("stream with non-integer values"){
-    WHEN("passed to getInteger"){
-      THEN("will throw"){
+  GIVEN( "stream with non-integer values" ){
+    WHEN( "passed to getInteger" ){
+      THEN( "will throw" ){
 	for( std::string& guts : bufferQueue ){
 	  buffer.clear();
-	  buffer.str(guts);
-	  REQUIRE_THROWS(utility::stream::getInteger(buffer, name));
+	  buffer.str( guts );
+	  REQUIRE_THROWS( getInteger( buffer, name ) );
 	  buffer.clear();
 	  buffer.seekg(0);
-	  REQUIRE_THROWS(utility::stream::getInteger(buffer, name, found));
+	  REQUIRE_THROWS( getInteger( buffer, name, found ) );
 	}
       }
     }
   }
-
 }
 
-SCENARIO("mandatory getInteger throws for streams with badbit",
-         "[utility],[stream]"){
-  LOG(INFO) << "Test " << ++testNumber << ": Errors Expected";
+SCENARIO( "mandatory getInteger throws for streams with badbit" ){
 
   const std::string name("testInteger");
-  GIVEN("empty stream"){
+  GIVEN( "empty stream" ){
     std::istringstream buffer;
-    WHEN("passed to getInteger"){
-      THEN("will throw"){
-	REQUIRE_THROWS(utility::stream::getInteger(buffer, name));
+    WHEN( "passed to getInteger" ){
+      THEN( "will throw" ){
+	REQUIRE_THROWS( getInteger( buffer, name ) );
       }
     }
   }
 }
 
-SCENARIO("optional getInteger sets found flag to false for streams with badbit",
-         "[utility],[stream]"){
-  LOG(INFO) << "Test " << ++testNumber << ": No Errors Expected";
+SCENARIO( "optional getInteger sets found flag to false for streams with badbit" ){
 
   const std::string name("testInteger");
   bool found = true;
-  GIVEN("empty stream"){
+  GIVEN( "empty stream" ){
     std::istringstream buffer;
-    WHEN("passed to getInteger"){
-      THEN("will set found flag to false"){
-	REQUIRE_NOTHROW(utility::stream::getInteger(buffer, name, found));
-	REQUIRE(found == false);
+    WHEN( "passed to getInteger" ){
+      THEN( "will set found flag to false" ){
+	REQUIRE_NOTHROW( getInteger( buffer, name, found ) );
+	REQUIRE( not found );
       }
     }
   }

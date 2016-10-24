@@ -4,23 +4,21 @@
 
 #include "utility/string.hpp"
 
-extern int testNumber;
+const std::vector< std::string > ws = { "\t  \n", " ", "\t" };
+const std::vector< std::string > c = { "a", "abc", "a,c" };
 
-const std::vector< std::string > ws = {"\t  \n", " ", "\t"};
-const std::vector< std::string > c = {"a", "abc", "a,c"};
+using namespace utility::string;
 
-SCENARIO("Default split will ignore leading trailing whitespace blobs",
-         "[utility], [string], [split]"){
-  LOG(INFO) << "Test " << ++testNumber << ": No Errors Expected";
+SCENARIO( "Default split will ignore leading trailing whitespace blobs" ){
   std::string trial("   ");
-  for (std::string::size_type i = 0; i < c.size(); ++i){
+  for ( std::string::size_type i = 0; i < c.size(); ++i ){
     trial += c[i];
     trial += ws[i];
   }
-  GIVEN("whitespace delimited substrings in a argument string"){
-    WHEN("passed to split"){
-      THEN("the substrings are recovered"){        
-        REQUIRE(c == utility::string::split(trial));
+  GIVEN( "whitespace delimited substrings in a argument string" ){
+    WHEN( "passed to split" ){
+      THEN( "the substrings are recovered" ){ 
+        REQUIRE( c == split(trial) );
       }
     }
   }
