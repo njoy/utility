@@ -10,7 +10,7 @@ environment:
       STATIC_LIBRARIES: FALSE
 
 install:
-  - C:\cygwin\setup-x86.exe --packages clang-3.8.1-1,cmake-3.6.2-1,make-4.2.1-1,git-2.8.3-1,python3-3.4.3-1
+  - C:\cygwin\setup-x86.exe -q --packages clang-3.8.1-1,cmake-3.6.2-1,make-4.2.1-1,git-2.8.3-1,python3-3.4.3-1
 
 build_script:
   - c:\cygwin\bin\bash .cygwin/build.sh
