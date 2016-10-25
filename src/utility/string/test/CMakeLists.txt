@@ -7,10 +7,10 @@ add_executable( string.test
                 trim.test.cpp
                 unzip.test.cpp )
 set( test_flags ${utility_compiler_flags} )
-separate_arguments( test_flags )
-foreach( flag IN LISTS test_flags )
+separate_arguments( test_flags_list "${test_flags}" )
+foreach( flag IN LISTS test_flags_list )
     target_compile_options( string.test PUBLIC ${flag} )
 endforeach( flag )
-set_target_properties( string.test PROPERTIES LINK_FLAGS "${utility_compiler_flags}" )
+set_target_properties( string.test PROPERTIES LINK_FLAGS "${test_flags}" )
 target_link_libraries( string.test PUBLIC utility )
 add_test( NAME string COMMAND string.test ) 

@@ -12,10 +12,10 @@ add_executable( stream.test
                 readString.test.cpp
                 stream.test.cpp )
 set( test_flags ${utility_compiler_flags} )
-separate_arguments( test_flags )
-foreach( flag IN LISTS test_flags )
+separate_arguments( test_flags_list "${test_flags}" )
+foreach( flag IN LISTS test_flags_list )
     target_compile_options( stream.test PUBLIC ${flag} )
 endforeach( flag )
-set_target_properties( stream.test PROPERTIES LINK_FLAGS "${utility_compiler_flags}" )
+set_target_properties( stream.test PROPERTIES LINK_FLAGS "${test_flags}" )
 target_link_libraries( stream.test PUBLIC utility )
 add_test( NAME stream COMMAND stream.test ) 
