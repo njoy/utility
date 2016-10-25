@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /** 
  * @details 
  * This function should be used when the next string in a stream is required to 
@@ -12,14 +10,15 @@ using namespace utility::stream;
  * variable name (see the name argument) and throws an exception.
  */
 int 
-getInteger( std::istream& is, const std::string& name, bool& found ){
+njoy::utility::stream::getInteger
+( std::istream& is, const std::string& name, bool& found ){
   std::string staging;
   is >> staging;
   found = not is.fail();
   if ( not found ){
     return 0; 
-  } else if ( not ( utility::string::isInteger( staging ) ) ){
-    Log::error( "{} argument must be an integer value", name );
+  } else if ( not ( string::isInteger( staging ) ) ){
+    njoy::Log::error( "{} argument must be an integer value", name );
     throw std::exception();
   } 
   return std::stoi( staging );
@@ -34,11 +33,11 @@ getInteger( std::istream& is, const std::string& name, bool& found ){
  * of failure and throws an exception.
  */
 int 
-getInteger( std::istream& is, const std::string& name ){
+njoy::utility::stream::getInteger( std::istream& is, const std::string& name ){
   bool found;
   const int integer = getInteger( is, name, found );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return integer;

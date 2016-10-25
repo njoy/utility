@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /** 
  * @details 
  * This function should be used when the next string in a stream is required to 
@@ -17,13 +15,13 @@ using namespace utility::stream;
  * with 0 corresponding to false and 1 corresponding to true.
  *
  * NJOY21 will support reading boolean variables this way for backwards 
- * compatability reasons
- */
+ * compatability reasons */
 bool 
-getBool( std::istream& is, const std::string& name, bool& found ){
+njoy::utility::stream::getBool
+( std::istream& is, const std::string& name, bool& found ){
   const int test = getInteger( is, name, found );
   if ( found && ( (test < 0) || (test > 1) ) ){
-    Log::error( "{} argument acts as a boolean"
+    njoy::Log::error( "{} argument acts as a boolean"
 		" and must assume a value of 1 or 0", name );
     throw std::exception();
   }
@@ -43,14 +41,13 @@ getBool( std::istream& is, const std::string& name, bool& found ){
  * with 0 corresponding to false and 1 corresponding to true.
  *
  * NJOY21 will support reading boolean variables this way for backwards 
- * compatability reasons
- */
+ * compatability reasons */
 bool 
-getBool( std::istream& is, const std::string& name ){
+njoy::utility::stream::getBool( std::istream& is, const std::string& name ){
   bool found;
   const bool test = getBool( is, name, found );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return test;

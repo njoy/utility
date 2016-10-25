@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /**
  * @details 
  * This function should be used when the next string in a stream is required 
@@ -13,11 +11,12 @@ using namespace utility::stream;
  * argument) and error type and throws an exception.
  */
 int 
-getIntInRange( std::istream& is, const std::string& name, 
-	       const int lBound, const int rBound, bool& found ){
+njoy::utility::stream::getIntInRange
+( std::istream& is, const std::string& name,
+  const int lBound, const int rBound, bool& found ){
   const int integer = getInteger(is, name, found);
   if ( found && ( ( integer < lBound ) || ( integer >= rBound ) ) ) {
-    Log::error( "{} argument must be be in [ {}, {} )", name, lBound, rBound ); 
+    njoy::Log::error( "{} argument must be be in [ {}, {} )", name, lBound, rBound ); 
     throw std::exception();
   }
   return integer;
@@ -32,12 +31,12 @@ getIntInRange( std::istream& is, const std::string& name,
  * an exception.
  */
 int 
-getIntInRange( std::istream& is, const std::string& name,
-	       const int lBound, const int rBound ){
+njoy::utility::stream::getIntInRange( std::istream& is, const std::string& name,
+				      const int lBound, const int rBound ){
   bool found;
   const int integer = getIntInRange( is, name, lBound, rBound, found );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return integer;

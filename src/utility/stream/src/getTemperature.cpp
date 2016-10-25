@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /** 
  * @details 
  * This function should be used when the next string in a stream is required to 
@@ -12,10 +10,11 @@ using namespace utility::stream;
  * and throws an exception.
  */
 double
-getTemperature( std::istream& is, bool& found, const std::string& name ){
+njoy::utility::stream::getTemperature
+( std::istream& is, bool& found, const std::string& name ){
   const double tempd = getRealNumber( is, name, found );
   if ( found && ( tempd < 0 ) ){
-    Log::error( "{} must be greater tha 0 K", name );
+    njoy::Log::error( "{} must be greater tha 0 K", name );
     throw std::exception();
   }
   return tempd;
@@ -30,11 +29,12 @@ getTemperature( std::istream& is, bool& found, const std::string& name ){
  * exception.
  */
 double
-getTemperature( std::istream& is, const std::string& name ){
+njoy::utility::stream::getTemperature
+( std::istream& is, const std::string& name ){
   bool found;
   const double tempd = getTemperature( is, found, name );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return tempd;

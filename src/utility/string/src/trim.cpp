@@ -2,8 +2,6 @@
 
 #include "utility.hpp"
 
-using namespace utility::string;
-
 /**
  * @brief
  * Removes leading and following whitespace from an input string.
@@ -19,7 +17,7 @@ using namespace utility::string;
  * constructor.
  */
 std::string 
-trim( const std::string& s ){
+njoy::utility::string::trim( const std::string& s ){
   auto isSpace = []( int c ){ return std::isspace(c); };
   auto wsfront = std::find_if_not( s.begin(), s.end(), isSpace );
   auto wsback = std::find_if_not( s.rbegin(), s.rend(), isSpace ).base();

@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /** 
  * @details 
  * This function should be used when the next string in a stream is required 
@@ -13,12 +11,12 @@ using namespace utility::stream;
  * argument) and error type and throws an exception.
  */
 int 
-getIntWithLBound( std::istream& is, const std::string& name,
-		  const int bound, bool& found ){
-  const int integer = getInteger(is, name, found);
+njoy::utility::stream::getIntWithLBound
+( std::istream& is, const std::string& name, const int bound, bool& found ){
+  const int integer = getInteger( is, name, found );
   if ( found && ( integer < bound ) ) {
-    Log::error( "{} argument must be greater than or equal to {}",
-		name, bound );
+    njoy::Log::error( "{} argument must be greater than or equal to {}",
+		      name, bound );
     throw std::exception();
   }
   return integer;
@@ -33,11 +31,12 @@ getIntWithLBound( std::istream& is, const std::string& name,
  * variable name (see the name argument) and error type and throws an exception.
  */
 int 
-getIntWithLBound( std::istream& is, const std::string& name, const int bound ){
+njoy::utility::stream::getIntWithLBound
+( std::istream& is, const std::string& name, const int bound ){
   bool found;
-  const int integer = getIntWithLBound(is, name, bound, found);
+  const int integer = getIntWithLBound( is, name, bound, found );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return integer;

@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /** 
  * @details 
  * This function should be used when a string argument (delimited by quotations) 
@@ -13,11 +11,11 @@ using namespace utility::stream;
  * throws an exception.
  */
 std::string 
-getStringArg
+njoy::utility::stream::getStringArg
 ( std::istream& is, const std::string& name, const int length, bool& found ){
   if ( length < 0 ){
-    Log::error( "Length argument must be greater than or equal to zero" );
-    Log::info( "Error in getStringArg" );
+    njoy::Log::error( "Length argument must be greater than or equal to zero" );
+    njoy::Log::info( "Error in getStringArg" );
     throw std::exception();
   }
   std::set<char> quoteCharacters = { '\'', '\"' };
@@ -27,8 +25,8 @@ getStringArg
   std::string output = ""; // declared to massage compiler into using rvo
   if ( not found ){ return output; }
   if ( quoteCharacters.find( nextChar ) == quoteCharacters.end() ){
-    Log::error( "Opening quote delimiter not found" );
-    Log::info( "{} must be a string with length < {} delimited by quotes",
+    njoy::Log::error( "Opening quote delimiter not found" );
+    njoy::Log::info( "{} must be a string with length < {} delimited by quotes",
 	       name, length ); 
     throw std::exception();
   }
@@ -45,15 +43,15 @@ getStringArg
   is.get( buffer, delimiter );
   nextChar = is.get();
   if ( ( is.fail() ) || ( nextChar != delimiter ) ){
-    Log::error( "No matching quote delimiter found" );
-    Log::info( "{} must be a string with length < {} delimited by quotes",
+    njoy::Log::error( "No matching quote delimiter found" );
+    njoy::Log::info( "{} must be a string with length < {} delimited by quotes",
 	       name, length );
     throw std::exception();
   }
   output = delimiter + buffer.str() + nextChar;
   if ( int( output.length() ) > (length + 2) ){
-    Log::error( "String argument exceeds maximum length" );
-    Log::info( "{} must be a string with length < {} delimited by quotes",
+    njoy::Log::error( "String argument exceeds maximum length" );
+    njoy::Log::info( "{} must be a string with length < {} delimited by quotes",
 	       name, length ); 
     throw std::exception();
   }
@@ -70,11 +68,12 @@ getStringArg
  * throws an exception.
  */
 std::string 
-getStringArg( std::istream& is, const std::string& name, const int length ){
+njoy::utility::stream::getStringArg
+( std::istream& is, const std::string& name, const int length ){
   bool found;
   const std::string stringArg = getStringArg( is, name, length, found );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return stringArg;

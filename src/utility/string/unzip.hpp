@@ -36,9 +36,9 @@ private:
       int entriesRemaining = nTuples;
       while(entriesRemaining--){ unzip_< N >::read(ss, vectorTuple); }
       if( ss.fail() ){
-        LOG(ERROR) << "Trouble unzipping numbers from a string.";
-        LOG(INFO)  << "Number of values requested was: " << nTuples;
-        LOG(INFO)  << "Number of vectors requested was: " << sizeof...(T);
+	Log::error( "Trouble unzipping numbers from a string." );
+	Log::info( "Number of values requested was: {}",  nTuples );
+	Log::info( "Number of vectors requested was: {}", sizeof...(T) );
         throw std::exception();
       }
       return vectorTuple;

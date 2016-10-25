@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::string;
-
 /* Two version of split which (when considered) together mimic the python split 
  * method.
  *
@@ -47,7 +45,7 @@ using namespace utility::string;
  * Once the loop is exited, the output vector is returned.
  */
 std::vector< std::string > 
-split( const std::string& s ){
+njoy::utility::string::split( const std::string& s ){
   std::vector< std::string > v{};
   auto ws = std::begin( s );
   auto isSpace = []( char i ){ return std::isspace( i ); };
@@ -86,7 +84,8 @@ trSplit( const std::string& s,
  *         @p delimiter in @p s
  */
 std::vector< std::string > 
-split( const std::string & s, const std::string& delimiter ){ 
+njoy::utility::string::split
+( const std::string & s, const std::string& delimiter ){ 
   std::vector< std::string > v{};
   return trSplit( s, delimiter, 0, v ); 
 } 

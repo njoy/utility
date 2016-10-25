@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /** 
  * @details
  * This function should be used when the next string in a stream is required to 
@@ -14,17 +12,18 @@ using namespace utility::stream;
  * in fortran read statements.
  */
 double 
-getRealNumber( std::istream& is, const std::string& name, bool& found ){
+njoy::utility::stream::getRealNumber
+( std::istream& is, const std::string& name, bool& found ){
   std::string staging;
   is >> staging;
   found = not is.fail();
   if ( not found ){
     return 0.0;
   } else if ( not ( utility::string::isRealNumber( staging ) ) ){
-    Log::error( "{} argument must be an real number value", name );
+    njoy::Log::error( "{} argument must be an real number value", name );
     throw std::exception();
   } 
-  return utility::string::toDouble(staging);
+  return string::toDouble(staging);
 }
 
 /** 
@@ -37,12 +36,13 @@ getRealNumber( std::istream& is, const std::string& name, bool& found ){
  * number string format acceptable in fortran read statements.
  */
 double 
-getRealNumber( std::istream& is, const std::string& name ){
+njoy::utility::stream::getRealNumber
+( std::istream& is, const std::string& name ){
   double realNumber; 
   bool found;
   realNumber = getRealNumber( is, name, found );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return realNumber;

@@ -1,7 +1,5 @@
 #include "utility.hpp"
 
-using namespace utility::stream;
-
 /** 
  * @param is A stream which a real number is to be extracted.
  * @param[in] name The name of the variable to be read from stream. Used when
@@ -24,11 +22,11 @@ using namespace utility::stream;
  * argument) and error type and throws an exception.
  */
 double 
-getRealWithLBound( std::istream& is, const std::string& name,
-		   const double bound, bool& found ){
+njoy::utility::stream::getRealWithLBound
+( std::istream& is, const std::string& name, const double bound, bool& found ){
   const double realNumber = getRealNumber( is, name, found );
   if ( found && ( realNumber < bound ) ) {
-    Log::error( "{} argument must be greater than or equal to {}",
+    njoy::Log::error( "{} argument must be greater than or equal to {}",
 		name, bound );
     throw std::exception();
   }
@@ -53,12 +51,12 @@ getRealWithLBound( std::istream& is, const std::string& name,
  * throws an exception.
  */
 double
-getRealWithLBound
+njoy::utility::stream::getRealWithLBound
 ( std::istream& is, const std::string& name, const double bound ){
   bool found;
   const double realNumber = getRealWithLBound( is, name, bound, found );
   if ( not found ){
-    Log::error( "{} argument could not be read from input.", name );
+    njoy::Log::error( "{} argument could not be read from input.", name );
     throw std::exception();
   } 
   return realNumber;

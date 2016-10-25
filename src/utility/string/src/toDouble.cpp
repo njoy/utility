@@ -3,8 +3,6 @@
 
 #include "utility.hpp"
 
-using namespace utility::string;
-
 /**
  * @brief
  * Returns a double precision number corresponding to a real number string.
@@ -20,7 +18,7 @@ using namespace utility::string;
  * addresses this shortfall.
  */
 double 
-toDouble( const std::string& s ){
+njoy::utility::string::toDouble( const std::string& s ){
   double d;
   size_t l;
   d = std::stod( s, &l );
