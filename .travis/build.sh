@@ -20,7 +20,7 @@ cmake -D build_type=$build_type \
       -D static_libraries=$static_libraries \
       -D appended_flags="$appended_flags" \
       $CUSTOM ..
-makeXF -j2
+make -j2
 export COMPILATION_FAILURE=$?
 ctest --output-on-failure -j2
 export TEST_FAILURE=$?
