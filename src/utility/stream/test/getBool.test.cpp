@@ -4,7 +4,7 @@
 
 #include "utility.hpp"
 
-using namespace utility::stream;
+using namespace njoy::utility::stream;
 
 SCENARIO( "manditory getBool returns the proper"
 	  " value from streams with valid bools" ){
@@ -48,7 +48,7 @@ SCENARIO( "optional getBool returns the proper"
     std::istringstream buffer("  1  ");
     WHEN( "passed to getBool" ){
       THEN( "returns true" ){
-	REQUIRE(true == utility::stream::getBool(buffer, name, found));
+	REQUIRE(true == njoy::utility::stream::getBool(buffer, name, found));
 	REQUIRE(found == true);
       }
     }

@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
+namespace njoy {
 namespace utility {
 
 /**
@@ -142,6 +143,7 @@ const std::vector< std::string > invalid = {
   "-1e1.", "-1D1.", "-1d1.", "+1E.1", "+1e.1", "+1D.1", "+1d.1", "-1E.1", "-1e.1", 
   "-1D.1", "-1d.1", "0b01010101010", "1.6A09E667F3BCD" };  
 
+}
 }
 }
 

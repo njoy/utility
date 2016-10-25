@@ -2,7 +2,7 @@
 
 #include "utility.hpp"
 
-using namespace utility::stream;
+using namespace njoy::utility::stream;
 
 SCENARIO( "getIntInRange's left bound is inclusive" ){
 

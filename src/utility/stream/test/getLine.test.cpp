@@ -4,7 +4,7 @@
 
 #include "utility.hpp"
 
-using namespace utility::stream;
+using namespace njoy::utility::stream;
 
 SCENARIO( "getLine can extract lines of text" ){
 
@@ -60,7 +60,7 @@ SCENARIO( "getLine will throw when called"
 	std::string returnCard;
 	REQUIRE_NOTHROW( returnCard = getLine( buffer ) );
 	REQUIRE( card == returnCard );
-	REQUIRE_THROWS( returnCard = utility::stream::getLine( buffer ) );
+	REQUIRE_THROWS( returnCard = njoy::utility::stream::getLine( buffer ) );
       }
     }
   }

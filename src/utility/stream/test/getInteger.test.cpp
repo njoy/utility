@@ -5,7 +5,7 @@
 
 #include "utility.hpp"
 
-using namespace utility::stream;
+using namespace njoy::utility::stream;
 
 SCENARIO( "getInteger returns the proper value from"
 	  " streams with integer strings" ){

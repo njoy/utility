@@ -6,7 +6,7 @@
 
 extern int testNumber;
 
-using namespace utility::stream;
+using namespace njoy::utility::stream;
 
 SCENARIO( "getStringArg returns the proper string"
 	  " from a stream with valid string" ){

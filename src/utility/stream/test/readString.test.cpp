@@ -4,7 +4,7 @@
 
 #include "utility.hpp"
 
-using namespace utility::stream;
+using namespace njoy::utility::stream;
 
 SCENARIO( "readString returns the proper string read from the stream" ){
   GIVEN( "A stream from which a string can be read" ){

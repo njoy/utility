@@ -5,7 +5,7 @@
 
 #include "utility.hpp"
 
-using namespace utility::string;
+using namespace njoy::utility::string;
 
 SCENARIO( "the trim function works correctly" ){
   std::vector< std::string > noEmbedded =

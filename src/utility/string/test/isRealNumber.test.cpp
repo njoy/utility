@@ -3,9 +3,9 @@
 #include "utility.hpp"
 #include "utility/realNumberStringCollection.hpp"
 
-namespace rnsc = utility::realNumberStringCollection;
+namespace rnsc = njoy::utility::realNumberStringCollection;
 
-using namespace utility::string;
+using namespace njoy::utility::string;
 
 SCENARIO( "isRealNumber will return true for valid real number strings" ){
   GIVEN( "a collection of valid real number strings" ){
@@ -35,7 +35,7 @@ SCENARIO( "isRealNumber will return false for invalid real number strings" ){
     WHEN( "each element is passed to isRealNumber" ){
       THEN( "returns false" ){
         for ( const std::string& s : rnsc::invalid ){
-          REQUIRE( not utility::string::isRealNumber(s) );
+          REQUIRE( not njoy::utility::string::isRealNumber(s) );
         }
       }
     }

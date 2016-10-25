@@ -4,7 +4,7 @@
 
 #include "utility.hpp"
 
-using namespace utility::string;
+using namespace njoy::utility::string;
 
 SCENARIO( "isInteger will return true for valid integer strings" ){
   GIVEN( "implicitly postive integer string" ){
@@ -65,7 +65,7 @@ SCENARIO( "isInteger will return false for invalid integer strings" ){
     const std::string integer( "1.0" );
     WHEN( "passed to isInteger" ){
       THEN( "returns false" ){
-	REQUIRE( not utility::string::isInteger(integer) );
+	REQUIRE( not njoy::utility::string::isInteger(integer) );
       }
     }
   }

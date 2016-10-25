@@ -5,9 +5,9 @@
 #include "utility.hpp"
 #include "utility/realNumberStringCollection.hpp"
 
-namespace rnsc = utility::realNumberStringCollection;
+namespace rnsc = njoy::utility::realNumberStringCollection;
 
-using namespace utility::stream;
+using namespace njoy::utility::stream;
 
 SCENARIO( "getEnergy returns the proper value"
 	  " from streams with energy strings" ){

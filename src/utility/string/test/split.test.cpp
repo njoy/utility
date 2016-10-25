@@ -2,12 +2,12 @@
 
 #include "catch.hpp"
 
-#include "utility/string.hpp"
+#include "utility.hpp"
 
 const std::vector< std::string > ws = { "\t  \n", " ", "\t" };
 const std::vector< std::string > c = { "a", "abc", "a,c" };
 
-using namespace utility::string;
+using namespace njoy::utility::string;
 
 SCENARIO( "Default split will ignore leading trailing whitespace blobs" ){
   std::string trial("   ");
@@ -22,12 +22,9 @@ SCENARIO( "Default split will ignore leading trailing whitespace blobs" ){
       }
     }
   }
-
 }
 
-SCENARIO("split on arbitrary characters",
-         "[utility], [string], [split]"){
-  LOG(INFO) << "Test " << ++testNumber << ": No Errors Expected";
+SCENARIO( "split on arbitrary characters" ){
   std::string trial("");
   for (std::string::size_type i = 0; i < c.size() - 1; ++i){
     trial += c[i];
@@ -37,7 +34,7 @@ SCENARIO("split on arbitrary characters",
   GIVEN("\'xyz\' delimited substrings in a argument string"){
     WHEN("passed to split"){
       THEN("the substrings are recovered"){        
-        REQUIRE(c == utility::string::split(trial, std::string(";")));
+        REQUIRE(c == njoy::utility::string::split(trial, std::string(";")));
       }
     }
   }
@@ -45,9 +42,7 @@ SCENARIO("split on arbitrary characters",
 
 SCENARIO(
   "splitting on arbitrary substrings can produce "
-  "empty string entries in resulting list",
-  "[utility], [string], [split]"){
-  LOG(INFO) << "Test " << ++testNumber << ": No Errors Expected";
+  "empty string entries in resulting list" ){
   std::string trial("");
   for (std::string::size_type i = 0; i < c.size(); ++i){
     trial += c[i];
@@ -58,7 +53,7 @@ SCENARIO(
   GIVEN("semicolon delimited substrings in a argument string"){
     WHEN("passed to split"){
       THEN("the substrings are recovered"){        
-        REQUIRE(cp == utility::string::split(trial, std::string(";")));
+        REQUIRE(cp == njoy::utility::string::split(trial, std::string(";")));
       }
     }
   }

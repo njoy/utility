@@ -5,6 +5,8 @@
 
 #include "utility.hpp"
 
+using namespace njoy::utility::stream;
+
 SCENARIO( "getIntWithLBound's left bound is inclusive" ){
 
   int returnInteger;

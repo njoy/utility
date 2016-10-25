@@ -5,8 +5,8 @@
 #include "utility.hpp"
 #include "utility/realNumberStringCollection.hpp"
 
-namespace rnsc = utility::realNumberStringCollection;
-using namespace utility::stream;
+namespace rnsc = njoy::utility::realNumberStringCollection;
+using namespace njoy::utility::stream;
 
 SCENARIO( "getRealWithLBound returns the proper value"
 	  " from streams with valid real number strings >= bound" ){
