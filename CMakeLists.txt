@@ -172,16 +172,16 @@ add_library( utility ${utility_policy}
              src/utility/string/src/split.cpp
              src/utility/string/src/toDouble.cpp
              src/utility/string/src/trim.cpp )
-separate_argument( utility_compiler_flags_list "${utility_compiler_flags}" )
+separate_arguments( utility_compiler_flags_list "${utility_compiler_flags}" )
 foreach( flag IN LISTS utility_compiler_flags_list )
     target_compile_options( utility PUBLIC ${flag} )
 endforeach( flag )           
 set_target_properties( utility PROPERTIES LINK_FLAGS "${utility_compiler_flags}" )
 target_include_directories( utility PUBLIC src ) 
-target_link_libraries( utility PUBLIC header-utilities PUBLIC Log PUBLIC catch-adapter ) 
+target_link_libraries( utility PUBLIC Log PUBLIC catch-adapter PUBLIC header-utilities ) 
 
 if( NOT is_subproject ) 
     enable_testing() 
-    add_subdirectory( src/utility/string/test ) 
     add_subdirectory( src/utility/stream/test ) 
+    add_subdirectory( src/utility/string/test ) 
 endif() 
