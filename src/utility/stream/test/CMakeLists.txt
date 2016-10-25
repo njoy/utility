@@ -12,7 +12,7 @@ add_executable( stream.test
                 readString.test.cpp
                 stream.test.cpp )
 set( test_flags ${utility_compiler_flags} )
-separate_arguments( test_flags_list "${test_flags}" )
+separate_arguments( test_flags_list UNIX_COMMAND "${test_flags}" )
 foreach( flag IN LISTS test_flags_list )
     target_compile_options( stream.test PUBLIC ${flag} )
 endforeach( flag )

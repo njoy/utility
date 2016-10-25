@@ -51,11 +51,11 @@ endif()
 project( utility VERSION 0.0.1 LANGUAGES CXX )
 
 get_directory_property( is_subproject PARENT_DIRECTORY )
-if( NOT TARGET catch-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
-endif()
 if( NOT TARGET fmt-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
+endif()
+if( NOT TARGET catch-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
 endif()
 if( NOT TARGET spdlog-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/spdlog-adapter )
@@ -172,7 +172,7 @@ add_library( utility ${utility_policy}
              src/utility/string/src/split.cpp
              src/utility/string/src/toDouble.cpp
              src/utility/string/src/trim.cpp )
-separate_arguments( utility_compiler_flags_list "${utility_compiler_flags}" )
+separate_arguments( utility_compiler_flags_list UNIX_COMMAND "${utility_compiler_flags}" )
 foreach( flag IN LISTS utility_compiler_flags_list )
     target_compile_options( utility PUBLIC ${flag} )
 endforeach( flag )           
@@ -182,6 +182,6 @@ target_link_libraries( utility PUBLIC Log PUBLIC catch-adapter PUBLIC header-uti
 
 if( NOT is_subproject ) 
     enable_testing() 
-    add_subdirectory( src/utility/stream/test ) 
     add_subdirectory( src/utility/string/test ) 
+    add_subdirectory( src/utility/stream/test ) 
 endif() 
