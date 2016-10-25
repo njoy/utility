@@ -8,7 +8,7 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
     export NOPE='-D no_link_time_optimization=TRUE'
     sudo update-alternatives --config clang
   else
-      sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90 --slave /usr/bin/g++ g++ /usr/bin/g++-6 --slave /usr/bin/gcov gcov /usr/bin/gcov-6 --slave /usr/bin/ar ar /usr/bin/gcc-ar-6 90 --slave /usr/bin/nm nm /usr/bin/gcc-nm-6 90 --slave /usr/bin/ranlib ranlib /usr/bin/gcc-ranlib-6 90
+      sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90 --slave /usr/bin/g++ g++ /usr/bin/g++-6 --slave /usr/bin/gcov gcov /usr/bin/gcov-6 --slave /usr/bin/ar ar /usr/bin/gcc-ar-6 --slave /usr/bin/nm nm /usr/bin/gcc-nm-6 --slave /usr/bin/ranlib ranlib /usr/bin/gcc-ranlib-6
       sudo update-alternatives --config gcc
   fi;
 fi
