@@ -17,7 +17,7 @@ fi
 
 mkdir build
 cd build
-CONFIGURE="cmake -D build_type=$build_type -D static_libraries=$static_libraries -D appended_flags=\\\"$appended_flags\\\" ${CUSTOM[@]} .."
+CONFIGURE="cmake ${CUSTOM[@]} -Dbuild_type=$build_type -Dstatic_libraries=$static_libraries -Dappended_flags=\\\"$appended_flags\\\" .."
 eval $CONFIGURE
 make -j2
 export COMPILATION_FAILURE=$?
