@@ -8,12 +8,9 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
     export CUSTOM='-D no_link_time_optimization=TRUE'
     sudo update-alternatives --config clang
   else
-    ln -s /usr/bin/gcc-ar-6 ar
-    ln -s /usr/bin/gcc-ranlib-6 ranlib
-    ln -s /usr/bin/gcc-nm-6 nm
-    export PATH=$(pwd):$PATH
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90 --slave /usr/bin/g++ g++ /usr/bin/g++-6 --slave /usr/bin/gcov gcov /usr/bin/gcov-6
     sudo update-alternatives --config gcc
+    export CUSTOM="-D CMAKE_AR=/usr/bin/gcc-ar-6 -D CMAKE_RANLIB=/usr/bin/gcc-ranlib-6"
   fi;
 fi
 
