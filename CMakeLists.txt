@@ -1,70 +1,187 @@
-cmake_minimum_required( VERSION 3.2 )
+cmake_minimum_required( VERSION 3.2 ) 
 
-set(projectName "utility")
-set(projectVersion "1.0.0")
+if( NOT ROOT_DIRECTORY )
+    set( ROOT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
+    if ( NOT fetched_subprojects )
+        set( fetched_subprojects TRUE CACHE BOOL "fetch script ran")
+        execute_process( COMMAND python "./metaconfigure/fetch_subprojects.py"
+                         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
+    endif()
+endif()
 
-if(NOT DEFINED commonCMakeScripts_path)
-  set(commonCMakeScripts_path "${CMAKE_SOURCE_DIR}/commonCMakeScripts")
-endif(NOT DEFINED commonCMakeScripts_path)
+if( NOT DEFINED build_type )
+    if( VERBOSE )
+        message( STATUS "build_type variable not specified")
+        message( STATUS "build_type defaulted to debug")
+    endif()
+    set ( build_type "debug" )
+endif()
+if( NOT DEFINED utility_build_type )
+    if( VERBOSE )
+        message( STATUS "utility_build_type not specified")
+        message( STATUS "utility_build_type defaulted to value of build_type variable")
+    endif()
+    set( utility_build_type "${build_type}" )
+ endif()
 
-include(subprojects.cmake)
-include(${commonCMakeScripts_path}/base.cmake)
-include(${commonCMakeScripts_path}/doxygen.cmake)
+if( NOT DEFINED static_libraries )
+    if( VERBOSE )
+        message( STATUS "static_libraries variable not specified")
+        message( STATUS "static_libraries defaulted to FALSE")
+    endif()
+    set( build_static_libraries FALSE )
+else()
+    set( build_static_libraries ${static_libraries} )
+endif()
 
-if(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
-  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/stream")
-  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/string")
-  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/View")
-  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/DecoratedTypeName")
-  file(MAKE_DIRECTORY "${utility_HEADER_DIR}/TypeSwitch")
-endif(NOT(EXISTS "${utility_HEADER_DIR}/stream"))
+if( NOT DEFINED static_utility )
+    if( VERBOSE )
+        message( STATUS "static_utility variable not specified")
+        message( STATUS "static_utility defaulted to value of static_libraries variable")
+    endif()
+    set( static_utility ${build_static_libraries} )
+endif()
 
-list(APPEND utility_src
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/extractCommand.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/utility.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/verifyString.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/slurpFileToMemory.cpp
-  )
+if( ${static_utility} )
+    set( utility_policy STATIC )
+else()
+    set( utility_policy SHARED )
+endif()
 
-configure_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/test/resources/reference_file.txt"
-  "${CMAKE_CURRENT_BINARY_DIR}/test/reference_file.txt"
-  COPYONLY
-  )
+project( utility VERSION 0.0.1 LANGUAGES CXX )
 
-set(headers "")
-list(APPEND headers
-  "TypeSwitch.hpp"
-  "ID.hpp"
-  "View.hpp"
-  "DecoratedTypeName.hpp"
-  "echoErroneousLine.hpp"
-  "findLineBegin.hpp"
-  "realNumberStringCollection.hpp"
-  "string.hpp"
-  "stream.hpp"
-  )
+get_directory_property( is_subproject PARENT_DIRECTORY )
+if( NOT TARGET fmt-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
+endif()
+if( NOT TARGET catch-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
+endif()
+if( NOT TARGET spdlog-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/spdlog-adapter )
+endif()
+if( NOT TARGET Log )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/Log )
+endif()
+if( NOT TARGET header-utilities )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/header-utilities )
+endif()
 
-foreach(header ${headers})
-  configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/${header}.in"
-    "${utility_HEADER_DIR}/${header}"
-    COPYONLY
-    )
-endforeach(header)
+if( DEFINED CXX_compiler_flags )
+    if( ( NOT DEFINED utility_compiler_flags ) AND ( NOT DEFINED utility_use_default_compiler_flags ) )
+        set( utility_compiler_flags "${CXX_compiler_flags}" )
+    endif()
+endif()
+if( NOT DEFINED utility_compiler_flags )
+    if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" )
+        if( utility_build_type STREQUAL "debug" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -g -gdwarf-3" )
+        elseif( utility_build_type STREQUAL "coverage" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -g -gdwarf-3 -fprofile-arcs -ftest-coverage -fno-inline" )
+        elseif( utility_build_type STREQUAL "release" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -O3 -DNDEBUG" )
+            if( NOT no_link_time_optimization )
+                set( utility_compiler_flags "${utility_compiler_flags} -flto" )
+            endif()
+        elseif( utility_build_type STREQUAL "native" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -O3 -DNDEBUG -march=native" )
+            if( NOT no_link_time_optimization )
+                set( utility_compiler_flags "${utility_compiler_flags} -flto" )
+            endif()
+        endif()
+    elseif( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
+        if( utility_build_type STREQUAL "debug" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -g -gdwarf-3" )
+        elseif( utility_build_type STREQUAL "coverage" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -g -gdwarf-3 -fprofile-arcs -ftest-coverage -fno-inline" )
+        elseif( utility_build_type STREQUAL "release" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -O3 -DNDEBUG" )
+            if( NOT no_link_time_optimization )
+                set( utility_compiler_flags "${utility_compiler_flags} -flto" )
+            endif()
+        elseif( utility_build_type STREQUAL "native" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -O3 -DNDEBUG -march=native" )
+            if( NOT no_link_time_optimization )
+                set( utility_compiler_flags "${utility_compiler_flags} -flto" )
+            endif()
+        endif()
+    elseif( CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" )
+        if( utility_build_type STREQUAL "debug" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -g -gdwarf-3" )
+        elseif( utility_build_type STREQUAL "coverage" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -g -gdwarf-3 -fprofile-arcs -ftest-coverage -fno-inline" )
+        elseif( utility_build_type STREQUAL "release" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -O3 -DNDEBUG" )
+            if( NOT no_link_time_optimization )
+                set( utility_compiler_flags "${utility_compiler_flags} -flto" )
+            endif()
+        elseif( utility_build_type STREQUAL "native" )
+            set( utility_compiler_flags "-std=c++14 -Wall -Wextra -Wpedantic -Werror -O3 -DNDEBUG -march=native" )
+            if( NOT no_link_time_optimization )
+                set( utility_compiler_flags "${utility_compiler_flags} -flto" )
+            endif()
+        endif()
+    else()
+        message( WARNING "Compiler vendor not recognized. No compilation flags set" )
+    endif()
+endif()
+if( DEFINED appended_flags AND NOT utility_no_appended_flags )
+    set( utility_compiler_flags "${utility_compiler_flags} ${appended_flags}" )
+endif()
+if( DEFINED utility_appended_flags )
+    set( utility_compiler_flags "${utility_compiler_flags} ${utility_appended_flags}" )
+endif()
 
-list(APPEND testLabels utility)
+execute_process(
+    COMMAND git rev-parse --abbrev-ref HEAD
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_BRANCH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+execute_process(
+    COMMAND git rev-parse HEAD
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/stream" )
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/string" )
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/ID" )
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/View" )
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/TypeSwitch" )
-add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/DecoratedTypeName" )
+message( STATUS "" )
+message( STATUS "-----------------------------------------------------------" )
+message( STATUS "" )
+message( STATUS "utility Version: 0.0.1" )
+message( STATUS "Git current branch: ${GIT_BRANCH}" )
+message( STATUS "Git commit hash: ${GIT_HASH}" )
+message( STATUS "" )
+message( STATUS "utility flags: ${utility_compiler_flags}" ) 
+message( STATUS "" ) 
+message( STATUS "-----------------------------------------------------------" ) 
+message( STATUS "" ) 
 
-if (${local_testing})
-  add_subdirectory( "${CMAKE_CURRENT_SOURCE_DIR}/test" )
-endif (${local_testing})
+add_library( utility ${utility_policy}
+             src/utility/stream/src/getBool.cpp
+             src/utility/stream/src/getEnergy.cpp
+             src/utility/stream/src/getInteger.cpp
+             src/utility/stream/src/getIntInRange.cpp
+             src/utility/stream/src/getIntWithLBound.cpp
+             src/utility/stream/src/getLine.cpp
+             src/utility/stream/src/getRealNumber.cpp
+             src/utility/stream/src/getRealWithLBound.cpp
+             src/utility/stream/src/getStringArg.cpp
+             src/utility/stream/src/getTemperature.cpp
+             src/utility/stream/src/readString.cpp
+             src/utility/string/src/split.cpp
+             src/utility/string/src/toDouble.cpp
+             src/utility/string/src/trim.cpp )
+separate_arguments( utility_compiler_flags_list UNIX_COMMAND "${utility_compiler_flags}" )
+foreach( flag IN LISTS utility_compiler_flags_list )
+    target_compile_options( utility PUBLIC ${flag} )
+endforeach( flag )           
+set_target_properties( utility PROPERTIES LINK_FLAGS "${utility_compiler_flags}" )
+target_include_directories( utility PUBLIC src ) 
+target_link_libraries( utility PUBLIC Log PUBLIC catch-adapter PUBLIC header-utilities ) 
 
-include(${commonCMakeScripts_path}/assemble.cmake)
-include(${commonCMakeScripts_path}/terminus.cmake)
+if( NOT is_subproject ) 
+    enable_testing() 
+    add_subdirectory( src/utility/string/test ) 
+    add_subdirectory( src/utility/stream/test ) 
+endif() 

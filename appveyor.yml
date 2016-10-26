@@ -1,19 +1,19 @@
-version: 1.0.0.{build}
+environment:
+  machine_user: test_user
+  machine_pass: Pass@word1
+  CTEST_OUTPUT_ON_FAILURE: 1
+  CC: clang
+  CXX: clang++
 
-clone_folder: c:\projects\myproject
-  
-before_build:
-  - ps: choco install mingw | Out-Null
-  - ps: (cat .gitmodules) | %{$_ -replace "git@github.com:","https://github.com/"} | sc .gitmodules
-  - ps: python .\fetchDependencies.py | Out-Null # do not proceed until completed 
-  - mkdir bin
-  - cd bin
-  - rename "C:\Program Files\Git\usr\bin\sh.exe" "sh2.exe"
-  - cmake -G "MinGW Makefiles" .. 
+  matrix:
+    - BUILD_TYPE: release
+      STATIC_LIBRARIES: FALSE
+
+install:
+  - C:\cygwin\setup-x86.exe -q --packages clang-3.8.1-1,cmake-3.6.2-1,make-4.2.1-1,git-2.8.3-1,python3-3.4.3-1
 
 build_script:
-  - cmake --build .
+  - c:\cygwin\bin\bash .cygwin/build.sh
 
-test_script:
-  - cd c:\projects\myproject\bin
-  - ctest
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

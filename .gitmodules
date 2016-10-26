@@ -1,9 +1,9 @@
-[submodule "commonCMakeScripts"]
-	path = commonCMakeScripts
-	url = https://github.com/njoy/commonCMakeScripts.git
-[submodule "easyloggingpp"]
-	path = easyloggingpp
-	url = https://github.com/njoy/easyloggingpp.git
-[submodule "Catch"]
-	path = Catch
-	url = https://github.com/njoy/Catch.git
+[submodule "dependencies/catch-adapter"]
+	path = dependencies/catch-adapter
+	url = https://github.com/apmccartney/catch-adapter.git
+[submodule "dependencies/header-utilities"]
+	path = dependencies/header-utilities
+	url = https://github.com/njoy/header-utilities.git
+[submodule "dependencies/Log"]
+	path = dependencies/Log
+	url = https://github.com/njoy/Log.git
