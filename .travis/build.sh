@@ -9,17 +9,24 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
     export CUSTOM=("-D no_link_time_optimization=TRUE")
     sudo update-alternatives --config clang
   else
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90 --slave /usr/bin/g++ g++ /usr/bin/g++-6 --slave /usr/bin/gcov gcov /usr/bin/gcov-6
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90 \
+	 --slave /usr/bin/g++ g++ /usr/bin/g++-6 \
+	 --slave /usr/bin/gcov gcov /usr/bin/gcov-6 \
+	 --slave /usr/bin/gcc-ar ar /usr/bin/gcc-ar-6 \
+	 --slave /usr/bin/gcc-nm nm /usr/bin/gcc-nm-6 \
+	 --slave /usr/bin/gcc-ranlib ranlib /usr/bin/gcc-ranlib-6
     sudo update-alternatives --config gcc
-    export CUSTOM=("-D CMAKE_AR=/usr/bin/gcc-ar-6" "-D CMAKE_RANLIB=/usr/bin/gcc-ranlib-6")
+    export CUSTOM=('-D COMPILER_PREFIX="gcc"')
   fi;
 fi
 
-ls /usr/bin/gcc*
+ls /usr/bin/
 mkdir build
 cd build
-CONFIGURE="cmake ${CUSTOM[@]} -Dbuild_type=$build_type -Dstatic_libraries=$static_libraries -Dappended_flags=\\\"$appended_flags\\\" .."
-eval $CONFIGURE
+cmake ${CUSTOM[@]}\
+      -D build_type=$build_type \
+      -D static_libraries=$static_libraries \
+      -D appended_flags="$appended_flags" ..
 make -j2
 export COMPILATION_FAILURE=$?
 ctest --output-on-failure -j2
