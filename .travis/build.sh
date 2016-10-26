@@ -20,8 +20,6 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
   fi;
 fi
 
-ls /usr/bin
-
 mkdir build
 cd build
 cmake ${CUSTOM[@]}\
