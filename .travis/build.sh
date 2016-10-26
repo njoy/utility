@@ -15,6 +15,7 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
   fi;
 fi
 
+ls /usr/bin/gcc*
 mkdir build
 cd build
 CONFIGURE="cmake ${CUSTOM[@]} -Dbuild_type=$build_type -Dstatic_libraries=$static_libraries -Dappended_flags=\\\"$appended_flags\\\" .."
