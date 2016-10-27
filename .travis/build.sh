@@ -25,6 +25,9 @@ elif [ "$TRAVIS_OS_NAME" = "osx" ]; then
     brew install homebrew/versions/gcc6
     export CXX=`which g++-6`
     export CC=`which gcc-6`
+    export LDFLAGS=-L/usr/local/opt/isl014/lib
+    export CPPFLAGS=-I/usr/local/opt/isl014/include
+    export PKG_CONFIG_PATH=/usr/local/opt/isl014/lib/pkgconfig
   fi
 fi
 
