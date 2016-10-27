@@ -238,6 +238,13 @@ SCENARIO( "mandatory getStringArg throws for streams with badbit" ){
       }
     }
   }
+
+  GIVEN( "a stream without delimiting quotes" ){
+    std::string name = "no quote delimeter";
+    std::istringstream buffer(name);
+    REQUIRE_THROWS( getStringArg(buffer, name, name.size()) );
+
+  }
 }
 
 SCENARIO( "optional getStringArg sets found flag to"
