@@ -1,15 +1,7 @@
 {
-"is_external_project": false,
 "name": "utility",
-"target": "library",
-"include_path": "src",
-"header_files": [
-"src/utility.hpp",
-"src/utility/realNumberStringCollection.hpp",
-"src/utility/stream.hpp",
-"src/utility/string.hpp",
-"src/utility/string/unzip.hpp"
-],
+"is_external_project": false,
+"language_revision": "C++14",
 "implementation_files": [
 "src/utility/stream/src/getBool.cpp",
 "src/utility/stream/src/getEnergy.cpp",
@@ -26,19 +18,15 @@
 "src/utility/string/src/toDouble.cpp",
 "src/utility/string/src/trim.cpp"
 ],
-"language_revision": "C++14",
-"version": "0.0.1",
-"language": "c++",
-"unit_tests": {
-"string": [
-"src/utility/string/test/isInteger.test.cpp",
-"src/utility/string/test/isRealNumber.test.cpp",
-"src/utility/string/test/split.test.cpp",
-"src/utility/string/test/string.test.cpp",
-"src/utility/string/test/toDouble.test.cpp",
-"src/utility/string/test/trim.test.cpp",
-"src/utility/string/test/unzip.test.cpp"
+"header_files": [
+"src/utility.hpp",
+"src/utility/realNumberStringCollection.hpp",
+"src/utility/stream.hpp",
+"src/utility/string.hpp",
+"src/utility/string/unzip.hpp"
 ],
+"target": "library",
+"unit_tests": {
 "stream": [
 "src/utility/stream/test/getBool.test.cpp",
 "src/utility/stream/test/getEnergy.test.cpp",
@@ -52,6 +40,18 @@
 "src/utility/stream/test/getTemperature.test.cpp",
 "src/utility/stream/test/readString.test.cpp",
 "src/utility/stream/test/stream.test.cpp"
+],
+"string": [
+"src/utility/string/test/isInteger.test.cpp",
+"src/utility/string/test/isRealNumber.test.cpp",
+"src/utility/string/test/split.test.cpp",
+"src/utility/string/test/string.test.cpp",
+"src/utility/string/test/toDouble.test.cpp",
+"src/utility/string/test/trim.test.cpp",
+"src/utility/string/test/unzip.test.cpp"
 ]
-}
+},
+"language": "c++",
+"version": "0.0.1",
+"include_path": "src"
 }
