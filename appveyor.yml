@@ -4,16 +4,21 @@ environment:
   CTEST_OUTPUT_ON_FAILURE: 1
   CC: clang
   CXX: clang++
+  global:
+    CYG_ROOT: C:\cygwin
+    CYG_MIRROR: http://cygwin.mirror.constant.com
+    CYG_CACHE: C:\cygwin\var\cache\setup
+    CYG_BASH: C:\cygwin\bin\bash
 
   matrix:
     - BUILD_TYPE: release
       STATIC_LIBRARIES: FALSE
 
+cache:
+    - '%CYG_CACHE%'
+
 install:
-  - C:\cygwin\setup-x86.exe -q --packages clang-3.8.1-1,cmake-3.6.2-1,make-4.2.1-1,git-2.8.3-1,python3-3.4.3-1
+  - C:\cygwin\setup-x86.exe -q --root "%CYG_ROOT%" --site "%CYG_MIRROR%" --local-package-dir "%CYG_CACHE%" --packages clang,cmake,make,git,python3
 
 build_script:
-  - c:\cygwin\bin\bash .cygwin/build.sh
-
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - %CYG_BASH% .cygwin/build.sh
