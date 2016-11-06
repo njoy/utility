@@ -62,11 +62,11 @@ endif()
 project( utility VERSION 0.0.1 LANGUAGES CXX )
 
 get_directory_property( is_subproject PARENT_DIRECTORY )
-if( NOT TARGET fmt-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
-endif()
 if( NOT TARGET catch-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
+endif()
+if( NOT TARGET fmt-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
 endif()
 if( NOT TARGET spdlog-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/spdlog-adapter )
@@ -143,14 +143,20 @@ if( DEFINED utility_appended_flags )
     set( utility_compiler_flags "${utility_compiler_flags} ${utility_appended_flags}" )
 endif()
 
+if ( NOT GIT_EXECUTABLE )
+    find_package( Git )
+    if ( NOT GIT_FOUND )
+        message( FATAL_ERROR "git installation was not found." )
+    endif()
+endif()
 execute_process(
-    COMMAND git rev-parse --abbrev-ref HEAD
+    COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     OUTPUT_VARIABLE GIT_BRANCH
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 execute_process(
-    COMMAND git rev-parse HEAD
+    COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     OUTPUT_VARIABLE GIT_HASH
     OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -189,10 +195,10 @@ foreach( flag IN LISTS utility_compiler_flags_list )
 endforeach( flag )           
 set_target_properties( utility PROPERTIES LINK_FLAGS "${utility_compiler_flags}" )
 target_include_directories( utility PUBLIC src ) 
-target_link_libraries( utility PUBLIC header-utilities PUBLIC catch-adapter PUBLIC Log ) 
+target_link_libraries( utility PUBLIC catch-adapter PUBLIC header-utilities PUBLIC Log ) 
 
 if( NOT is_subproject ) 
     enable_testing() 
-    add_subdirectory( src/utility/stream/test ) 
     add_subdirectory( src/utility/string/test ) 
+    add_subdirectory( src/utility/stream/test ) 
 endif() 
