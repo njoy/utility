@@ -19,9 +19,9 @@ SCENARIO( "Using the FILE_streambuf to write to a file",
         FILE_streambuf<char> fsb(filePtr);
         std::ostream ostm(&fsb);
         ostm << arbText;
+        ostm.flush();
       }
       AND_THEN( "the contents of the file can be verified." ){
-//      std::string fileString{njoy::utility::slurpFileToMemory("foo.txt")};
 
         REQUIRE( arbText == njoy::utility::slurpFileToMemory("foo.txt") );
       }

@@ -11,7 +11,8 @@ add_executable( stream.test
                 getStringArg.test.cpp
                 getTemperature.test.cpp
                 readString.test.cpp
-                stream.test.cpp )
+                stream.test.cpp
+                TemporaryFileStream.test.cpp )
 set( test_flags ${utility_compiler_flags} )
 separate_arguments( test_flags_list UNIX_COMMAND "${test_flags}" )
 foreach( flag IN LISTS test_flags_list )

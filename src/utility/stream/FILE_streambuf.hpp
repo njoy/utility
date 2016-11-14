@@ -1,16 +1,13 @@
 template< class Char_t, class Traits = std::char_traits< Char_t > >
 class FILE_streambuf : public std::basic_streambuf< Char_t, Traits > {
-  FILE* filePtr;
-  const std::size_t putBack;
-  std::vector< char > buffer;
-
 public:
-  FILE_streambuf( FILE* filePtr,
+   FILE_streambuf( FILE* filePtr,
 		  std::size_t bufferSize = 256,
 		  std::size_t putBack = 8 ) :
     filePtr( filePtr ),
     putBack( std::max( putBack, std::size_t(1) ) ),
     buffer( std::max( bufferSize, putBack) + putBack){
+    std::setbuf( this->filePtr, nullptr );
     char* begin = &( this->buffer.front() );
     char* end = begin + this->buffer.size();
     this->setg( end, end, end );
@@ -28,6 +25,10 @@ public:
     fclose( this->filePtr );
   }
   
+  FILE* filePtr;
+  const std::size_t putBack;
+  std::vector< char > buffer;
+
 private:
   typename Traits::int_type underflow(){
     if ( this->gptr() < this->egptr() ){
@@ -55,7 +56,7 @@ private:
     std::ptrdiff_t n = this->pptr() - this->pbase();
     this->pbump(-n);
     return n == int( 
-      std::fwrite( this->pbase(), sizeof(Char_t), n, this->filePtr ) );
+        std::fwrite( this->pbase(), sizeof(Char_t), n, this->filePtr ) );
   }
     
   typename Traits::int_type 
