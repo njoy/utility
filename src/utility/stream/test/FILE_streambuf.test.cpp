@@ -12,7 +12,7 @@ SCENARIO( "Using the FILE_streambuf to write to a file",
          "[FILE_streambuf]"){
   GIVEN( "A file pointer and an arbitrary string to write to a file" ){
     FILE* filePtr = fopen("foo.txt", "w");
-    std::string arbText{"abcdefg\n123456"};
+    std::string arbText{"abcdefg--123456\nABCDEFG--098765"};
 
     THEN( "the FILE_streambuf can be created and text can be written to it" ){
       {
