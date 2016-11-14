@@ -1,5 +1,8 @@
 namespace stream {
 
+#include "utility/stream/FILE_streambuf.hpp"
+#include "utility/stream/TemporaryFileStream.hpp"
+
 /**
  * @brief 
  * Extracts the next white space delimited string from a stream and verifies the

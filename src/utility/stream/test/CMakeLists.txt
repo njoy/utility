@@ -1,4 +1,5 @@
 add_executable( stream.test
+                FILE_streambuf.test.cpp
                 getBool.test.cpp
                 getEnergy.test.cpp
                 getInteger.test.cpp
