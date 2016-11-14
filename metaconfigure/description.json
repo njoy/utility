@@ -1,5 +1,23 @@
 {
-"version": "0.0.1",
+"target": "library",
+"is_external_project": false,
+"header_files": [
+"src/utility.hpp",
+"src/utility/realNumberStringCollection.hpp",
+"src/utility/stream.hpp",
+"src/utility/string.hpp",
+"src/utility/stream/FILE_streambuf.hpp",
+"src/utility/stream/TemporaryFileStream.hpp",
+"src/utility/stream/FILE_streambuf/src/ctor.hpp",
+"src/utility/stream/FILE_streambuf/src/dtor.hpp",
+"src/utility/stream/FILE_streambuf/src/flush.hpp",
+"src/utility/stream/FILE_streambuf/src/overflow.hpp",
+"src/utility/stream/FILE_streambuf/src/underflow.hpp",
+"src/utility/stream/TemporaryFileStream/src/dtor.hpp",
+"src/utility/stream/TemporaryFileStream/src/file.hpp",
+"src/utility/stream/TemporaryFileStream/src/path.hpp",
+"src/utility/string/unzip.hpp"
+],
 "unit_tests": {
 "string": [
 "src/utility/string/test/isInteger.test.cpp",
@@ -32,11 +50,10 @@
 "src/utility/stream/TemporaryFileStream/test/TemporaryFileStream.test.cpp"
 ]
 },
-"language": "c++",
+"version": "0.0.1",
 "language_revision": "C++14",
+"name": "utility",
 "include_path": "src",
-"target": "library",
-"is_external_project": false,
 "implementation_files": [
 "src/utility/stream/src/getBool.cpp",
 "src/utility/stream/src/getEnergy.cpp",
@@ -53,22 +70,5 @@
 "src/utility/string/src/toDouble.cpp",
 "src/utility/string/src/trim.cpp"
 ],
-"header_files": [
-"src/utility.hpp",
-"src/utility/realNumberStringCollection.hpp",
-"src/utility/stream.hpp",
-"src/utility/string.hpp",
-"src/utility/stream/FILE_streambuf.hpp",
-"src/utility/stream/TemporaryFileStream.hpp",
-"src/utility/stream/FILE_streambuf/src/ctor.hpp",
-"src/utility/stream/FILE_streambuf/src/dtor.hpp",
-"src/utility/stream/FILE_streambuf/src/flush.hpp",
-"src/utility/stream/FILE_streambuf/src/overflow.hpp",
-"src/utility/stream/FILE_streambuf/src/underflow.hpp",
-"src/utility/stream/TemporaryFileStream/src/dtor.hpp",
-"src/utility/stream/TemporaryFileStream/src/file.hpp",
-"src/utility/stream/TemporaryFileStream/src/path.hpp",
-"src/utility/string/unzip.hpp"
-],
-"name": "utility"
+"language": "c++"
 }
