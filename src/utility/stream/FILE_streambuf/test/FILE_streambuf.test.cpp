@@ -30,13 +30,23 @@ SCENARIO( "Using the FILE_streambuf to write to a file",
       }
   }
 
-//  WHEN( "Using the FILE_streambuf to read in a file" ){
-//    FILE* filePtr = fopen(filename.c_str(), "r");
-//    FILE_streambuf<char> fsb(filePtr);
+    WHEN( "Using the FILE_streambuf to read in a file" ){
+      FILE* filePtr = fopen(filename.c_str(), "r");
+      FILE_streambuf<char> fsb(filePtr);
+      std::istream is( &fsb );
 
-//    std::stringstream text;
-//    fsb >> text;
-//  }
+      std::string text;
+      std::string totalText{""};
+      is >> text;
+      totalText += text;
+      totalText += "\n";
+      is >> text;
+      totalText += text;
+
+      REQUIRE( arbText == totalText );
+
+      std::remove(filename.c_str());
+    }
   }   // GIVEN
 
 }   // SCENARIO
