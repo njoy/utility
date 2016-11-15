@@ -8,9 +8,10 @@ public:
   const std::size_t putBack;
   std::vector< char > buffer;
 
+#include "utility/stream/FILE_streambuf/src/overflow.hpp"
+
 private:
 #include "utility/stream/FILE_streambuf/src/flush.hpp"
-#include "utility/stream/FILE_streambuf/src/overflow.hpp"
 #include "utility/stream/FILE_streambuf/src/underflow.hpp"
     
   typename Traits::int_type sync(){ return this->flush() ? 0 : -1; }
