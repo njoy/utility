@@ -1,4 +1,4 @@
-virtual ~FILE_streambuf(){
+virtual ~basic_FILE_streambuf(){
   this->flush();
   fclose( this->filePtr );
 }

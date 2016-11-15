@@ -1,0 +1,76 @@
+{
+"language_revision": "C++14",
+"unit_tests": {
+"basic_TemporaryFileStream": [
+"src/utility/stream/basic_TemporaryFileStream/test/TemporaryFileStream.test.cpp"
+],
+"string": [
+"src/utility/string/test/isInteger.test.cpp",
+"src/utility/string/test/isRealNumber.test.cpp",
+"src/utility/string/test/split.test.cpp",
+"src/utility/string/test/string.test.cpp",
+"src/utility/string/test/toDouble.test.cpp",
+"src/utility/string/test/trim.test.cpp",
+"src/utility/string/test/unzip.test.cpp"
+],
+"basic_FILE_streambuf": [
+"src/utility/stream/basic_FILE_streambuf/test/FILE_streambuf.test.cpp"
+],
+"stream": [
+"src/utility/stream/test/getBool.test.cpp",
+"src/utility/stream/test/getEnergy.test.cpp",
+"src/utility/stream/test/getInteger.test.cpp",
+"src/utility/stream/test/getIntInRange.test.cpp",
+"src/utility/stream/test/getIntWithLBound.test.cpp",
+"src/utility/stream/test/getLine.test.cpp",
+"src/utility/stream/test/getRealNumber.test.cpp",
+"src/utility/stream/test/getRealWithLBound.test.cpp",
+"src/utility/stream/test/getStringArg.test.cpp",
+"src/utility/stream/test/getTemperature.test.cpp",
+"src/utility/stream/test/readString.test.cpp",
+"src/utility/stream/test/stream.test.cpp",
+"src/utility/stream/test/TemporaryFileStream.test.cpp"
+]
+},
+"target": "library",
+"is_external_project": false,
+"implementation_files": [
+"src/utility/stream/src/getBool.cpp",
+"src/utility/stream/src/getEnergy.cpp",
+"src/utility/stream/src/getInteger.cpp",
+"src/utility/stream/src/getIntInRange.cpp",
+"src/utility/stream/src/getIntWithLBound.cpp",
+"src/utility/stream/src/getLine.cpp",
+"src/utility/stream/src/getRealNumber.cpp",
+"src/utility/stream/src/getRealWithLBound.cpp",
+"src/utility/stream/src/getStringArg.cpp",
+"src/utility/stream/src/getTemperature.cpp",
+"src/utility/stream/src/readString.cpp",
+"src/utility/string/src/split.cpp",
+"src/utility/string/src/toDouble.cpp",
+"src/utility/string/src/trim.cpp"
+],
+"name": "utility",
+"language": "c++",
+"version": "0.0.1",
+"header_files": [
+"src/utility.hpp",
+"src/utility/realNumberStringCollection.hpp",
+"src/utility/stream.hpp",
+"src/utility/string.hpp",
+"src/utility/stream/basic_FILE_streambuf.hpp",
+"src/utility/stream/basic_TemporaryFileStream.hpp",
+"src/utility/stream/basic_FILE_streambuf/src/ctor.hpp",
+"src/utility/stream/basic_FILE_streambuf/src/dtor.hpp",
+"src/utility/stream/basic_FILE_streambuf/src/flush.hpp",
+"src/utility/stream/basic_FILE_streambuf/src/overflow.hpp",
+"src/utility/stream/basic_FILE_streambuf/src/underflow.hpp",
+"src/utility/stream/basic_TemporaryFileStream/src/assignment.hpp",
+"src/utility/stream/basic_TemporaryFileStream/src/ctor.hpp",
+"src/utility/stream/basic_TemporaryFileStream/src/dtor.hpp",
+"src/utility/stream/basic_TemporaryFileStream/src/file.hpp",
+"src/utility/stream/basic_TemporaryFileStream/src/path.hpp",
+"src/utility/string/unzip.hpp"
+],
+"include_path": "src"
+}
