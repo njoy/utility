@@ -199,6 +199,8 @@ target_link_libraries( utility PUBLIC catch-adapter PUBLIC header-utilities PUBL
 
 if( NOT is_subproject ) 
     enable_testing() 
-    add_subdirectory( src/utility/string/test ) 
+    add_subdirectory( src/utility/stream/basic_FILE_streambuf/test ) 
     add_subdirectory( src/utility/stream/test ) 
+    add_subdirectory( src/utility/string/test ) 
+    add_subdirectory( src/utility/stream/basic_TemporaryFileStream/test ) 
 endif() 

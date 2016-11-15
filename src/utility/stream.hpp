@@ -1,5 +1,13 @@
 namespace stream {
 
+#include "utility/stream/basic_FILE_streambuf.hpp"
+using FILE_streambuf = basic_FILE_streambuf<char>;
+using wFILE_streambuf = basic_FILE_streambuf<wchar_t>;
+
+#include "utility/stream/basic_TemporaryFileStream.hpp"
+using TemporaryFileStream = basic_TemporaryFileStream<char>;
+using wTemporaryFileStream = basic_TemporaryFileStream<wchar_t>;
+
 /**
  * @brief 
  * Extracts the next white space delimited string from a stream and verifies the
