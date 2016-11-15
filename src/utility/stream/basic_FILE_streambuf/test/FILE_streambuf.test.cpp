@@ -19,7 +19,7 @@ SCENARIO( "Using the FILE_streambuf to write to a file",
       FILE* filePtr = fopen(filename.c_str(), "w");
       THEN( "the FILE_streambuf can be created and text can be written to it" ){
         {
-          FILE_streambuf<char> fsb(filePtr, 5);
+          FILE_streambuf fsb(filePtr, 5);
           std::ostream ostm(&fsb);
           ostm << arbText;
           ostm.flush();
@@ -33,7 +33,7 @@ SCENARIO( "Using the FILE_streambuf to write to a file",
 
     WHEN( "Using the FILE_streambuf to read in a file" ){
       FILE* filePtr = fopen(filename.c_str(), "r");
-      FILE_streambuf<char> fsb(filePtr);
+      FILE_streambuf fsb(filePtr);
       std::istream is( &fsb );
 
       std::string text;

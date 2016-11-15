@@ -16,11 +16,11 @@ SCENARIO( "Creating a temporary file for writing",
 
     THEN( "we can write to the temporary file" ){
       {
-        TemporaryFileStream<char> tfs;
+        TemporaryFileStream tfs;
 
         tfs << arbText;
         tfs.flush();
-        filename = tfs.filename;
+        filename = tfs.filename();
 
         AND_THEN( "the contents of the file can be verified." ){
           REQUIRE( arbText == njoy::utility::slurpFileToMemory(filename) );
@@ -28,7 +28,7 @@ SCENARIO( "Creating a temporary file for writing",
       }
       AND_THEN( "the temporary file is deleted upon destruction." ){
 
-        FILE* testfile = fopen(filename.c_str(), "wx");
+        FILE* testfile = fopen( filename.c_str(), "wx" );
 
         REQUIRE( testfile != NULL );
       }
@@ -37,6 +37,6 @@ SCENARIO( "Creating a temporary file for writing",
   } // WHEN
 
   WHEN( "testing ability to throw exceptions" ){
-    REQUIRE_THROWS( TemporaryFileStream<char> tfs(0) );
+    REQUIRE_THROWS( TemporaryFileStream tfs(0) );
   }
 } // SCENARIO
