@@ -8,6 +8,10 @@ using wFILE_streambuf = basic_FILE_streambuf<wchar_t>;
 using TemporaryFileStream = basic_TemporaryFileStream<char>;
 using wTemporaryFileStream = basic_TemporaryFileStream<wchar_t>;
 
+#include "utility/stream/basic_TeeStream.hpp"
+using iTeeStream = basic_TeeStream< std::basic_istream, char >;
+using wiTeeStream = basic_TeeStream< std::basic_istream, wchar_t >;
+
 /**
  * @brief 
  * Extracts the next white space delimited string from a stream and verifies the

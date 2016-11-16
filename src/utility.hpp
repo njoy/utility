@@ -2,8 +2,11 @@
 #define NJOY_UTILITY
 
 #include <algorithm>
+#include <array>
 #include <exception>
 #include <istream>
+#include <ostream>
+#include <iostream>
 #include <locale>
 #include <map>
 #include <memory>
