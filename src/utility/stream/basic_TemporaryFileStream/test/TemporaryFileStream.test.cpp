@@ -1,7 +1,5 @@
 #define CATCH_CONFIG_MAIN
 
-#include <cstdio>
-
 #include "catch.hpp"
 
 #include "utility.hpp"
