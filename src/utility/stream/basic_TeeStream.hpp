@@ -20,12 +20,14 @@ template < template< typename, typename > class Base,
 class basic_TeeStream : public Base< Char_t, Traits > {    
 public:
 
+  using streambuf = typename Tee< Base >::template streambuf< Char_t, Traits >;
+
   basic_TeeStream( Base< Char_t, Traits >& base,
 		   std::basic_ostream< Char_t, Traits >& fork ) 
     try :
       Base< Char_t, Traits >
-	( new typename Tee< Base >::template streambuf< Char_t, Traits >
-	  ( base.rdbuf(), fork.rdbuf() ) ){}
+	( std::make_unique< streambuf >
+	  ( base.rdbuf(), fork.rdbuf() ).release() ){}
     catch( std::exception& e ){
       Log::info( "Error while constructing basic_TeeStream" );
       throw e;

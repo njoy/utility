@@ -8,7 +8,7 @@
 
 using namespace njoy::utility::stream;
 
-SCENARIO( "" ){
+SCENARIO( "TeeStream and Tee_streambuf" ){
   std::string reference = "abcdefg--123456";
   std::string loremIpsum =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
@@ -44,7 +44,15 @@ SCENARIO( "" ){
   {
     iTeeStream its(iss, oss);
     std::getline( its, sink );
+    its.unget();
+    its.get();
   }
   REQUIRE( loremIpsum == sink );
   REQUIRE( reference + ' ' + loremIpsum == oss.str() );
+  {
+    using iTee_streambuf = basic_Tee_streambuf< InputTag, char >;
+    REQUIRE_THROWS( iTee_streambuf( iss.rdbuf(), nullptr ) );
+    REQUIRE_THROWS( iTee_streambuf( nullptr, oss.rdbuf() ) );
+    //REQUIRE_THROWS( iTeeStream( iss, os ) );
+  }  
 } // SCENARIO
