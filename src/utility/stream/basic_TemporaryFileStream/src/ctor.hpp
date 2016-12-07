@@ -14,9 +14,9 @@ basic_TemporaryFileStream( int n = 100 )
     throw e;
   }
 
-  basic_TemporaryFileStream( const basic_TemporaryFileStream & ) = delete;
-  basic_TemporaryFileStream( basic_TemporaryFileStream && other ){
-    this->rdbuf() = other.rdbuf();
-    other.rdbuf( nullptr );
-    this->path = std::move( other.path );
-  }
+basic_TemporaryFileStream( const basic_TemporaryFileStream & ) = delete;
+basic_TemporaryFileStream( basic_TemporaryFileStream && other ){
+  this->rdbuf() = other.rdbuf();
+  other.rdbuf( nullptr );
+  this->path = std::move( other.path );
+}
