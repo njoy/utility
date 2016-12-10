@@ -53,6 +53,6 @@ SCENARIO( "TeeStream and Tee_streambuf" ){
     using iTee_streambuf = basic_Tee_streambuf< InputTag, char >;
     REQUIRE_THROWS( iTee_streambuf( iss.rdbuf(), nullptr ) );
     REQUIRE_THROWS( iTee_streambuf( nullptr, oss.rdbuf() ) );
-    //REQUIRE_THROWS( iTeeStream( iss, os ) );
+    // REQUIRE_THROWS( iTeeStream( iss, os ) ); // segfaults in std::ios dtor
   }  
 } // SCENARIO

@@ -25,24 +25,34 @@ SCENARIO( "Creating a record-oriented stream for writing",
     std::string stringSink;
     ros >> integerSink;
     REQUIRE( ros.buffer == phrase1 );
+    
     ros >> integerSink;
     REQUIRE( ros.buffer == line1Text );
     REQUIRE( ros.lineNumber == 1 );
+    
     ros >> stringSink;
     REQUIRE( ros.lineNumber == 2 );
     REQUIRE( ros.buffer == line2Text );
+    
     ros.get();
     REQUIRE( ros.buffer == line2Text );
+
     ros.ignore( std::numeric_limits< std::streamsize >::max(), '\n' );
     REQUIRE( ros.buffer == line3Text );
-    char c = ros.get();
-    REQUIRE( 'a' == c );
+
+    REQUIRE( 'a' == ros.get() );
+    ros.unget(); 
+    REQUIRE( 'a' == ros.get() );
     ros.unget();
-    ros.unget();
-    ros.ignore( std::numeric_limits< std::streamsize >::max(), '\n' );
-    ros.unget();
-    ros.unget();
-    ros.get();
+    ros.unget(); /* fails to cross into previous line */
+    REQUIRE( not ros.good() );
+    ros.clear();
+    REQUIRE( ros.good() );
+    
+    REQUIRE( 'a' == ros.get() );
+    REQUIRE( 'b' == ros.get() );
+    REQUIRE( 'c' == ros.get() );
+    REQUIRE( std::char_traits<char>::eof() == ros.get() );
     REQUIRE( std::char_traits<char>::eof() == ros.get() );
   }
 } // SCENARIO

@@ -56,10 +56,17 @@ private:
   }
 
   int_type pbackfail ( int c = Traits::eof() ){
-    if ( this->buffer.empty() ){ return Traits::eof(); }
+    if ( this->buffer.empty() ){
+      return Traits::eof();
+    }
     auto trial = this->core.sputbackc( c );
     if ( trial != Traits::eof() ){
-      this->buffer.pop_back();
+      if ( not this->buffer.empty() ){
+	this->pseudo = this->buffer.back();
+	this->buffer.pop_back();
+      } else {
+	this->pseudo = 0;
+      }
       auto begin = &( this->pseudo );
       auto end = begin + 1;
       this->setg( begin, begin, end );
