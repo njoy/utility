@@ -1,5 +1,15 @@
 namespace stream {
 
+struct InputTag{};
+struct OutputTag{};
+
+#include "utility/stream/basic_RecordOrientedStream.hpp"
+using iRecordOrientedStream =
+  basic_RecordOrientedStream< std::basic_istream, char >;
+
+using wiRecordOrientedStream =
+  basic_RecordOrientedStream< std::basic_istream, wchar_t >;
+
 #include "utility/stream/basic_FILE_streambuf.hpp"
 using FILE_streambuf = basic_FILE_streambuf<char>;
 using wFILE_streambuf = basic_FILE_streambuf<wchar_t>;
@@ -7,6 +17,10 @@ using wFILE_streambuf = basic_FILE_streambuf<wchar_t>;
 #include "utility/stream/basic_TemporaryFileStream.hpp"
 using TemporaryFileStream = basic_TemporaryFileStream<char>;
 using wTemporaryFileStream = basic_TemporaryFileStream<wchar_t>;
+
+#include "utility/stream/basic_TeeStream.hpp"
+using iTeeStream = basic_TeeStream< std::basic_istream, char >;
+using wiTeeStream = basic_TeeStream< std::basic_istream, wchar_t >;
 
 /**
  * @brief 

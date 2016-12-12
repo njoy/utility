@@ -11,7 +11,8 @@ static auto file( int n ){
     Log::info( "{} attempts made", n );
     throw std::exception();
   }
-  result.second = new basic_FILE_streambuf<Char_t>(ptr);
+  result.second =
+    std::make_unique< basic_FILE_streambuf<Char_t> >(ptr).release();
   return result;
 }
 
