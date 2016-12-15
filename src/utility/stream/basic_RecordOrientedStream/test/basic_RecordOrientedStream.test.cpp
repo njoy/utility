@@ -60,7 +60,7 @@ SCENARIO( "Creating a record-oriented stream for writing",
 			    + '\n' + line2Text
 			    + '\n' + line3Text
 			    + '\n' + "abc" );
-    iRecordOrientedStream ros( iss );
+    iRecordOrientedStream ros( std::move(iss) );
 
     int integerSink;
     std::string stringSink;
