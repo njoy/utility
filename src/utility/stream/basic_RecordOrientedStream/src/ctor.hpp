@@ -12,6 +12,8 @@ basic_RecordOrientedStream( DerivedStream&& core, const long lineNumber = 1 ) :
   basic_RecordOrientedStream( std::make_unique
 			      < DerivedStream >( std::move( core ) ), lineNumber ){}
 
+basic_RecordOrientedStream( const std::string str ) :
+    basic_RecordOrientedStream( std::istringstream( str ) ) { }
 
 basic_RecordOrientedStream( const basic_RecordOrientedStream& ) = delete;
 
