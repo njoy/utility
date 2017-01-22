@@ -1,20 +1,6 @@
 {
-"implementation_files": [
-"src/utility/stream/src/getBool.cpp",
-"src/utility/stream/src/getEnergy.cpp",
-"src/utility/stream/src/getInteger.cpp",
-"src/utility/stream/src/getIntInRange.cpp",
-"src/utility/stream/src/getIntWithLBound.cpp",
-"src/utility/stream/src/getLine.cpp",
-"src/utility/stream/src/getRealNumber.cpp",
-"src/utility/stream/src/getRealWithLBound.cpp",
-"src/utility/stream/src/getStringArg.cpp",
-"src/utility/stream/src/getTemperature.cpp",
-"src/utility/stream/src/readString.cpp",
-"src/utility/string/src/split.cpp",
-"src/utility/string/src/toDouble.cpp",
-"src/utility/string/src/trim.cpp"
-],
+"language": "c++",
+"include_path": "src",
 "language_revision": "C++14",
 "header_files": [
 "src/utility.hpp",
@@ -45,12 +31,47 @@
 "src/utility/stream/basic_TemporaryFileStream/src/path.hpp",
 "src/utility/string/unzip.hpp"
 ],
-"is_external_project": false,
-"version": "0.0.1",
-"language": "c++",
-"target": "library",
 "name": "utility",
+"target": "library",
+"implementation_files": [
+"src/utility/stream/src/getBool.cpp",
+"src/utility/stream/src/getEnergy.cpp",
+"src/utility/stream/src/getInteger.cpp",
+"src/utility/stream/src/getIntInRange.cpp",
+"src/utility/stream/src/getIntWithLBound.cpp",
+"src/utility/stream/src/getLine.cpp",
+"src/utility/stream/src/getRealNumber.cpp",
+"src/utility/stream/src/getRealWithLBound.cpp",
+"src/utility/stream/src/getStringArg.cpp",
+"src/utility/stream/src/getTemperature.cpp",
+"src/utility/stream/src/readString.cpp",
+"src/utility/string/src/split.cpp",
+"src/utility/string/src/toDouble.cpp",
+"src/utility/string/src/trim.cpp"
+],
 "unit_tests": {
+"utility.string": [
+"src/utility/string/test/isInteger.test.cpp",
+"src/utility/string/test/isRealNumber.test.cpp",
+"src/utility/string/test/split.test.cpp",
+"src/utility/string/test/string.test.cpp",
+"src/utility/string/test/toDouble.test.cpp",
+"src/utility/string/test/trim.test.cpp",
+"src/utility/string/test/unzip.test.cpp"
+],
+"utility.stream.basic_RecordOrientedStream": [
+"src/utility/stream/basic_RecordOrientedStream/test/basic_RecordOrientedStream.test.cpp",
+"src/utility/stream/basic_RecordOrientedStream/test/fstreamRegression.test.cpp"
+],
+"utility.stream.basic_FILE_streambuf": [
+"src/utility/stream/basic_FILE_streambuf/test/FILE_streambuf.test.cpp"
+],
+"utility.stream.basic_TeeStream": [
+"src/utility/stream/basic_TeeStream/test/iTeeStream.test.cpp"
+],
+"utility.stream.basic_TemporaryFileStream": [
+"src/utility/stream/basic_TemporaryFileStream/test/TemporaryFileStream.test.cpp"
+],
 "utility.stream": [
 "src/utility/stream/test/getBool.test.cpp",
 "src/utility/stream/test/getEnergy.test.cpp",
@@ -64,28 +85,8 @@
 "src/utility/stream/test/getTemperature.test.cpp",
 "src/utility/stream/test/readString.test.cpp",
 "src/utility/stream/test/stream.test.cpp"
-],
-"utility.stream.basic_RecordOrientedStream": [
-"src/utility/stream/basic_RecordOrientedStream/test/basic_RecordOrientedStream.test.cpp"
-],
-"utility.stream.basic_TemporaryFileStream": [
-"src/utility/stream/basic_TemporaryFileStream/test/TemporaryFileStream.test.cpp"
-],
-"utility.stream.basic_TeeStream": [
-"src/utility/stream/basic_TeeStream/test/iTeeStream.test.cpp"
-],
-"utility.stream.basic_FILE_streambuf": [
-"src/utility/stream/basic_FILE_streambuf/test/FILE_streambuf.test.cpp"
-],
-"utility.string": [
-"src/utility/string/test/isInteger.test.cpp",
-"src/utility/string/test/isRealNumber.test.cpp",
-"src/utility/string/test/split.test.cpp",
-"src/utility/string/test/string.test.cpp",
-"src/utility/string/test/toDouble.test.cpp",
-"src/utility/string/test/trim.test.cpp",
-"src/utility/string/test/unzip.test.cpp"
 ]
 },
-"include_path": "src"
+"version": "0.0.1",
+"is_external_project": false
 }

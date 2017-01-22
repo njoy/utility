@@ -1,4 +1,6 @@
-add_executable( utility.stream.basic_RecordOrientedStream.test basic_RecordOrientedStream.test.cpp )
+add_executable( utility.stream.basic_RecordOrientedStream.test
+                basic_RecordOrientedStream.test.cpp
+                fstreamRegression.test.cpp )
 set( test_flags ${utility_compiler_flags} )
 separate_arguments( test_flags_list UNIX_COMMAND "${test_flags}" )
 foreach( flag IN LISTS test_flags_list )
@@ -6,4 +8,6 @@ foreach( flag IN LISTS test_flags_list )
 endforeach( flag )
 set_target_properties( utility.stream.basic_RecordOrientedStream.test PROPERTIES LINK_FLAGS "${test_flags}" )
 target_link_libraries( utility.stream.basic_RecordOrientedStream.test PUBLIC utility )
+file( GLOB resources "resources/*" ) 
+file( COPY "${resources}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}" ) 
 add_test( NAME utility.stream.basic_RecordOrientedStream COMMAND utility.stream.basic_RecordOrientedStream.test ) 
