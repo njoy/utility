@@ -23,7 +23,9 @@ basic_RecordOrientedStream( std::string&& str ) :
 basic_RecordOrientedStream( const basic_RecordOrientedStream& ) = delete;
 
 basic_RecordOrientedStream( basic_RecordOrientedStream&& other ) :
-  BaseStream< Char_t, Traits >( other.rdbuf() ) {
+  Stream( std::make_unique< Streambuf >( *(other.core->rdbuf()),
+  					   this->buffer,
+					   this->lineNumber ).release() ) {
   this->core = std::move(other.core);
   this->buffer = std::move(other.buffer);
   this->lineNumber = other.lineNumber;
