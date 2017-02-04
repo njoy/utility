@@ -1,9 +1,8 @@
 private:
 template< typename DerivedStream >
 basic_RecordOrientedStream( std::unique_ptr< DerivedStream >&& core, const long lineNumber ) :
-  Stream( std::make_unique< Streambuf >( *(core->rdbuf()),
-					 this->buffer,
-					 this->lineNumber ).release() ),
+  Stream( new Streambuf
+          ( *(core->rdbuf()), this->buffer, this->lineNumber ) ),
   core( std::move( core ) ), lineNumber( lineNumber ){ }
 
 public:
@@ -23,9 +22,8 @@ basic_RecordOrientedStream( std::string&& str ) :
 basic_RecordOrientedStream( const basic_RecordOrientedStream& ) = delete;
 
 basic_RecordOrientedStream( basic_RecordOrientedStream&& other ) :
-  Stream( std::make_unique< Streambuf >( *(other.core->rdbuf()),
-  					   this->buffer,
-					   this->lineNumber ).release() ) {
+  Stream( new Streambuf
+          ( *(other.core->rdbuf()), this->buffer, this->lineNumber ) ) {
   this->core = std::move(other.core);
   this->buffer = std::move(other.buffer);
   this->lineNumber = other.lineNumber;
