@@ -4,7 +4,6 @@ basic_RecordOrientedStream( std::unique_ptr< DerivedStream >&& core, const long 
   Stream( new Streambuf
           ( *(core->rdbuf()), this->buffer, this->lineNumber ) ),
   core( std::move( core ) ), lineNumber( lineNumber ){
-  Log::info("Size is: {}", sizeof(Streambuf));
 }
 
 public:
