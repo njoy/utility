@@ -18,14 +18,15 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
   else
     export CUSTOM=('-D CMAKE_AR=/usr/bin/gcc-ar' '-D CMAKE_NM=/usr/bin/gcc-nm' '-D CMAKE_RANLIB=/usr/bin/gcc-ranlib' '-D link_time_optimization=ON')
   fi;
-  if [ "$build_type" = "coverage" ]; then
-    export build_type=DEBUG
-    export coverage=true
-    export NOPE="$NOPE -D coverage=ON"
-  else
-    export coverage=false
-  fi;  
 fi
+
+if [ "$build_type" = "coverage" ]; then
+  export build_type=DEBUG
+  export coverage=true
+  export NOPE="$NOPE -D coverage=ON"
+else
+  export coverage=false
+fi;  
 
 ./metaconfigure/fetch_subprojects.py
 mkdir build

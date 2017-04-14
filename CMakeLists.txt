@@ -26,9 +26,9 @@ project( utility LANGUAGES CXX )
 get_directory_property( is_subproject PARENT_DIRECTORY )
 include( CMakeDependentOption REQUIRED )
 
-set( utility_Clang_minimum_version 3.8 )
 set( utility_GNU_minimum_version 6.2 )
-set( utility_AppleClang_minimum_version 8.0 )
+set( utility_Clang_minimum_version 3.8 )
+set( utility_AppleClang_minimum_version 7.0 )
 
 if( utility_${CMAKE_CXX_COMPILER_ID}_minimum_version )
     if( CMAKE_CXX_COMPILER_VERSION AND
@@ -69,42 +69,6 @@ if ( profile_generate )
     file( MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/profiling" )
 endif()
 
-set( utility_Clang_Windows_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_Clang_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( utility_Clang_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_Clang_Windows_strict_flags "-Werror" )
-set( utility_Clang_Windows_coverage_flags "--coverage" )
-set( utility_Clang_Windows_subproject_flags  )
-set( utility_Clang_Windows_base_project_flags  )
-set( utility_Clang_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Windows_link_time_optimization_flags "-flto" )
-set( utility_Clang_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Windows_nonportable_optimization_flags "-march=native" )
-set( utility_Clang_Windows_static_flags "-static" )
-set( utility_Clang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_Clang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( utility_Clang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_Clang_Darwin_strict_flags "-Werror" )
-set( utility_Clang_Darwin_coverage_flags "--coverage" )
-set( utility_Clang_Darwin_subproject_flags  )
-set( utility_Clang_Darwin_base_project_flags  )
-set( utility_Clang_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Darwin_link_time_optimization_flags "-flto" )
-set( utility_Clang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Darwin_nonportable_optimization_flags "-march=native" )
-set( utility_Clang_Darwin_static_flags "-static" )
-set( utility_Clang_Linux_common_flags "-stdlib=libstdc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_Clang_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( utility_Clang_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_Clang_Linux_strict_flags "-Werror" )
-set( utility_Clang_Linux_coverage_flags "--coverage" )
-set( utility_Clang_Linux_subproject_flags  )
-set( utility_Clang_Linux_base_project_flags  )
-set( utility_Clang_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Linux_link_time_optimization_flags "-flto" )
-set( utility_Clang_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Linux_nonportable_optimization_flags "-march=native" )
-set( utility_Clang_Linux_static_flags "-static" )
 set( utility_GNU_Windows_common_flags "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
 set( utility_GNU_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
 set( utility_GNU_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -117,18 +81,6 @@ set( utility_GNU_Windows_link_time_optimization_flags "-flto" )
 set( utility_GNU_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( utility_GNU_Windows_nonportable_optimization_flags "-march=native" )
 set( utility_GNU_Windows_static_flags "-static" )
-set( utility_GNU_Darwin_common_flags "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_GNU_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( utility_GNU_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_GNU_Darwin_strict_flags "-Werror" )
-set( utility_GNU_Darwin_coverage_flags "--coverage" )
-set( utility_GNU_Darwin_subproject_flags  )
-set( utility_GNU_Darwin_base_project_flags  )
-set( utility_GNU_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Darwin_link_time_optimization_flags "-flto" )
-set( utility_GNU_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Darwin_nonportable_optimization_flags "-march=native" )
-set( utility_GNU_Darwin_static_flags "-static" )
 set( utility_GNU_Linux_common_flags "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
 set( utility_GNU_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
 set( utility_GNU_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -141,6 +93,54 @@ set( utility_GNU_Linux_link_time_optimization_flags "-flto" )
 set( utility_GNU_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( utility_GNU_Linux_nonportable_optimization_flags "-march=native" )
 set( utility_GNU_Linux_static_flags "-static" )
+set( utility_GNU_Darwin_common_flags "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
+set( utility_GNU_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_GNU_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_GNU_Darwin_strict_flags "-Werror" )
+set( utility_GNU_Darwin_coverage_flags "--coverage" )
+set( utility_GNU_Darwin_subproject_flags  )
+set( utility_GNU_Darwin_base_project_flags  )
+set( utility_GNU_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Darwin_link_time_optimization_flags "-flto" )
+set( utility_GNU_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Darwin_nonportable_optimization_flags "-march=native" )
+set( utility_GNU_Darwin_static_flags "-static" )
+set( utility_Clang_Windows_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
+set( utility_Clang_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( utility_Clang_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_Windows_strict_flags "-Werror" )
+set( utility_Clang_Windows_coverage_flags "--coverage" )
+set( utility_Clang_Windows_subproject_flags  )
+set( utility_Clang_Windows_base_project_flags  )
+set( utility_Clang_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Windows_link_time_optimization_flags "-flto" )
+set( utility_Clang_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Windows_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_Windows_static_flags "-static" )
+set( utility_Clang_Linux_common_flags "-stdlib=libstdc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
+set( utility_Clang_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( utility_Clang_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_Linux_strict_flags "-Werror" )
+set( utility_Clang_Linux_coverage_flags "--coverage" )
+set( utility_Clang_Linux_subproject_flags  )
+set( utility_Clang_Linux_base_project_flags  )
+set( utility_Clang_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Linux_link_time_optimization_flags "-flto" )
+set( utility_Clang_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Linux_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_Linux_static_flags "-static" )
+set( utility_Clang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
+set( utility_Clang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( utility_Clang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_Darwin_strict_flags "-Werror" )
+set( utility_Clang_Darwin_coverage_flags "--coverage" )
+set( utility_Clang_Darwin_subproject_flags  )
+set( utility_Clang_Darwin_base_project_flags  )
+set( utility_Clang_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Darwin_link_time_optimization_flags "-flto" )
+set( utility_Clang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Darwin_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_Darwin_static_flags "-static" )
 set( utility_AppleClang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
 set( utility_AppleClang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
 set( utility_AppleClang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -171,16 +171,16 @@ list( INSERT 0 CMAKE_INSTALL_RPATH "${rpath_prefix}/../lib" )
 set( CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE )
 get_directory_property( is_subproject PARENT_DIRECTORY )
 
+if( NOT TARGET catch-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
+endif()
+
 if( NOT TARGET fmt-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
 endif()
 
 if( NOT TARGET spdlog-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/spdlog-adapter )
-endif()
-
-if( NOT TARGET catch-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
 endif()
 
 if( NOT TARGET Log )
@@ -222,20 +222,6 @@ message( STATUS "" )
 message( STATUS "-----------------------------------------------------------" )
 
 add_library( utility ${utility_library_linkage} 
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getBool.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getEnergy.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getInteger.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntInRange.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntWithLBound.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getLine.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getRealNumber.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getRealWithLBound.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getStringArg.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getTemperature.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/readString.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/split.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/toDouble.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/trim.cpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/realNumberStringCollection.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream.hpp"
@@ -262,7 +248,21 @@ add_library( utility ${utility_library_linkage}
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/dtor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/file.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/path.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/unzip.hpp" )
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/unzip.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getBool.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getEnergy.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getInteger.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntInRange.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntWithLBound.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getLine.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getRealNumber.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getRealWithLBound.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getStringArg.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getTemperature.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/readString.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/split.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/toDouble.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/trim.cpp" )
 
 target_include_directories( utility PUBLIC src )
 
@@ -287,17 +287,17 @@ ${CXX_appended_flags} ${utility_appended_flags} )
 
 target_link_libraries( utility PUBLIC "$<$<AND:$<CONFIG:RELEASE>,$<BOOL:${link_time_optimization}>>:${${PREFIX}_RELEASE_flags};${${PREFIX}_link_time_optimization_flags}$<$<BOOL:${profile_generate}>:${${PREFIX}_profile_generate_flags};>$<$<BOOL:${profile_use}>:${${PREFIX}_profile_use_flags};>$<$<BOOL:${nonportable_optimization}>:${${PREFIX}_nonportable_optimization_flags};>>$<$<CONFIG:DEBUG>:$<$<BOOL:${coverage}>:${${PREFIX}_coverage_flags};>>$<$<BOOL:CXX_appended_flags>:${CXX_appended_flags};>$<$<BOOL:utility_appended_flags>:${utility_appended_flags};>" )
 
-target_link_libraries( utility PUBLIC header-utilities PUBLIC catch-adapter )
+target_link_libraries( utility PUBLIC catch-adapter PUBLIC header-utilities )
 
 if( NOT is_subproject )
     enable_testing() 
     if ( unit_tests )
-        add_subdirectory( src/utility/stream/basic_TeeStream/test )
-        add_subdirectory( src/utility/stream/basic_FILE_streambuf/test )
         add_subdirectory( src/utility/string/test )
+        add_subdirectory( src/utility/stream/basic_FILE_streambuf/test )
         add_subdirectory( src/utility/stream/basic_TemporaryFileStream/test )
-        add_subdirectory( src/utility/stream/test )
         add_subdirectory( src/utility/stream/basic_RecordOrientedStream/test )
+        add_subdirectory( src/utility/stream/basic_TeeStream/test )
+        add_subdirectory( src/utility/stream/test )
     endif() 
 endif()
 
