@@ -35,6 +35,6 @@ SCENARIO( "Creating a temporary file for writing",
   } // WHEN
 
   WHEN( "testing ability to throw exceptions" ){
-    REQUIRE_THROWS( TemporaryFileStream tfs(0) );
+    REQUIRE_THROWS( TemporaryFileStream(0) );
   }
 } // SCENARIO
