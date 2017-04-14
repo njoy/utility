@@ -23,7 +23,7 @@ fi
 if [ "$build_type" = "coverage" ]; then
   export build_type=DEBUG
   export coverage=true
-  export NOPE="$NOPE -D coverage=ON"
+  export CUSTOM+=('-D coverage=ON')
 else
   export coverage=false
 fi;  
