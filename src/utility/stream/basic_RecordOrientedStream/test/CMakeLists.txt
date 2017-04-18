@@ -1,13 +1,20 @@
+
 add_executable( utility.stream.basic_RecordOrientedStream.test
                 basic_RecordOrientedStream.test.cpp
                 fstreamRegression.test.cpp )
-set( test_flags ${utility_compiler_flags} )
-separate_arguments( test_flags_list UNIX_COMMAND "${test_flags}" )
-foreach( flag IN LISTS test_flags_list )
-    target_compile_options( utility.stream.basic_RecordOrientedStream.test PUBLIC ${flag} )
-endforeach( flag )
-set_target_properties( utility.stream.basic_RecordOrientedStream.test PROPERTIES LINK_FLAGS "${test_flags}" )
-target_link_libraries( utility.stream.basic_RecordOrientedStream.test PUBLIC utility )
-file( GLOB resources "resources/*" ) 
-file( COPY "${resources}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}" ) 
-add_test( NAME utility.stream.basic_RecordOrientedStream COMMAND utility.stream.basic_RecordOrientedStream.test ) 
+target_compile_options( utility.stream.basic_RecordOrientedStream.test PRIVATE ${${PREFIX}_common_flags}
+$<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
+${${PREFIX}_DEBUG_flags}
+$<$<BOOL:${coverage}>:${${PREFIX}_coverage_flags}>>
+$<$<CONFIG:RELEASE>:
+${${PREFIX}_RELEASE_flags}
+$<$<BOOL:${link_time_optimization}>:${${PREFIX}_link_time_optimization_flags}>
+$<$<BOOL:${nonportable_optimization}>:${${PREFIX}_nonportable_optimization_flags}>>
+
+${CXX_appended_flags} ${utility_appended_flags} )
+target_link_libraries( utility.stream.basic_RecordOrientedStream.test PUBLIC utility ) 
+file( GLOB resources "resources/*" )
+foreach( resource ${resources})
+    file( COPY "${resource}" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}" )
+endforeach()
+add_test( NAME utility.stream.basic_RecordOrientedStream COMMAND utility.stream.basic_RecordOrientedStream.test )

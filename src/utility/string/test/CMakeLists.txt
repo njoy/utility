@@ -1,3 +1,4 @@
+
 add_executable( utility.string.test
                 isInteger.test.cpp
                 isRealNumber.test.cpp
@@ -6,11 +7,15 @@ add_executable( utility.string.test
                 toDouble.test.cpp
                 trim.test.cpp
                 unzip.test.cpp )
-set( test_flags ${utility_compiler_flags} )
-separate_arguments( test_flags_list UNIX_COMMAND "${test_flags}" )
-foreach( flag IN LISTS test_flags_list )
-    target_compile_options( utility.string.test PUBLIC ${flag} )
-endforeach( flag )
-set_target_properties( utility.string.test PROPERTIES LINK_FLAGS "${test_flags}" )
-target_link_libraries( utility.string.test PUBLIC utility )
-add_test( NAME utility.string COMMAND utility.string.test ) 
+target_compile_options( utility.string.test PRIVATE ${${PREFIX}_common_flags}
+$<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
+${${PREFIX}_DEBUG_flags}
+$<$<BOOL:${coverage}>:${${PREFIX}_coverage_flags}>>
+$<$<CONFIG:RELEASE>:
+${${PREFIX}_RELEASE_flags}
+$<$<BOOL:${link_time_optimization}>:${${PREFIX}_link_time_optimization_flags}>
+$<$<BOOL:${nonportable_optimization}>:${${PREFIX}_nonportable_optimization_flags}>>
+
+${CXX_appended_flags} ${utility_appended_flags} )
+target_link_libraries( utility.string.test PUBLIC utility ) 
+add_test( NAME utility.string COMMAND utility.string.test )

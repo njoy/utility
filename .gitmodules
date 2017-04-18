@@ -1,6 +1,6 @@
 [submodule "dependencies/catch-adapter"]
 	path = dependencies/catch-adapter
-	url = https://github.com/apmccartney/catch-adapter.git
+	url = https://github.com/njoy/catch-adapter.git
 [submodule "dependencies/header-utilities"]
 	path = dependencies/header-utilities
 	url = https://github.com/njoy/header-utilities.git
