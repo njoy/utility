@@ -9,4 +9,6 @@ operator=( basic_RecordOrientedStream&& other ){
   this->lineNumber = other.lineNumber;
   this->rdbuf( new Streambuf( *(this->core->rdbuf()),
                               this->buffer, this->lineNumber ) );
+
+  return *this;
 }

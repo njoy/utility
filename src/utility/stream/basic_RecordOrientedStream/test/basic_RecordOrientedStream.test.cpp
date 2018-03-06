@@ -55,4 +55,17 @@ SCENARIO( "Creating a record-oriented stream for writing",
     REQUIRE( std::char_traits<char>::eof() == ros.get() );
     REQUIRE( std::char_traits<char>::eof() == ros.get() );
   }
+
+  WHEN( "assigning one stream to another" ){
+    std::istringstream iss( line1Text );
+    iRecordOrientedStream ros( std::move(iss) );
+
+    std::istringstream iss2( "abc2" );
+    ros = iRecordOrientedStream( std::move( iss2 ) );
+    REQUIRE( ros.buffer == "" );
+    std::string garbage;
+    ros >> garbage;
+    REQUIRE( garbage == "abc2" );
+    REQUIRE( ros.buffer == "abc2" );
+  }
 } // SCENARIO
