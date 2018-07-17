@@ -26,8 +26,10 @@ os:
 - osx
 
 osx_image: xcode8
+
 script: "./.travis/build.sh"
 after_success: "./.travis/signature.sh"
+
 env:
   matrix:
   - build_type=debug static_libraries=FALSE
@@ -38,22 +40,24 @@ env:
     secure: Gcp33OX0h2fUBN2cAfxbKSPyjtypcuq2HWlQNbjox01hZ86f9NxYsNlDYHmZ9MyZBIOiCLESTcn7MTLoVX2t0TD2M4NmBEoYauUml9VtLmbXq/mUiNKl2penMRvLBm+sx174OYAVzQX5Kvs8kNmlfwaR7+HBQUgUeEu45nBhRHuqtweQwRgr3bvt2c52bSND9GFN6zgtdKHdgoJvp1OXvqFh9gtHEhu7v9QsWejTeoh7eTRAzq7VmiQROt3uxLvVpDr3jXRXcyQ1BFE2nV5P2/+LY3FxopQIqZs/oQe8EFLyQsPhp/9CBImRHfaUGlPVqGFyjrevRp2FChuGx7Q9XsJ5wwbA49VVQRDKNYKU6fJzJnTAzasj02qJFli0qHGNlpYnme6lXtfiHC1dWou8Yo5DUm5gqAecIuQo4HBvE6z9LUH27h4gnL4vI+EFjsrg9MRdmC4IQ0QYtEVP24DhHu/hJfm9BoZaS5DKXw3lEXiDTAkxAelj22AkDEHqgk+FvAhsLflOZtu36bBfBik5T7Qi+eMRWnbY1SckC9QOQAjXce6cEP/kD3nkdh/18FrLnsUOwqLmX1i0+X2+T29JtGx7ZovNJSTyXM3A+tO6hbcgakMsfg34SYrVCnczuYMriMEmRXrMGDy2PMvQecjz+c+NzPifphD1WYIYtgMakkM=
 matrix:
   include:
-  - os: linux
-    compiler: gcc
-    env: build_type=coverage static_libraries=FALSE
-  - os: linux
-    compiler: clang
-    env: build_type=debug static_libraries=FALSE appended_flags="-fsanitize=address
-      -fno-omit-frame-pointer "
-  - os: linux
-    compiler: clang
-    env: build_type=debug static_libraries=TRUE appended_flags="-fsanitize=memory
-      -fPIE -fno-omit-frame-pointer "
-  - os: linux
-    compiler: clang
+    - os: linux
+      compiler: gcc
+      env: build_type=coverage static_libraries=FALSE
+    - os: linux
+      compiler: clang
+      env:
+        build_type=debug static_libraries=FALSE
+        appended_flags="-fsanitize=address -fno-omit-frame-pointer "
+    - os: linux
+      compiler: clang
+      env:
+        build_type=debug static_libraries=TRUE
+        appended_flags="-fsanitize=memory -fPIE -fno-omit-frame-pointer "
+    - os: linux
+      compiler: clang
       env:
         build_type=debug static_libraries=FALSE
         appended_flags="-fsanitize=undefined -fsanitize=integer -fno-omit-frame-pointer "
   exclude:
-  - os: osx
-    compiler: gcc
+    - os: osx
+      compiler: gcc
