@@ -1,9 +1,5 @@
 [![Build Status](https://travis-ci.org/njoy/utility.svg?branch=master)](https://travis-ci.org/njoy/utility)
 [![Coverage Status](https://coveralls.io/repos/github/njoy/utility/badge.svg?branch=master)](https://coveralls.io/github/njoy/utility?branch=master)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/8474/badge.svg)](https://scan.coverity.com/projects/njoy-utility)
-
-[![Stories in In Progress](https://badge.waffle.io/njoy/utility.svg?label=In%20Progress&title=In%20Progress)](http://waffle.io/njoy/utility)
-[![Stories in Ready](https://badge.waffle.io/njoy/utility.svg?label=ready&title=Ready)](http://waffle.io/njoy/utility)
 
 Nuclear Data C++ Utilities
 ==========================
