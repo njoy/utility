@@ -17,29 +17,37 @@ if [ "$TRAVIS_OS_NAME" = "linux" ]; then
   fi;
 fi
 
-./fetch_subprojects.py
+if [ "$build_type" = "coverage" ]; then
+  export build_type=DEBUG
+  export coverage=true
+  export CUSTOM+=('-D coverage=ON')
+else
+  export coverage=false
+fi;  
+
+./metaconfigure/fetch_subprojects.py
 mkdir build
 cd build
-cmake -D build_type=$build_type \
+cmake -D CMAKE_BUILD_TYPE=$build_type \
       -D static_libraries=$static_libraries \
-      -D appended_flags="$appended_flags" \
-      $NOPE ..
-make -j2
-
+      -D utility_appended_flags="$appended_flags" \
+      ${CUSTOM[@]} ..
+make VERBOSE=1 -j2
 export COMPILATION_FAILURE=$?
-ctest --output-on-failure -j2
-export TEST_FAILURE=$?
-
-if [ "$build_type" = "coverage" ]
+if [ $COMPILATION_FAILURE -ne 0 ];
 then
-    pip install --user cpp-coveralls
-    echo "loading coverage information"
-    coveralls  --exclude-pattern "/usr/include/.*|.*/CMakeFiles/.*|.*subprojects.*|.*dependencies.*|.*test\.cpp" --root ".." --build-root "." --gcov-options '\-lp'
+  exit 1
 fi
 
-if [ $COMPILATION_FAILURE -ne 0 ] || [ $TEST_FAILURE -ne 0 ];
+ctest --output-on-failure -j2
+export TEST_FAILURE=$?
+if [ $TEST_FAILURE -ne 0 ];
 then
     exit 1
-else
-    exit 0
+fi
+
+if $coverage; then
+  pip install --user cpp-coveralls
+  echo "loading coverage information"
+  coveralls  --exclude-pattern "/usr/include/.*|.*/CMakeFiles/.*|.*subprojects.*|.*dependencies.*|.*test\.cpp" --root ".." --build-root "." --gcov-options '\-lp'
 fi
