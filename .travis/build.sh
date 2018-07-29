@@ -1,22 +1,19 @@
 #!/bin/bash
-set -x
 
 if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-    sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.8 90 \
-         --slave /usr/bin/clang++ clang++ /usr/bin/clang++-3.8
-    sudo update-alternatives --config clang
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 90 \
-	 --slave /usr/bin/g++ g++ /usr/bin/g++-6 \
-	 --slave /usr/bin/gcov gcov /usr/bin/gcov-6 \
-	 --slave /usr/bin/gcc-ar ar /usr/bin/gcc-ar-6 \
-	 --slave /usr/bin/gcc-nm nm /usr/bin/gcc-nm-6 \
-	 --slave /usr/bin/gcc-ranlib ranlib /usr/bin/gcc-ranlib-6
-    sudo update-alternatives --config gcc
+  sudo update-alternatives \
+    --install /usr/bin/gcc gcc /usr/bin/gcc-6 90 \
+    --slave /usr/bin/g++ g++ /usr/bin/g++-6 \
+    --slave /usr/bin/gcov gcov /usr/bin/gcov-6
+  sudo update-alternatives \
+    --install /usr/bin/clang clang /usr/bin/clang-3.8 90 \
+    --slave /usr/bin/clang++ clang++ /usr/bin/clang++-3.8
+  sudo update-alternatives --config gcc
+  sudo update-alternatives --config clang
   if [ "$CXX" = "clang++" ]; then
+    export appended_flags=$appended_flags"-stdlib=libstdc++"
     export PATH=/usr/bin:$PATH
-    export CUSTOM=("-D link_time_optimization=OFF")
-  else
-    export CUSTOM=('-D CMAKE_AR=/usr/bin/gcc-ar' '-D CMAKE_NM=/usr/bin/gcc-nm' '-D CMAKE_RANLIB=/usr/bin/gcc-ranlib' '-D link_time_optimization=ON')
+    export NOPE='-D no_link_time_optimization=TRUE'
   fi;
 fi
 
