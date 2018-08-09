@@ -2,10 +2,10 @@
 cmake_minimum_required( VERSION 3.2 ) 
 set( CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Supported configuration types" FORCE )
         
-if( NOT ROOT_DIRECTORY )
+if( ROOT_DIRECTORY )
     set( ROOT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
-    if ( NOT fetched_subprojects )
-        if ( NOT PYTHON_EXECUTABLE )
+    if ( fetched_subprojects )
+        if ( PYTHON_EXECUTABLE )
             find_package( PythonInterp )
             if ( NOT PYTHONINTERP_FOUND )
                 message( FATAL_ERROR "Python interpeter installation was not found." )
@@ -28,7 +28,6 @@ include( CMakeDependentOption REQUIRED )
 
 set( utility_GNU_minimum_version 6.2 )
 set( utility_Clang_minimum_version 3.8 )
-set( utility_AppleClang_minimum_version 7.0 )
 
 if( utility_${CMAKE_CXX_COMPILER_ID}_minimum_version )
     if( CMAKE_CXX_COMPILER_VERSION AND
