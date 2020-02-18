@@ -1,7 +1,7 @@
 
 add_executable( utility.stream.basic_RecordOrientedStream.test
-                basic_RecordOrientedStream.test.cpp
-                fstreamRegression.test.cpp )
+                fstreamRegression.test.cpp
+                basic_RecordOrientedStream.test.cpp )
 target_compile_options( utility.stream.basic_RecordOrientedStream.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

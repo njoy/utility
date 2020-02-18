@@ -1,12 +1,12 @@
 
 add_executable( utility.string.test
-                isInteger.test.cpp
-                isRealNumber.test.cpp
                 split.test.cpp
+                isInteger.test.cpp
+                trim.test.cpp
+                unzip.test.cpp
                 string.test.cpp
                 toDouble.test.cpp
-                trim.test.cpp
-                unzip.test.cpp )
+                isRealNumber.test.cpp )
 target_compile_options( utility.string.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

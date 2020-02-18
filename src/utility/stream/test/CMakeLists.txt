@@ -1,17 +1,17 @@
 
 add_executable( utility.stream.test
-                getBool.test.cpp
-                getEnergy.test.cpp
+                getIntWithLBound.test.cpp
                 getInteger.test.cpp
                 getIntInRange.test.cpp
-                getIntWithLBound.test.cpp
-                getLine.test.cpp
-                getRealNumber.test.cpp
-                getRealWithLBound.test.cpp
-                getStringArg.test.cpp
-                getTemperature.test.cpp
                 readString.test.cpp
-                stream.test.cpp )
+                getBool.test.cpp
+                getRealWithLBound.test.cpp
+                getEnergy.test.cpp
+                getTemperature.test.cpp
+                stream.test.cpp
+                getStringArg.test.cpp
+                getRealNumber.test.cpp
+                getLine.test.cpp )
 target_compile_options( utility.stream.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}
