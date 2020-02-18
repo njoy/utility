@@ -1,7 +1,7 @@
 {
   "compiler": {
     "apple clang++": {
-      "minimum version": "7.0",
+      "minimum version": "8.0",
       "osx": {
         "flags": {
           "base project": [],
@@ -48,15 +48,69 @@
         "standard": {
           "c++11": "-std=c++11",
           "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
           "c++98": "-std=c++98"
         }
       }
     },
     "g++": {
+      "cygwin": {
+        "flags": {
+          "base project": [],
+          "common": [
+            "-Wno-subobject-linkage"
+          ],
+          "coverage": [
+            "--coverage"
+          ],
+          "debug": [
+            "-O0",
+            "-g",
+            "-gdwarf-3",
+            "-fsignaling-nans"
+          ],
+          "link time optimization": [
+            "-flto"
+          ],
+          "nonportable optimization": [
+            "-march=native"
+          ],
+          "optimization": [
+            "-O3",
+            "-DNDEBUG"
+          ],
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ],
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ],
+          "static": [
+            "-static"
+          ],
+          "strict": [
+            "-Werror"
+          ],
+          "subproject": [],
+          "warning": [
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic"
+          ]
+        },
+        "standard": {
+          "c++11": "-std=gnu++11",
+          "c++14": "-std=gnu++14",
+          "c++17": "-std=gnu++17",
+          "c++98": "-std=gnu++98"
+        }
+      },
       "linux": {
         "flags": {
           "base project": [],
-          "common": [],
+          "common": [
+            "-Wno-subobject-linkage"
+          ],
           "coverage": [
             "--coverage"
           ],
@@ -98,6 +152,58 @@
         "standard": {
           "c++11": "-std=c++11",
           "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
+          "c++98": "-std=c++98"
+        }
+      },
+      "mingw": {
+        "flags": {
+          "base project": [],
+          "common": [
+            "-Wno-subobject-linkage"
+          ],
+          "coverage": [
+            "--coverage"
+          ],
+          "debug": [
+            "-O0",
+            "-g",
+            "-gdwarf-3",
+            "-fsignaling-nans"
+          ],
+          "link time optimization": [
+            "-flto"
+          ],
+          "nonportable optimization": [
+            "-march=native"
+          ],
+          "optimization": [
+            "-O3",
+            "-DNDEBUG"
+          ],
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ],
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ],
+          "static": [
+            "-static"
+          ],
+          "strict": [
+            "-Werror"
+          ],
+          "subproject": [],
+          "warning": [
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic"
+          ]
+        },
+        "standard": {
+          "c++11": "-std=c++11",
+          "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
           "c++98": "-std=c++98"
         }
       },
@@ -105,7 +211,9 @@
       "osx": {
         "flags": {
           "base project": [],
-          "common": [],
+          "common": [
+            "-Wno-subobject-linkage"
+          ],
           "coverage": [
             "--coverage"
           ],
@@ -147,13 +255,16 @@
         "standard": {
           "c++11": "-std=c++11",
           "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
           "c++98": "-std=c++98"
         }
       },
       "windows": {
         "flags": {
           "base project": [],
-          "common": [],
+          "common": [
+            "-Wno-subobject-linkage"
+          ],
           "coverage": [
             "--coverage"
           ],
@@ -195,11 +306,63 @@
         "standard": {
           "c++11": "-std=c++11",
           "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
           "c++98": "-std=c++98"
         }
       }
     },
     "llvm clang++": {
+      "cygwin": {
+        "flags": {
+          "base project": [],
+          "common": [
+            "-Wno-subobject-linkage"
+          ],
+          "coverage": [
+            "--coverage"
+          ],
+          "debug": [
+            "-O0",
+            "-g",
+            "-gdwarf-3",
+            "-fsignaling-nans"
+          ],
+          "link time optimization": [
+            "-flto"
+          ],
+          "nonportable optimization": [
+            "-march=native"
+          ],
+          "optimization": [
+            "-O3",
+            "-DNDEBUG"
+          ],
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ],
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ],
+          "static": [
+            "-static"
+          ],
+          "strict": [
+            "-Werror"
+          ],
+          "subproject": [],
+          "warning": [
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic"
+          ]
+        },
+        "standard": {
+          "c++11": "-std=gnu++11",
+          "c++14": "-std=gnu++14",
+          "c++17": "-std=gnu++17",
+          "c++98": "-std=gnu++98"
+        }
+      },
       "linux": {
         "flags": {
           "base project": [],
@@ -246,6 +409,58 @@
         "standard": {
           "c++11": "-std=c++11",
           "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
+          "c++98": "-std=c++98"
+        }
+      },
+      "mingw": {
+        "flags": {
+          "base project": [],
+          "common": [
+            "-Wno-subobject-linkage"
+          ],
+          "coverage": [
+            "--coverage"
+          ],
+          "debug": [
+            "-O0",
+            "-g",
+            "-gdwarf-3",
+            "-fsignaling-nans"
+          ],
+          "link time optimization": [
+            "-flto"
+          ],
+          "nonportable optimization": [
+            "-march=native"
+          ],
+          "optimization": [
+            "-O3",
+            "-DNDEBUG"
+          ],
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ],
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ],
+          "static": [
+            "-static"
+          ],
+          "strict": [
+            "-Werror"
+          ],
+          "subproject": [],
+          "warning": [
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic"
+          ]
+        },
+        "standard": {
+          "c++11": "-std=c++11",
+          "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
           "c++98": "-std=c++98"
         }
       },
@@ -296,6 +511,7 @@
         "standard": {
           "c++11": "-std=c++11",
           "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
           "c++98": "-std=c++98"
         }
       },
@@ -345,12 +561,17 @@
         "standard": {
           "c++11": "-std=c++11",
           "c++14": "-std=c++14",
+          "c++17": "-std=c++17",
           "c++98": "-std=c++98"
         }
       }
     }
   },
+  "configure files": [],
   "file extension": {
+    "configure files": [
+      "in"
+    ],
     "header files": [
       "h++",
       "hxx",
@@ -362,7 +583,8 @@
       "c++",
       "cxx",
       "cpp",
-      "cc"
+      "cc",
+      "C"
     ]
   },
   "header files": [
@@ -370,81 +592,82 @@
     "src/utility/realNumberStringCollection.hpp",
     "src/utility/stream.hpp",
     "src/utility/string.hpp",
-    "src/utility/stream/basic_FILE_streambuf.hpp",
-    "src/utility/stream/basic_RecordOriented_streambuf.hpp",
-    "src/utility/stream/basic_RecordOrientedStream.hpp",
     "src/utility/stream/basic_Tee_streambuf.hpp",
     "src/utility/stream/basic_TeeStream.hpp",
+    "src/utility/stream/basic_FILE_streambuf.hpp",
     "src/utility/stream/basic_TemporaryFileStream.hpp",
-    "src/utility/stream/basic_FILE_streambuf/src/ctor.hpp",
-    "src/utility/stream/basic_FILE_streambuf/src/dtor.hpp",
-    "src/utility/stream/basic_FILE_streambuf/src/flush.hpp",
+    "src/utility/stream/basic_RecordOrientedStream.hpp",
+    "src/utility/stream/basic_RecordOriented_streambuf.hpp",
     "src/utility/stream/basic_FILE_streambuf/src/overflow.hpp",
     "src/utility/stream/basic_FILE_streambuf/src/underflow.hpp",
-    "src/utility/stream/basic_RecordOrientedStream/src/assignment.hpp",
-    "src/utility/stream/basic_RecordOrientedStream/src/ctor.hpp",
-    "src/utility/stream/basic_RecordOrientedStream/src/dtor.hpp",
-    "src/utility/stream/basic_TeeStream/src/assignment.hpp",
+    "src/utility/stream/basic_FILE_streambuf/src/ctor.hpp",
+    "src/utility/stream/basic_FILE_streambuf/src/flush.hpp",
+    "src/utility/stream/basic_FILE_streambuf/src/dtor.hpp",
     "src/utility/stream/basic_TeeStream/src/ctor.hpp",
     "src/utility/stream/basic_TeeStream/src/dtor.hpp",
-    "src/utility/stream/basic_TemporaryFileStream/src/assignment.hpp",
-    "src/utility/stream/basic_TemporaryFileStream/src/ctor.hpp",
-    "src/utility/stream/basic_TemporaryFileStream/src/dtor.hpp",
+    "src/utility/stream/basic_TeeStream/src/assignment.hpp",
     "src/utility/stream/basic_TemporaryFileStream/src/file.hpp",
     "src/utility/stream/basic_TemporaryFileStream/src/path.hpp",
+    "src/utility/stream/basic_TemporaryFileStream/src/ctor.hpp",
+    "src/utility/stream/basic_TemporaryFileStream/src/dtor.hpp",
+    "src/utility/stream/basic_TemporaryFileStream/src/assignment.hpp",
+    "src/utility/stream/basic_RecordOrientedStream/src/ctor.hpp",
+    "src/utility/stream/basic_RecordOrientedStream/src/dtor.hpp",
+    "src/utility/stream/basic_RecordOrientedStream/src/assignment.hpp",
     "src/utility/string/unzip.hpp"
   ],
   "ignore pattern": "$^",
   "implementation files": [
-    "src/utility/stream/src/getBool.cpp",
-    "src/utility/stream/src/getEnergy.cpp",
-    "src/utility/stream/src/getInteger.cpp",
-    "src/utility/stream/src/getIntInRange.cpp",
-    "src/utility/stream/src/getIntWithLBound.cpp",
-    "src/utility/stream/src/getLine.cpp",
-    "src/utility/stream/src/getRealNumber.cpp",
     "src/utility/stream/src/getRealWithLBound.cpp",
-    "src/utility/stream/src/getStringArg.cpp",
-    "src/utility/stream/src/getTemperature.cpp",
+    "src/utility/stream/src/getRealNumber.cpp",
     "src/utility/stream/src/readString.cpp",
+    "src/utility/stream/src/getLine.cpp",
+    "src/utility/stream/src/getInteger.cpp",
+    "src/utility/stream/src/getBool.cpp",
+    "src/utility/stream/src/getTemperature.cpp",
+    "src/utility/stream/src/getIntInRange.cpp",
+    "src/utility/stream/src/getEnergy.cpp",
+    "src/utility/stream/src/getStringArg.cpp",
+    "src/utility/stream/src/getIntWithLBound.cpp",
     "src/utility/string/src/split.cpp",
     "src/utility/string/src/toDouble.cpp",
     "src/utility/string/src/trim.cpp"
   ],
-  "include path": "src",
+  "include path": "src/",
   "initialized": true,
   "is external project": false,
   "language": "c++",
   "name": "utility",
-  "standard": "c++14",
+  "standard": "c++17",
   "standards": [
     "c++98",
     "c++11",
-    "c++14"
+    "c++14",
+    "c++17"
   ],
   "strict": true,
   "test pattern": "test$",
   "tests": {
     "utility.stream": [
-      "src/utility/stream/test/getBool.test.cpp",
-      "src/utility/stream/test/getEnergy.test.cpp",
+      "src/utility/stream/test/getIntWithLBound.test.cpp",
       "src/utility/stream/test/getInteger.test.cpp",
       "src/utility/stream/test/getIntInRange.test.cpp",
-      "src/utility/stream/test/getIntWithLBound.test.cpp",
-      "src/utility/stream/test/getLine.test.cpp",
-      "src/utility/stream/test/getRealNumber.test.cpp",
-      "src/utility/stream/test/getRealWithLBound.test.cpp",
-      "src/utility/stream/test/getStringArg.test.cpp",
-      "src/utility/stream/test/getTemperature.test.cpp",
       "src/utility/stream/test/readString.test.cpp",
-      "src/utility/stream/test/stream.test.cpp"
+      "src/utility/stream/test/getBool.test.cpp",
+      "src/utility/stream/test/getRealWithLBound.test.cpp",
+      "src/utility/stream/test/getEnergy.test.cpp",
+      "src/utility/stream/test/getTemperature.test.cpp",
+      "src/utility/stream/test/stream.test.cpp",
+      "src/utility/stream/test/getStringArg.test.cpp",
+      "src/utility/stream/test/getRealNumber.test.cpp",
+      "src/utility/stream/test/getLine.test.cpp"
     ],
     "utility.stream.basic_FILE_streambuf": [
       "src/utility/stream/basic_FILE_streambuf/test/FILE_streambuf.test.cpp"
     ],
     "utility.stream.basic_RecordOrientedStream": [
-      "src/utility/stream/basic_RecordOrientedStream/test/basic_RecordOrientedStream.test.cpp",
-      "src/utility/stream/basic_RecordOrientedStream/test/fstreamRegression.test.cpp"
+      "src/utility/stream/basic_RecordOrientedStream/test/fstreamRegression.test.cpp",
+      "src/utility/stream/basic_RecordOrientedStream/test/basic_RecordOrientedStream.test.cpp"
     ],
     "utility.stream.basic_TeeStream": [
       "src/utility/stream/basic_TeeStream/test/iTeeStream.test.cpp"
@@ -453,13 +676,13 @@
       "src/utility/stream/basic_TemporaryFileStream/test/TemporaryFileStream.test.cpp"
     ],
     "utility.string": [
-      "src/utility/string/test/isInteger.test.cpp",
-      "src/utility/string/test/isRealNumber.test.cpp",
       "src/utility/string/test/split.test.cpp",
+      "src/utility/string/test/isInteger.test.cpp",
+      "src/utility/string/test/trim.test.cpp",
+      "src/utility/string/test/unzip.test.cpp",
       "src/utility/string/test/string.test.cpp",
       "src/utility/string/test/toDouble.test.cpp",
-      "src/utility/string/test/trim.test.cpp",
-      "src/utility/string/test/unzip.test.cpp"
+      "src/utility/string/test/isRealNumber.test.cpp"
     ]
   },
   "update": true

@@ -1,18 +1,25 @@
 
-cmake_minimum_required( VERSION 3.2 ) 
+cmake_minimum_required( VERSION 3.2 )
 set( CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Supported configuration types" FORCE )
         
+if ( NOT GIT_EXECUTABLE )
+    find_package( Git 2.1 )
+    if ( NOT GIT_FOUND )
+        message( FATAL_ERROR "git installation was not found." )
+    endif()
+endif()
+
 if( NOT ROOT_DIRECTORY )
     set( ROOT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
     if ( NOT fetched_subprojects )
         if ( NOT PYTHON_EXECUTABLE )
-            find_package( PythonInterp )
+            find_package( PythonInterp 3.4 )
             if ( NOT PYTHONINTERP_FOUND )
-                message( FATAL_ERROR "Python interpeter installation was not found." )
+                message( FATAL_ERROR "Python interpreter installation was not found." )
             endif()
         endif()
         execute_process( COMMAND ${PYTHON_EXECUTABLE} "./metaconfigure/fetch_subprojects.py"
-                         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} 
+                         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                          RESULT_VARIABLE fetch_failure )
         if ( NOT fetch_failure )
             set( fetched_subprojects TRUE CACHE BOOL "fetch script ran" )
@@ -22,13 +29,29 @@ if( NOT ROOT_DIRECTORY )
     endif()
 endif()
 
+if( NOT is_subproject )
+    if( NOT ROOT_DIRECTORY )
+        set( ROOT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
+    endif()
+    if ( NOT PYTHON_EXECUTABLE )
+        find_package( PythonInterp )
+        if ( NOT PYTHONINTERP_FOUND )
+            message( FATAL_ERROR "Python interpreter installation was not found." )
+        endif()
+    endif()
+    execute_process( COMMAND ${PYTHON_EXECUTABLE} ./metaconfigure/signature.py ${CMAKE_BINARY_DIR}/signature
+                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                        RESULT_VARIABLE signature_failure )
+    file( READ "${CMAKE_BINARY_DIR}/signature.json" SIGNATURE )
+endif()
+
 project( utility LANGUAGES CXX )
 get_directory_property( is_subproject PARENT_DIRECTORY )
 include( CMakeDependentOption REQUIRED )
 
+set( utility_AppleClang_minimum_version 8.0 )
 set( utility_GNU_minimum_version 6.2 )
 set( utility_Clang_minimum_version 3.8 )
-set( utility_AppleClang_minimum_version 7.0 )
 
 if( utility_${CMAKE_CXX_COMPILER_ID}_minimum_version )
     if( CMAKE_CXX_COMPILER_VERSION AND
@@ -39,7 +62,7 @@ if( utility_${CMAKE_CXX_COMPILER_ID}_minimum_version )
 endif()
 
 # general properties
-option( strict "Compile time warnings are converted to errors" ON )
+option( utility_strict "Compile time warnings are converted to errors" ON )
 
 # binary instrumentation
 option( coverage "Enable binary instrumentation to collect test coverage information in the DEBUG configuration" )
@@ -47,7 +70,7 @@ option( profile_generate "Enable binary instrumentation to generation execution 
 
 # additional optimizations
 option( link_time_optimization "Enable link time optimization in the RELEASE configuration" )
-option( profile_use "In the RELEASE configuration, leverage previously generated exeution profile to inform optimization decisions" )
+option( profile_use "In the RELEASE configuration, leverage previously generated execution profile to inform optimization decisions" )
 option( nonportable_optimization "Enable optimizations which compromise portability of resulting binary in the RELEASE configuration" )
 
 # libraries and linking
@@ -69,79 +92,7 @@ if ( profile_generate )
     file( MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/profiling" )
 endif()
 
-set( utility_GNU_Windows_common_flags "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_GNU_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( utility_GNU_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_GNU_Windows_strict_flags "-Werror" )
-set( utility_GNU_Windows_coverage_flags "--coverage" )
-set( utility_GNU_Windows_subproject_flags  )
-set( utility_GNU_Windows_base_project_flags  )
-set( utility_GNU_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Windows_link_time_optimization_flags "-flto" )
-set( utility_GNU_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Windows_nonportable_optimization_flags "-march=native" )
-set( utility_GNU_Windows_static_flags "-static" )
-set( utility_GNU_Linux_common_flags "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_GNU_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( utility_GNU_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_GNU_Linux_strict_flags "-Werror" )
-set( utility_GNU_Linux_coverage_flags "--coverage" )
-set( utility_GNU_Linux_subproject_flags  )
-set( utility_GNU_Linux_base_project_flags  )
-set( utility_GNU_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Linux_link_time_optimization_flags "-flto" )
-set( utility_GNU_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Linux_nonportable_optimization_flags "-march=native" )
-set( utility_GNU_Linux_static_flags "-static" )
-set( utility_GNU_Darwin_common_flags "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_GNU_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( utility_GNU_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_GNU_Darwin_strict_flags "-Werror" )
-set( utility_GNU_Darwin_coverage_flags "--coverage" )
-set( utility_GNU_Darwin_subproject_flags  )
-set( utility_GNU_Darwin_base_project_flags  )
-set( utility_GNU_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Darwin_link_time_optimization_flags "-flto" )
-set( utility_GNU_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_GNU_Darwin_nonportable_optimization_flags "-march=native" )
-set( utility_GNU_Darwin_static_flags "-static" )
-set( utility_Clang_Windows_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_Clang_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( utility_Clang_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_Clang_Windows_strict_flags "-Werror" )
-set( utility_Clang_Windows_coverage_flags "--coverage" )
-set( utility_Clang_Windows_subproject_flags  )
-set( utility_Clang_Windows_base_project_flags  )
-set( utility_Clang_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Windows_link_time_optimization_flags "-flto" )
-set( utility_Clang_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Windows_nonportable_optimization_flags "-march=native" )
-set( utility_Clang_Windows_static_flags "-static" )
-set( utility_Clang_Linux_common_flags "-stdlib=libstdc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_Clang_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( utility_Clang_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_Clang_Linux_strict_flags "-Werror" )
-set( utility_Clang_Linux_coverage_flags "--coverage" )
-set( utility_Clang_Linux_subproject_flags  )
-set( utility_Clang_Linux_base_project_flags  )
-set( utility_Clang_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Linux_link_time_optimization_flags "-flto" )
-set( utility_Clang_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Linux_nonportable_optimization_flags "-march=native" )
-set( utility_Clang_Linux_static_flags "-static" )
-set( utility_Clang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
-set( utility_Clang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( utility_Clang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
-set( utility_Clang_Darwin_strict_flags "-Werror" )
-set( utility_Clang_Darwin_coverage_flags "--coverage" )
-set( utility_Clang_Darwin_subproject_flags  )
-set( utility_Clang_Darwin_base_project_flags  )
-set( utility_Clang_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Darwin_link_time_optimization_flags "-flto" )
-set( utility_Clang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( utility_Clang_Darwin_nonportable_optimization_flags "-march=native" )
-set( utility_Clang_Darwin_static_flags "-static" )
-set( utility_AppleClang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++14" )
+set( utility_AppleClang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
 set( utility_AppleClang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
 set( utility_AppleClang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
 set( utility_AppleClang_Darwin_strict_flags "-Werror" )
@@ -153,12 +104,132 @@ set( utility_AppleClang_Darwin_link_time_optimization_flags "-flto" )
 set( utility_AppleClang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( utility_AppleClang_Darwin_nonportable_optimization_flags "-march=native" )
 set( utility_AppleClang_Darwin_static_flags "-static" )
+set( utility_GNU_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_GNU_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_GNU_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_GNU_MinGW_strict_flags "-Werror" )
+set( utility_GNU_MinGW_coverage_flags "--coverage" )
+set( utility_GNU_MinGW_subproject_flags  )
+set( utility_GNU_MinGW_base_project_flags  )
+set( utility_GNU_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_MinGW_link_time_optimization_flags "-flto" )
+set( utility_GNU_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_MinGW_nonportable_optimization_flags "-march=native" )
+set( utility_GNU_MinGW_static_flags "-static" )
+set( utility_GNU_Linux_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_GNU_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_GNU_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_GNU_Linux_strict_flags "-Werror" )
+set( utility_GNU_Linux_coverage_flags "--coverage" )
+set( utility_GNU_Linux_subproject_flags  )
+set( utility_GNU_Linux_base_project_flags  )
+set( utility_GNU_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Linux_link_time_optimization_flags "-flto" )
+set( utility_GNU_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Linux_nonportable_optimization_flags "-march=native" )
+set( utility_GNU_Linux_static_flags "-static" )
+set( utility_GNU_Windows_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_GNU_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_GNU_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_GNU_Windows_strict_flags "-Werror" )
+set( utility_GNU_Windows_coverage_flags "--coverage" )
+set( utility_GNU_Windows_subproject_flags  )
+set( utility_GNU_Windows_base_project_flags  )
+set( utility_GNU_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Windows_link_time_optimization_flags "-flto" )
+set( utility_GNU_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Windows_nonportable_optimization_flags "-march=native" )
+set( utility_GNU_Windows_static_flags "-static" )
+set( utility_GNU_Darwin_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_GNU_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_GNU_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_GNU_Darwin_strict_flags "-Werror" )
+set( utility_GNU_Darwin_coverage_flags "--coverage" )
+set( utility_GNU_Darwin_subproject_flags  )
+set( utility_GNU_Darwin_base_project_flags  )
+set( utility_GNU_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Darwin_link_time_optimization_flags "-flto" )
+set( utility_GNU_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_Darwin_nonportable_optimization_flags "-march=native" )
+set( utility_GNU_Darwin_static_flags "-static" )
+set( utility_GNU_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
+set( utility_GNU_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_GNU_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_GNU_CYGWIN_strict_flags "-Werror" )
+set( utility_GNU_CYGWIN_coverage_flags "--coverage" )
+set( utility_GNU_CYGWIN_subproject_flags  )
+set( utility_GNU_CYGWIN_base_project_flags  )
+set( utility_GNU_CYGWIN_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_CYGWIN_link_time_optimization_flags "-flto" )
+set( utility_GNU_CYGWIN_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_GNU_CYGWIN_nonportable_optimization_flags "-march=native" )
+set( utility_GNU_CYGWIN_static_flags "-static" )
+set( utility_Clang_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_Clang_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_Clang_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_MinGW_strict_flags "-Werror" )
+set( utility_Clang_MinGW_coverage_flags "--coverage" )
+set( utility_Clang_MinGW_subproject_flags  )
+set( utility_Clang_MinGW_base_project_flags  )
+set( utility_Clang_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_MinGW_link_time_optimization_flags "-flto" )
+set( utility_Clang_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_MinGW_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_MinGW_static_flags "-static" )
+set( utility_Clang_Linux_common_flags "-stdlib=libstdc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_Clang_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( utility_Clang_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_Linux_strict_flags "-Werror" )
+set( utility_Clang_Linux_coverage_flags "--coverage" )
+set( utility_Clang_Linux_subproject_flags  )
+set( utility_Clang_Linux_base_project_flags  )
+set( utility_Clang_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Linux_link_time_optimization_flags "-flto" )
+set( utility_Clang_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Linux_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_Linux_static_flags "-static" )
+set( utility_Clang_Windows_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_Clang_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( utility_Clang_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_Windows_strict_flags "-Werror" )
+set( utility_Clang_Windows_coverage_flags "--coverage" )
+set( utility_Clang_Windows_subproject_flags  )
+set( utility_Clang_Windows_base_project_flags  )
+set( utility_Clang_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Windows_link_time_optimization_flags "-flto" )
+set( utility_Clang_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Windows_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_Windows_static_flags "-static" )
+set( utility_Clang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( utility_Clang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( utility_Clang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_Darwin_strict_flags "-Werror" )
+set( utility_Clang_Darwin_coverage_flags "--coverage" )
+set( utility_Clang_Darwin_subproject_flags  )
+set( utility_Clang_Darwin_base_project_flags  )
+set( utility_Clang_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Darwin_link_time_optimization_flags "-flto" )
+set( utility_Clang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_Darwin_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_Darwin_static_flags "-static" )
+set( utility_Clang_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
+set( utility_Clang_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( utility_Clang_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
+set( utility_Clang_CYGWIN_strict_flags "-Werror" )
+set( utility_Clang_CYGWIN_coverage_flags "--coverage" )
+set( utility_Clang_CYGWIN_subproject_flags  )
+set( utility_Clang_CYGWIN_base_project_flags  )
+set( utility_Clang_CYGWIN_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_CYGWIN_link_time_optimization_flags "-flto" )
+set( utility_Clang_CYGWIN_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( utility_Clang_CYGWIN_nonportable_optimization_flags "-march=native" )
+set( utility_Clang_CYGWIN_static_flags "-static" )
 
 if ( static_utility )
     set( utility_library_linkage STATIC )
 else ()
     set( utility_library_linkage SHARED )
-endif () 
+endif ()
 
 set( CMAKE_SKIP_BUILD_RPATH FALSE )
 set( CMAKE_BUILD_WITH_INSTALL_RPATH FALSE )
@@ -221,56 +292,56 @@ message( STATUS "Git commit hash: ${GIT_HASH}" )
 message( STATUS "" )
 message( STATUS "-----------------------------------------------------------" )
 
-add_library( utility ${utility_library_linkage} 
+add_library( utility ${utility_library_linkage}
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/realNumberStringCollection.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOriented_streambuf.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_Tee_streambuf.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TeeStream.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/dtor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/flush.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOriented_streambuf.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/overflow.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/underflow.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream/src/assignment.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream/src/dtor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TeeStream/src/assignment.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/flush.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_FILE_streambuf/src/dtor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TeeStream/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TeeStream/src/dtor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/assignment.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/dtor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TeeStream/src/assignment.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/file.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/path.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/dtor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_TemporaryFileStream/src/assignment.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream/src/dtor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/basic_RecordOrientedStream/src/assignment.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/unzip.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getBool.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getEnergy.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getInteger.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntInRange.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntWithLBound.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getLine.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getRealNumber.cpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getRealWithLBound.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getStringArg.cpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getTemperature.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getRealNumber.cpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/readString.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getLine.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getInteger.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getBool.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getTemperature.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntInRange.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getEnergy.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getStringArg.cpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/stream/src/getIntWithLBound.cpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/split.cpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/toDouble.cpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/string/src/trim.cpp" )
 
-target_include_directories( utility PUBLIC src )
+target_include_directories( utility PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/src src/ )
 
 set( PREFIX utility_${CMAKE_CXX_COMPILER_ID}_${CMAKE_SYSTEM_NAME} )
 
 target_compile_options( utility PRIVATE 
 ${${PREFIX}_common_flags}
-$<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>
+$<$<BOOL:${utility_strict}>:${${PREFIX}_strict_flags}>
 $<$<BOOL:${static}>:${${PREFIX}_static_flags}>
 $<$<BOOL:${is_subproject}>:${${PREFIX}_subproject_flags}>
 $<$<NOT:$<BOOL:${is_subproject}>>:${${PREFIX}_base_project_flags}>
@@ -292,28 +363,29 @@ target_link_libraries( utility PUBLIC catch-adapter PUBLIC header-utilities )
 if( NOT is_subproject )
     enable_testing() 
     if ( unit_tests )
-        add_subdirectory( src/utility/string/test )
+        add_subdirectory( src/utility/stream/test )
         add_subdirectory( src/utility/stream/basic_FILE_streambuf/test )
-        add_subdirectory( src/utility/stream/basic_TemporaryFileStream/test )
         add_subdirectory( src/utility/stream/basic_RecordOrientedStream/test )
         add_subdirectory( src/utility/stream/basic_TeeStream/test )
-        add_subdirectory( src/utility/stream/test )
+        add_subdirectory( src/utility/stream/basic_TemporaryFileStream/test )
+        add_subdirectory( src/utility/string/test )
     endif() 
 endif()
 
-install( TARGETS utility 
-         RUNTIME DESTINATION bin
-         LIBRARY DESTINATION lib
-         ARCHIVE DESTINATION lib
-         PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ 
-                     GROUP_EXECUTE GROUP_READ 
-                     WORLD_EXECUTE WORLD_READ )
-
-install( DIRECTORY src/ DESTINATION include
-         FILE_PERMISSIONS OWNER_READ OWNER_WRITE 
-                          GROUP_READ 
+install( FILES "${CMAKE_BINARY_DIR}/signature.json"
+         DESTINATION share/${CMAKE_PROJECT_NAME}
+         PERMISSIONS OWNER_READ OWNER_WRITE
+                     GROUP_READ
+                     WORLD_READ
+)
+install( DIRECTORY src// DESTINATION include
+         FILE_PERMISSIONS OWNER_READ OWNER_WRITE
+                          GROUP_READ
                           WORLD_READ
-         DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE 
-                               GROUP_READ 
+         DIRECTORY_PERMISSIONS OWNER_READ OWNER_WRITE
+                               GROUP_READ
                                WORLD_READ
          FILES_MATCHING REGEX ".*\.h[+][+]$|.*\.hxx$|.*\.hpp$|.*\.hh$|.*\.h$"  )
+
+                    INCLUDE(CPack)
+                    
