@@ -2,49 +2,6 @@
 cmake_minimum_required( VERSION 3.2 )
 set( CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Supported configuration types" FORCE )
         
-if ( NOT GIT_EXECUTABLE )
-    find_package( Git 2.1 )
-    if ( NOT GIT_FOUND )
-        message( FATAL_ERROR "git installation was not found." )
-    endif()
-endif()
-
-if( NOT ROOT_DIRECTORY )
-    set( ROOT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
-    if ( NOT fetched_subprojects )
-        if ( NOT PYTHON_EXECUTABLE )
-            find_package( PythonInterp 3.4 )
-            if ( NOT PYTHONINTERP_FOUND )
-                message( FATAL_ERROR "Python interpreter installation was not found." )
-            endif()
-        endif()
-        execute_process( COMMAND ${PYTHON_EXECUTABLE} "./metaconfigure/fetch_subprojects.py"
-                         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                         RESULT_VARIABLE fetch_failure )
-        if ( NOT fetch_failure )
-            set( fetched_subprojects TRUE CACHE BOOL "fetch script ran" )
-        else()
-            message( FATAL_ERROR "Failed to fetch dependencies" )
-        endif()
-    endif()
-endif()
-
-if( NOT is_subproject )
-    if( NOT ROOT_DIRECTORY )
-        set( ROOT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} )
-    endif()
-    if ( NOT PYTHON_EXECUTABLE )
-        find_package( PythonInterp )
-        if ( NOT PYTHONINTERP_FOUND )
-            message( FATAL_ERROR "Python interpreter installation was not found." )
-        endif()
-    endif()
-    execute_process( COMMAND ${PYTHON_EXECUTABLE} ./metaconfigure/signature.py ${CMAKE_BINARY_DIR}/signature
-                        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                        RESULT_VARIABLE signature_failure )
-    file( READ "${CMAKE_BINARY_DIR}/signature.json" SIGNATURE )
-endif()
-
 project( utility LANGUAGES CXX )
 get_directory_property( is_subproject PARENT_DIRECTORY )
 include( CMakeDependentOption REQUIRED )
@@ -242,56 +199,6 @@ list( INSERT 0 CMAKE_INSTALL_RPATH "${rpath_prefix}/../lib" )
 set( CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE )
 get_directory_property( is_subproject PARENT_DIRECTORY )
 
-if( NOT TARGET catch-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
-endif()
-
-if( NOT TARGET fmt-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
-endif()
-
-if( NOT TARGET spdlog-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/spdlog-adapter )
-endif()
-
-if( NOT TARGET Log )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/Log )
-endif()
-
-if( NOT TARGET header-utilities )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/header-utilities )
-endif()
-
-
-if ( NOT GIT_EXECUTABLE )
-    find_package( Git )
-    if ( NOT GIT_FOUND )
-        message( FATAL_ERROR "git installation was not found." )
-    endif()
-endif()
-
-execute_process(
-    COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_BRANCH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-execute_process(
-    COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_HASH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-) 
-
-message( STATUS "" )
-message( STATUS "-----------------------------------------------------------" )
-message( STATUS "" )
-message( STATUS "utility" )
-message( STATUS "Git current branch: ${GIT_BRANCH}" )
-message( STATUS "Git commit hash: ${GIT_HASH}" )
-message( STATUS "" )
-message( STATUS "-----------------------------------------------------------" )
-
 add_library( utility ${utility_library_linkage}
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/utility/realNumberStringCollection.hpp"
@@ -360,24 +267,6 @@ target_link_libraries( utility PUBLIC "$<$<AND:$<CONFIG:RELEASE>,$<BOOL:${link_t
 
 target_link_libraries( utility PUBLIC catch-adapter PUBLIC header-utilities )
 
-if( NOT is_subproject )
-    enable_testing() 
-    if ( unit_tests )
-        add_subdirectory( src/utility/stream/test )
-        add_subdirectory( src/utility/stream/basic_FILE_streambuf/test )
-        add_subdirectory( src/utility/stream/basic_RecordOrientedStream/test )
-        add_subdirectory( src/utility/stream/basic_TeeStream/test )
-        add_subdirectory( src/utility/stream/basic_TemporaryFileStream/test )
-        add_subdirectory( src/utility/string/test )
-    endif() 
-endif()
-
-install( FILES "${CMAKE_BINARY_DIR}/signature.json"
-         DESTINATION share/${CMAKE_PROJECT_NAME}
-         PERMISSIONS OWNER_READ OWNER_WRITE
-                     GROUP_READ
-                     WORLD_READ
-)
 install( DIRECTORY src// DESTINATION include
          FILE_PERMISSIONS OWNER_READ OWNER_WRITE
                           GROUP_READ
