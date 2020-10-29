@@ -1,3 +1,0 @@
-[submodule "dependencies/Log"]
-	path = dependencies/Log
-	url = https://github.com/njoy/Log.git
